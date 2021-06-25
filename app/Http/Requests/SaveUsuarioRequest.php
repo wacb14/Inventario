@@ -29,8 +29,8 @@ class SaveUsuarioRequest extends FormRequest
             'apellidos'=>'required',
             'usuario'=>'required',
             'tipo_usuario'=>'required',
-            'contrasenia'=>'required|confirmed|min:8',
-            'contrasenia_confirmation'=>'required'
+            'password'=>'required|confirmed|min:8',
+            'password_confirmation'=>'required'
         ];
     }
     public function messages(){

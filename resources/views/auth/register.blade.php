@@ -50,15 +50,13 @@
           {!! $errors->first('tipo_usuario','<small class="msg_error">:message</small><br>') !!}
           
           <input type="password" class="border border-gray-200 rounded-md bg-gray-200 w-full text-lg 
-          placeholder-gray-900 p-2 my-2 focus:bg-white" placeholder="Contraseña" id="contrasenia" name="contrasenia">
-          {!! $errors->first('contrasenia','<small class="msg_error">:message</small><br>') !!}
+          placeholder-gray-900 p-2 my-2 focus:bg-white" placeholder="Contraseña" id="password" name="password">
+          {!! $errors->first('password','<small class="msg_error">:message</small><br>') !!}
 
           <input type="password" class="border border-gray-200 rounded-md bg-gray-200 w-full text-lg 
-          placeholder-gray-900 p-2 my-2 focus:bg-white" placeholder="Confirmar contraseña" id="contrasenia" name="contrasenia_confirmation">
-          {!! $errors->first('contrasenia_confirmation','<small class="msg_error">:message</small><br>') !!}
+          placeholder-gray-900 p-2 my-2 focus:bg-white" placeholder="Confirmar contraseña" id="password" name="password_confirmation">
+          {!! $errors->first('password_confirmation','<small class="msg_error">:message</small><br>') !!}
 
-          <p class="border border-red-500 rounded-md bg-red-100 w-full text-red-600 p-2 my-2">*Error</p>
-          
           <button type="submit" class="rounded-md bg-blue-500 w-full text-lg text-white font-semihold 
           p-2 my-3 hover:bg-blue-600">Registrar</button>
         </form>
