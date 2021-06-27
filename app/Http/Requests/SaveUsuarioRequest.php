@@ -27,7 +27,7 @@ class SaveUsuarioRequest extends FormRequest
         return [
             'nombres'=>'required',
             'apellidos'=>'required',
-            'usuario'=>'required',
+            'usuario'=>'required|unique:users,usuario',
             'tipo_usuario'=>'required',
             'password'=>'required|confirmed|min:8',
             'password_confirmation'=>'required'

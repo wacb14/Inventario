@@ -3,9 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
-
     <title>Inventario</title>
-    
     <!-- Tailwind CSS Link -->
     <link rel="stylesheet" 
     href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.1/tailwind.min.css">
@@ -15,17 +13,35 @@
   </head>
   <body background="{{asset('img/sicuanii.jpg')}}">
     <header class="header">
-        <nav class="nav">
-            <a href="{{route('home')}}" class="logo nav-link">INVENTARIO</a>
-            <button class="nav-toggle">
-                <i class="fas fa-bars"></i>
-            </button>
-            <ul class="nav-menu" style="align-self: flex-end;">
-                <li class="nav-menu-item"><a class="nav-menu-link{{setActive('login.*')}} nav-link" href="{{route('login.index')}}">Ingresar</a></li>
-                <li class="nav-menu-item"><a class="nav-menu-link{{setActive('register.*')}} nav-link" href="{{route('register.index')}}">Registrarse</a></li>
-            </ul>
-        </nav>
+      <nav class="nav">
+        <a href="{{route('home')}}" class="logo nav-link">INVENTARIO</a>
+        <button class="nav-toggle">
+          <i class="fas fa-bars"></i>
+        </button>
+        <ul class="nav-menu" style="align-self: flex-end;">
+          <li class="nav-menu-item"><a class="nav-menu-link{{setActive('bienes.*')}} nav-link" href="{{route('bienes.index')}}">Bienes</a></li>
+          <li class="nav-menu-item"><a class="nav-menu-link{{setActive('movimientos.*')}} nav-link" href="{{route('movimientos.index')}}">Movimientos</a></li>
+          <li class="nav-menu-item"><a class="nav-menu-link{{setActive('responsables.*')}} nav-link" href="{{route('responsables.index')}}">Responsables</a></li>
+          <li class="nav-menu-item"><a class="nav-menu-link{{setActive('servicios.*')}} nav-link" href="{{route('servicios.index')}}">Servicios</a></li>
+          @if(auth()->check())
+            @if(auth()->user()->tipo_usuario == 'ADMINISTRADOR')
+              <li class="nav-menu-item"><a class="nav-menu-link{{setActive('register.*')}} nav-link" href="{{route('register.index')}}">Registrarse</a></li>
+            @endif
+          @endif
+        </ul>
+      </nav>
     </header>
+    @include('partials/status')
+    @if(auth()->check())
+      <div class="user-info">
+        Bienvenid@ {{auth()->user()->nombres}} <br>
+        <a href="{{route('login.destroy')}}"> Cerrar sesión </a>
+      </div>
+    @else
+      <div class="user-info">
+        <a href="{{route('login.index')}}"> Iniciar sesión </a>
+      </div>
+    @endif
     <div class="block mx-auto my-12 p-8 bg-white w-1/3 border border-gray-200 rounded-lg">
         <h1 class="text-3x1 text-center font-bold">REGISTRO DE USUARIO</h1>
         <form action="{{route('register.store')}}" class="mt-4" method="POST">

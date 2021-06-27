@@ -9,6 +9,11 @@
             <li class="nav-menu-item"><a class="nav-menu-link{{setActive('movimientos.*')}} nav-link" href="{{route('movimientos.index')}}">Movimientos</a></li>
             <li class="nav-menu-item"><a class="nav-menu-link{{setActive('responsables.*')}} nav-link" href="{{route('responsables.index')}}">Responsables</a></li>
             <li class="nav-menu-item"><a class="nav-menu-link{{setActive('servicios.*')}} nav-link" href="{{route('servicios.index')}}">Servicios</a></li>
+            @if(auth()->check())
+                @if(auth()->user()->tipo_usuario == 'ADMINISTRADOR')
+                    <li class="nav-menu-item"><a class="nav-menu-link{{setActive('register.*')}} nav-link" href="{{route('register.index')}}">Registrarse</a></li>
+                @endif
+            @endif
         </ul>
     </nav>
 </header>

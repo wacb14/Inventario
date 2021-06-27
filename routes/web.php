@@ -45,8 +45,8 @@ Route::get('/servicios/{servicio}','App\Http\Controllers\ServicioController@show
 Route::patch('/servicios/{servicio}','App\Http\Controllers\ServicioController@update')->name('servicios.update')->middleware('auth');
 Route::delete('/servicios/{servicio}','App\Http\Controllers\ServicioController@destroy')->name('servicios.destroy')->middleware('auth');
 
-Route::get('/register','App\Http\Controllers\RegisterController@create')->name('register.index')->middleware('guest');
-Route::post('/register','App\Http\Controllers\RegisterController@store')->name('register.store')->middleware('guest');
+Route::get('/register','App\Http\Controllers\RegisterController@create')->name('register.index')->middleware('auth.admin');
+Route::post('/register','App\Http\Controllers\RegisterController@store')->name('register.store')->middleware('auth.admin');
 Route::get('/login','App\Http\Controllers\SessionController@create')->name('login.index')->middleware('guest');
 Route::post('/login','App\Http\Controllers\SessionController@store')->name('login.store');
 Route::get('/logout','App\Http\Controllers\SessionController@destroy')->name('login.destroy')->middleware('auth');

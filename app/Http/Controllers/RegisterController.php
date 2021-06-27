@@ -14,7 +14,7 @@ class RegisterController extends Controller
     
     public function store(SaveUsuarioRequest $request){
         $usuario=User::create($request->validated());
-        auth()->login($usuario);
-        return redirect()->route('home');
+        // auth()->login($usuario);
+        return redirect()->route('register.index')->with('status','La información del usuario se registró exitosamente');
     }
 }
