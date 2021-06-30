@@ -25,7 +25,7 @@
         </div>
     @else 
         <div class="user-info">
-            <a href="{{route('login.index')}}"> Iniciar sesión </a>
+            <a href="{{route('login.create')}}"> Iniciar sesión </a>
         </div>
     @endif
     @yield('content')

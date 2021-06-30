@@ -14,12 +14,12 @@ use Illuminate\Support\Facades\Route;
 */
 Route::view('/','home')->name('home');
 Route::get('/bienes','App\Http\Controllers\BienController@index')->name('bienes.index')->middleware('auth');
-Route::get('/bienes/crear','App\Http\Controllers\BienController@create')->name('bienes.create')->middleware('auth');
-Route::post('/bienes','App\Http\Controllers\BienController@store')->name('bienes.store')->middleware('auth');
-Route::get('/bienes/{bien}/editar','App\Http\Controllers\BienController@edit')->name('bienes.edit')->middleware('auth');
+Route::get('/bienes/crear','App\Http\Controllers\BienController@create')->name('bienes.create')->middleware('auth.admin');
+Route::post('/bienes','App\Http\Controllers\BienController@store')->name('bienes.store')->middleware('auth.admin');
+Route::get('/bienes/{bien}/editar','App\Http\Controllers\BienController@edit')->name('bienes.edit')->middleware('auth.admin');
 Route::get('/bienes/{bien}','App\Http\Controllers\BienController@show')->name('bienes.show')->middleware('auth');
-Route::patch('/bienes/{bien}','App\Http\Controllers\BienController@update')->name('bienes.update')->middleware('auth');
-Route::delete('/bienes/{bien}','App\Http\Controllers\BienController@destroy')->name('bienes.destroy')->middleware('auth');
+Route::patch('/bienes/{bien}','App\Http\Controllers\BienController@update')->name('bienes.update')->middleware('auth.admin');
+Route::delete('/bienes/{bien}','App\Http\Controllers\BienController@destroy')->name('bienes.destroy')->middleware('auth.admin');
 
 Route::get('/movimientos','App\Http\Controllers\MovimientoController@index')->name('movimientos.index')->middleware('auth');
 Route::get('/movimientos/crear','App\Http\Controllers\MovimientoController@create')->name('movimientos.create')->middleware('auth');
@@ -30,23 +30,23 @@ Route::patch('/movimientos/{movimiento}','App\Http\Controllers\MovimientoControl
 Route::delete('/movimientos/{movimiento}','App\Http\Controllers\MovimientoController@destroy')->name('movimientos.destroy')->middleware('auth');
 
 Route::get('/responsables','App\Http\Controllers\ResponsableController@index')->name('responsables.index')->middleware('auth');
-Route::get('/responsables/crear','App\Http\Controllers\ResponsableController@create')->name('responsables.create')->middleware('auth');
-Route::post('/responsables','App\Http\Controllers\ResponsableController@store')->name('responsables.store')->middleware('auth');
-Route::get('/responsables/{responsable}/editar','App\Http\Controllers\ResponsableController@edit')->name('responsables.edit')->middleware('auth');
+Route::get('/responsables/crear','App\Http\Controllers\ResponsableController@create')->name('responsables.create')->middleware('auth.admin');
+Route::post('/responsables','App\Http\Controllers\ResponsableController@store')->name('responsables.store')->middleware('auth.admin');
+Route::get('/responsables/{responsable}/editar','App\Http\Controllers\ResponsableController@edit')->name('responsables.edit')->middleware('auth.admin');
 Route::get('/responsables/{responsable}','App\Http\Controllers\ResponsableController@show')->name('responsables.show')->middleware('auth');
-Route::patch('/responsables/{responsable}','App\Http\Controllers\ResponsableController@update')->name('responsables.update')->middleware('auth');
-Route::delete('/responsables/{responsable}','App\Http\Controllers\ResponsableController@destroy')->name('responsables.destroy')->middleware('auth');
+Route::patch('/responsables/{responsable}','App\Http\Controllers\ResponsableController@update')->name('responsables.update')->middleware('auth.admin');
+Route::delete('/responsables/{responsable}','App\Http\Controllers\ResponsableController@destroy')->name('responsables.destroy')->middleware('auth.admin');
 
 Route::get('/servicios','App\Http\Controllers\ServicioController@index')->name('servicios.index')->middleware('auth');
-Route::get('/servicios/crear','App\Http\Controllers\ServicioController@create')->name('servicios.create')->middleware('auth');
-Route::post('/servicios','App\Http\Controllers\ServicioController@store')->name('servicios.store');
-Route::get('/servicios/{servicio}/editar','App\Http\Controllers\ServicioController@edit')->name('servicios.edit')->middleware('auth');
+Route::get('/servicios/crear','App\Http\Controllers\ServicioController@create')->name('servicios.create')->middleware('auth.admin');
+Route::post('/servicios','App\Http\Controllers\ServicioController@store')->name('servicios.store')->middleware('auth.admin');
+Route::get('/servicios/{servicio}/editar','App\Http\Controllers\ServicioController@edit')->name('servicios.edit')->middleware('auth.admin');
 Route::get('/servicios/{servicio}','App\Http\Controllers\ServicioController@show')->name('servicios.show')->middleware('auth');
-Route::patch('/servicios/{servicio}','App\Http\Controllers\ServicioController@update')->name('servicios.update')->middleware('auth');
-Route::delete('/servicios/{servicio}','App\Http\Controllers\ServicioController@destroy')->name('servicios.destroy')->middleware('auth');
+Route::patch('/servicios/{servicio}','App\Http\Controllers\ServicioController@update')->name('servicios.update')->middleware('auth.admin');
+Route::delete('/servicios/{servicio}','App\Http\Controllers\ServicioController@destroy')->name('servicios.destroy')->middleware('auth.admin');
 
-Route::get('/register','App\Http\Controllers\RegisterController@create')->name('register.index')->middleware('auth.admin');
+Route::get('/register','App\Http\Controllers\RegisterController@create')->name('register.create')->middleware('auth.admin');
 Route::post('/register','App\Http\Controllers\RegisterController@store')->name('register.store')->middleware('auth.admin');
-Route::get('/login','App\Http\Controllers\SessionController@create')->name('login.index')->middleware('guest');
+Route::get('/login','App\Http\Controllers\SessionController@create')->name('login.create')->middleware('guest');
 Route::post('/login','App\Http\Controllers\SessionController@store')->name('login.store');
 Route::get('/logout','App\Http\Controllers\SessionController@destroy')->name('login.destroy')->middleware('auth');

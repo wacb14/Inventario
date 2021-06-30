@@ -8,9 +8,13 @@
         <h1>SERVICIOS</h1>
     </div>
     <div class="new-and-search">
-        <div class="new-item">
-            <a class="btn btn-primary" href="{{route('servicios.create')}}">Nuevo</a>
-        </div>
+        @if(auth()->check())
+            @if(auth()->user()->tipo_usuario == 'ADMINISTRADOR')
+                <div class="new-item">
+                    <a class="btn btn-primary" href="{{route('servicios.create')}}">Nuevo</a>
+                </div>
+            @endif
+        @endif
         <div class="search-bar">
             @include('partials/searchbar')
         </div>

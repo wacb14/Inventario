@@ -21,8 +21,8 @@
           <i class="fas fa-bars"></i>
         </button>
         <ul class="nav-menu" style="align-self: flex-end;">
-          <li class="nav-menu-item"><a class="nav-menu-link{{setActive('login.*')}} nav-link" href="{{route('login.index')}}">Ingresar</a></li>
-          {{-- <li class="nav-menu-item"><a class="nav-menu-link{{setActive('register.*')}} nav-link" href="{{route('register.index')}}">Registrarse</a></li> --}}
+          <li class="nav-menu-item"><a class="nav-menu-link{{setActive('login.*')}} nav-link" href="{{route('login.create')}}">Ingresar</a></li>
+          {{-- <li class="nav-menu-item"><a class="nav-menu-link{{setActive('register.*')}} nav-link" href="{{route('register.create')}}">Registrarse</a></li> --}}
         </ul>
       </nav>
     </header>

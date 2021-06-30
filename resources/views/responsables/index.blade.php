@@ -8,9 +8,13 @@
         <h1>RESPONSABLES</h1>
     </div>
     <div class="new-and-search">
-        <div class="new-item">
-            <a href="{{route('responsables.create')}}" class="btn btn-primary">Nuevo</a>
-        </div>
+        @if(auth()->check())
+            @if(auth()->user()->tipo_usuario == 'ADMINISTRADOR')
+                <div class="new-item">
+                    <a href="{{route('responsables.create')}}" class="btn btn-primary">Nuevo</a>
+                </div>
+            @endif
+        @endif
         <div class="search-bar">
             @include('partials/searchbar')
         </div>

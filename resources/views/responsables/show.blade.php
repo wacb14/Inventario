@@ -7,11 +7,15 @@
     <div class="title-form">
         <h1>{{$responsable->nombres}}</h1>
     </div>
-    <a href="{{route('responsables.edit',$responsable)}}" class="btn btn-primary">Editar</a>
-    <form action="{{route('responsables.destroy',$responsable)}}" method="POST">
-        @csrf @method('DELETE')
-        <button class="btn btn-primary">Eliminar</button>
-    </form>
+    @if(auth()->check())
+        @if(auth()->user()->tipo_usuario == 'ADMINISTRADOR')
+            <a href="{{route('responsables.edit',$responsable)}}" class="btn btn-primary">Editar</a>
+            <form action="{{route('responsables.destroy',$responsable)}}" method="POST">
+                @csrf @method('DELETE')
+                <button class="btn btn-primary">Eliminar</button>
+            </form>
+        @endif
+    @endif
     <div>
         <table class="table-show table table-striped table-hover">
             <tr>

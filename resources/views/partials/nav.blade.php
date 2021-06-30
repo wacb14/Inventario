@@ -11,7 +11,7 @@
             <li class="nav-menu-item"><a class="nav-menu-link{{setActive('servicios.*')}} nav-link" href="{{route('servicios.index')}}">Servicios</a></li>
             @if(auth()->check())
                 @if(auth()->user()->tipo_usuario == 'ADMINISTRADOR')
-                    <li class="nav-menu-item"><a class="nav-menu-link{{setActive('register.*')}} nav-link" href="{{route('register.index')}}">Registrarse</a></li>
+                    <li class="nav-menu-item"><a class="nav-menu-link{{setActive('register.*')}} nav-link" href="{{route('register.create')}}">Registro</a></li>
                 @endif
             @endif
         </ul>
