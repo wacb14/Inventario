@@ -26,7 +26,7 @@
         </ul>
       </nav>
     </header>
-    <div class="block mx-auto my-12 p-8 bg-white w-1/3 border border-gray-200 rounded-lg">
+    <div class="block mx-auto my-12 p-8 bg-white w-1/3 border border-gray-200 rounded-lg" id="form_login">
       <h1 class="text-3x1 text-center font-bold">INVENTARIO LOG IN</h1>
       <form action="" class="mt-4" method="POST">
         @csrf

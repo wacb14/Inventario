@@ -10,10 +10,10 @@
     @if(auth()->check())
         @if(auth()->user()->tipo_usuario == 'ADMINISTRADOR')
             <a href="{{route('servicios.edit',$servicio)}}" class="btn btn-primary">Editar</a>
-            <form action="{{route('servicios.destroy',$servicio)}}" method="POST">
+            {{-- <form action="{{route('servicios.destroy',$servicio)}}" method="POST">
                 @csrf @method('DELETE')
                 <button class="btn btn-primary">Eliminar</button>
-            </form>
+            </form> --}}
         @endif
     @endif
     <div>

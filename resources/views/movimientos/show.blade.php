@@ -7,10 +7,10 @@
         <h1>Movimiento {{$movimiento->idmovimiento}}</h1>
     </div>
     <a href="{{route('movimientos.edit',$movimiento)}}" class="btn btn-primary">Editar</a>
-    <form action="{{route('movimientos.destroy',$movimiento)}}" method="POST">
+    {{-- <form action="{{route('movimientos.destroy',$movimiento)}}" method="POST">
         @csrf @method('DELETE')
         <button class="btn btn-primary">Eliminar</button>
-    </form>
+    </form> --}}
     <div>
         <table class="table-show table table-striped table-hover">
             <tr>

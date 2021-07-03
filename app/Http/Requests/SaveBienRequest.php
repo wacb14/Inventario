@@ -24,19 +24,19 @@ class SaveBienRequest extends FormRequest
     public function rules()
     {
         return [
-            'idservicio'=>'required|numeric',
-            'cod_patrimonial'=>'required|numeric',
-            'procedencia'=>'required',
-            'nombre'=>'required',
-            'cantidad'=>'required|numeric',
-            'marca'=>'required',
-            'modelo'=>'required',
-            'num_serie'=>'required',
-            'color'=>'required',
-            'medidas'=>'required',
-            'estado_conservacion'=>'required',
-            'estado'=>'required',
-            'observacion'=>'required',
+            'idservicio'=>'required|numeric|max:20',
+            'cod_patrimonial'=>'required|numeric|max:255',
+            'procedencia'=>'required|max:30',
+            'nombre'=>'required|max:30',
+            'cantidad'=>'required|numeric|max:11',
+            'marca'=>'required|max:20',
+            'modelo'=>'required|max:20',
+            'num_serie'=>'required|max:20',
+            'color'=>'required|max:255',
+            'medidas'=>'required|max:30',
+            'estado_conservacion'=>'required|max:30',
+            'estado'=>'required|max:15',
+            'observacion'=>'required|max:100',
             'fecha_adquisicion'=>'required|date',
         ];
     }

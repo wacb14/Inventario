@@ -108,7 +108,7 @@
                 {!! $errors->first('fecha_adquisicion','<small class="msg_error">:message</small><br>') !!}
             </div>
         </div>
-        <div class="form-center">
+        <div class="form-center_button">
             <button class="btn btn-primary">Guardar</button>
         </div>
     </form>

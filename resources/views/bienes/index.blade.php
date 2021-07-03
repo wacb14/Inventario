@@ -42,9 +42,17 @@
         @else
         No existen bienes aun para mostrar
         @endisset
-        <div class="pagination-menu"> 
-            @include('partials/pagmenu')
-        </div>
+        @if(!isset($_GET["busqueda"]))
+            <div class="pagination-menu"> 
+                @include('partials/pagmenu')
+            </div>
+        @else
+            @if($_GET["busqueda"]=="")
+                <div class="pagination-menu"> 
+                    @include('partials/pagmenu')
+                </div>
+            @endif
+        @endif
     </div>
 </div>
 @endsection

@@ -4,13 +4,8 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SaveResponsableRequest extends FormRequest
+class UpdateUsuarioRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
     public function authorize()
     {
         return true;
@@ -24,13 +19,17 @@ class SaveResponsableRequest extends FormRequest
     public function rules()
     {
         return [
-            'nombres'=>'required|max:50',
-            'apellidos'=>'required|max:50',
-            'cargo'=>'required|max:100',
-            'modalidad'=>'required|max:20'            
+            'nombres'=>'required',
+            'apellidos'=>'required',
+            'usuario'=>'required',
+            'tipo_usuario'=>'required'
         ];
     }
     public function messages(){
+        /*return [
+            'title.required'=>'Un titulo se requiere para guardar el libro',
+            'description.required'=>'Se requiere una descripcion'
+        ];*/
         return [];
     }
 }

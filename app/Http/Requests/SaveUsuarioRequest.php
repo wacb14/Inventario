@@ -25,10 +25,10 @@ class SaveUsuarioRequest extends FormRequest
     public function rules()
     {
         return [
-            'nombres'=>'required',
-            'apellidos'=>'required',
-            'usuario'=>'required|unique:users,usuario',
-            'tipo_usuario'=>'required',
+            'nombres'=>'required|max:255',
+            'apellidos'=>'required|max:255',
+            'usuario'=>'required|unique:users,usuario|max:255',
+            'tipo_usuario'=>'required|max:255',
             'password'=>'required|confirmed|min:8',
             'password_confirmation'=>'required'
         ];

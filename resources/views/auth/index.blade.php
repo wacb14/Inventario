@@ -1,45 +1,46 @@
 @extends('layout')
 @section('title')
-    Inventario | Responsables
+    Inventario | Usuarios
 @endsection
 @section('content')
 <div class="content">
     <div class="title-form">
-        <h1>RESPONSABLES</h1>
+        <h1>ADMINISTRACIÓN DE USUARIOS</h1>
     </div>
     <div class="new-and-search">
-        @if(auth()->check())
-            @if(auth()->user()->tipo_usuario == 'ADMINISTRADOR')
-                <div class="new-item">
-                    <a href="{{route('responsables.create')}}" class="btn btn-primary">Nuevo</a>
-                </div>
-            @endif
+
+    @if(auth()->check())
+        @if(auth()->user()->tipo_usuario == 'ADMINISTRADOR')
+            <div class="new-item">
+                <a class="btn btn-primary" href="{{route('register.create')}}">Registrar Nuevo</a>
+            </div>
         @endif
+    @endif
+        
         <div class="search-bar">
             @include('partials/searchbar')
         </div>
     </div>
     <div class="list">
-        @isset($responsables)
+        @isset($users)
             <table class="elements-table table-list table table-striped table-hover">
                 <tr>
-                    <th>ID RESPONSABLE</th>
                     <th>NOMBRES</th>
                     <th>APELLIDOS</th>
+                    <th>USUARIO</th>
                 </tr>
-                @foreach ($responsables as $responsable)
+                @foreach ($users as $user)
                     <tr>
-                        <td><a href="{{route('responsables.show', $responsable->idresponsable)}}">{{$responsable->idresponsable}}</a></td>
-                        <td><a href="{{route('responsables.show', $responsable->idresponsable)}}">{{$responsable->nombres}}</a></td>
-                        <td><a href="{{route('responsables.show', $responsable->idresponsable)}}">{{$responsable->apellidos}}</a></td>
+                        <td><a href="{{route('users.show',$user->id)}}">{{$user->nombres}}</a></td>
+                        <td><a href="{{route('users.show',$user->id)}}">{{$user->apellidos}}</a></td>
+                        <td><a href="{{route('users.show',$user->id)}}">{{$user->usuario}}</a></td>
                     </tr>
                 @endforeach
             </table>
         @else
-        No existen responsables aun para mostrar
+        No existen usuarios aun para mostrar
         @endisset
-    </div>
-    @if(!isset($_GET["busqueda"]))
+        @if(!isset($_GET["busqueda"]))
             <div class="pagination-menu"> 
                 @include('partials/pagmenu')
             </div>
@@ -50,4 +51,6 @@
                 </div>
             @endif
         @endif
+    </div>
+</div>
 @endsection

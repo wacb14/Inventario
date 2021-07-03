@@ -4,7 +4,7 @@
   box-sizing: border-box;
 }
 body{
-  font-family: sans-serif;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   padding: 90px 50px;
 }
 .header{
@@ -73,6 +73,9 @@ body{
 }
 @media(max-width: 768px){
   #form_registro{
+    width: 80%;
+  }
+  #form_login{
     width: 80%;
   }
   body{
@@ -172,21 +175,31 @@ body{
   flex-wrap: wrap;
 }
 .form-left{
+  border-top-left-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
   padding: 0 40px;
   position:relative;
   font-weight: bold;
-  background: rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255);
   z-index: 0;
 }
 .form-right{
+  border-top-right-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
   padding: 0 40px;
   position:relative;
   font-weight: bold;
-  background: rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255);
 }
 .form-center{
-  width: 100%;
-  display:inline-block;
+  position:relative;
+  font-weight: bold;
+  border-radius: 0.5rem;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.55);
+}
+.form-center_button{
+  position:relative;
   text-align: center;
 }
 /* Menu de Paginacion*/

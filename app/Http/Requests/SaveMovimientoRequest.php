@@ -24,11 +24,11 @@ class SaveMovimientoRequest extends FormRequest
     public function rules()
     {
         return [
-            'idbien'=>'required|numeric',
+            'idbien'=>'required|numeric|max:20',
             'fecha'=>'required|date',
-            'idservicio'=>'required|numeric',
-            'motivo'=>'required',
-            'observaciones'=>'required'            
+            'idservicio'=>'required|numeric|max:20',
+            'motivo'=>'required|max:50',
+            'observaciones'=>'required|max:50'            
         ];
     }
     public function messages()
