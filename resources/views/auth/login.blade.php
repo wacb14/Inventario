@@ -7,8 +7,7 @@
     <title>Inventario</title>
     
     <!-- Tailwind CSS Link -->
-    <link rel="stylesheet" 
-    href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.1/tailwind.min.css">
+    <link rel="stylesheet" href="{{asset('css/tailwind.css')}}">
     <link rel="stylesheet" href="{{asset('css/style.css')}}">
     <script defer src="{{URL::asset('js/nav-menu.js')}}"></script>
     <script src="https://kit.fontawesome.com/89b8204556.js" crossorigin="anonymous"></script>

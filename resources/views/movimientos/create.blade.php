@@ -4,7 +4,7 @@
 @endsection
 @section('content')
 <div class="title-form">
-    <h1>Nuevo movimiento</h1><br>
+    <h1 class="text-2xl text-center font-bold">NUEVO MOVIMIENTO</h1><br>
 </div>
 <div class="content">
     <form action="{{route('movimientos.store')}}" method="POST">
@@ -13,12 +13,14 @@
             <div class="form-center">
                 <label>
                     ID Movimiento<br>
-                    <input type="text" name="idmovimiento" value="{{$ID}}" disabled>
+                    <input type="text" name="idmovimiento" value="{{$ID}}" disabled class="border border-gray-200 rounded-md bg-gray-200 w-full text-sm 
+                    placeholder-gray-900 p-2 focus:bg-white">
                 </label>
                 <br>
                 <label>
                     Bien <br>
-                    <select name="idbien">
+                    <select name="idbien" class="border border-gray-200 rounded-md bg-gray-200 w-full text-sm 
+                    placeholder-gray-900 p-2 focus:bg-white">
                         @foreach ($bienes as $bien)
                             <option value="{{$bien->idbien}}">{{$bien->idbien."-".$bien->nombre}}</option>
                         @endforeach
@@ -28,13 +30,15 @@
                 <br>
                 <label>
                     Fecha <br>
-                    <input type="date" name="fecha" value="{{old('fecha')}}">
+                    <input type="date" name="fecha" value="{{old('fecha')}}" class="border border-gray-200 rounded-md bg-gray-200 w-full text-sm 
+                    placeholder-gray-900 p-2 focus:bg-white">
                 </label> <br>
                 {!! $errors->first('fecha','<small class="msg_error">:message</small><br>') !!}
                 <br>
                 <label>
                     Servicio <br> 
-                    <select name="idservicio">
+                    <select name="idservicio" class="border border-gray-200 rounded-md bg-gray-200 w-full text-sm 
+                    placeholder-gray-900 p-2 focus:bg-white">
                         @foreach ($servicios as $servicio)
                             <option value="{{$servicio->idservicio}}">{{$servicio->idservicio."-".$servicio->nombre}}</option>
                         @endforeach
@@ -44,18 +48,22 @@
                 <br>
                 <label>
                     Motivo <br>
-                    <input type="text" name="motivo" value="{{old('motivo')}}">
+                    <textarea name="motivo" cols="25" rows="3" class="border border-gray-200 rounded-md bg-gray-200 w-full text-sm 
+                    placeholder-gray-900 p-2 focus:bg-white">{{old('motivo')}}</textarea>
                 </label> <br>
                 {!! $errors->first('motivo','<small class="msg_error">:message</small><br>') !!}
                 <br>
                 <label>
                     Observaciones <br>
-                    <input type="text" name="observaciones" value="{{old('observaciones')}}">
+                    <textarea name="observaciones" cols="25" rows="3" class="border border-gray-200 rounded-md bg-gray-200 w-full text-sm 
+                    placeholder-gray-900 p-2 focus:bg-white">{{old('observaciones')}}</textarea>
                 </label> <br>
                 {!! $errors->first('observaciones','<small class="msg_error">:message</small><br>') !!}
-                <br>       
-                <button class="btn btn-primary">Guardar</button>
+                <br>    
             </div>
+        </div>
+        <div class="form-center_button">
+            <button class="btn btn-primary">Guardar</button>
         </div>
     </form>
 </div>

@@ -4,7 +4,7 @@
 @endsection
 @section('content')
 <div class="title-form">
-    <h1>{{$servicio->nombre}}</h1>
+    <h1 class="text-2xl text-center font-bold">{{$servicio->nombre}}</h1>
 </div>
 <div class="content">
     @if(auth()->check())
@@ -17,18 +17,18 @@
         @endif
     @endif
     <div>
-        <table class="table-show table table-striped table-hover">
+        <table class="table-show table table-striped table-hover border-collapse border-separate border-2">
             <tr>
-                <td>ID SERVICIO</td>
-                <td>{{$servicio->idservicio}}</td>
+                <td class="col-header border-2">ID SERVICIO</td>
+                <td class="border-2">{{$servicio->idservicio}}</td>
             </tr>
             <tr>
-                <td>NOMBRE</td>
-                <td>{{$servicio->nombre}}</td>
+                <td class="col-header border-2">NOMBRE</td>
+                <td class="border-2">{{$servicio->nombre}}</td>
             </tr>
             <tr>
-                <td>RESPONSABLE</td>
-                <td>
+                <td class="col-header border-2">RESPONSABLE</td>
+                <td class="border-2">
                 {{$responsable->nombres.' '.$responsable->apellidos}}
                 </td>
                 

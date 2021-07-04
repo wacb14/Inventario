@@ -5,7 +5,7 @@
 @section('content')
 <div class="content">
     <div class="title-form">
-        <h1>ADMINISTRACIÓN DE USUARIOS</h1>
+        <h1 class="text-2xl text-center font-bold">ADMINISTRACIÓN DE USUARIOS</h1>
     </div>
     <div class="new-and-search">
 
@@ -16,24 +16,23 @@
             </div>
         @endif
     @endif
-        
-        <div class="search-bar">
-            @include('partials/searchbar')
-        </div>
+    <div class="search-bar">
+        @include('partials/searchbar')
+    </div>
     </div>
     <div class="list">
         @isset($users)
-            <table class="elements-table table-list table table-striped table-hover">
+            <table class="elements-table table-list table table-striped table-hover border-collapse border-separate border-2">
                 <tr>
-                    <th>NOMBRES</th>
-                    <th>APELLIDOS</th>
-                    <th>USUARIO</th>
+                    <th class="border-2">NOMBRES</th>
+                    <th class="border-2">APELLIDOS</th>
+                    <th class="border-2">USUARIO</th>
                 </tr>
                 @foreach ($users as $user)
                     <tr>
-                        <td><a href="{{route('users.show',$user->id)}}">{{$user->nombres}}</a></td>
-                        <td><a href="{{route('users.show',$user->id)}}">{{$user->apellidos}}</a></td>
-                        <td><a href="{{route('users.show',$user->id)}}">{{$user->usuario}}</a></td>
+                        <td class="border-2"><a href="{{route('users.show',$user->id)}}">{{$user->nombres}}</a></td>
+                        <td class="border-2"><a href="{{route('users.show',$user->id)}}">{{$user->apellidos}}</a></td>
+                        <td class="border-2"><a href="{{route('users.show',$user->id)}}">{{$user->usuario}}</a></td>
                     </tr>
                 @endforeach
             </table>

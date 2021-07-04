@@ -51,8 +51,8 @@ Route::get('/passwords/{user}/editar','App\Http\Controllers\RegisterController@e
 Route::get('/users/{user}','App\Http\Controllers\RegisterController@show')->name('users.show')->middleware('auth.admin');
 Route::patch('/users/{user}','App\Http\Controllers\RegisterController@update')->name('users.update')->middleware('auth.admin');
 Route::patch('/passwords/{user}','App\Http\Controllers\RegisterController@update_pass')->name('passwords.update')->middleware('auth.admin');
-Route::get('/register','App\Http\Controllers\RegisterController@create')->name('register.create')->middleware('auth.admin');
-Route::post('/register','App\Http\Controllers\RegisterController@store')->name('register.store')->middleware('auth.admin');
+Route::get('/register','App\Http\Controllers\RegisterController@create')->name('register.create');
+Route::post('/register','App\Http\Controllers\RegisterController@store')->name('register.store');
 Route::get('/login','App\Http\Controllers\SessionController@create')->name('login.create')->middleware('guest');
 Route::post('/login','App\Http\Controllers\SessionController@store')->name('login.store');
 Route::get('/logout','App\Http\Controllers\SessionController@destroy')->name('login.destroy')->middleware('auth');

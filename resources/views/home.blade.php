@@ -4,6 +4,6 @@
 @endsection
 @section('content')
 <div class="title-form">
-    <h1>INVENTARIO</h1>
+    <h1 class="text-2xl text-center font-bold">INVENTARIO</h1>
 </div>
 @endsection

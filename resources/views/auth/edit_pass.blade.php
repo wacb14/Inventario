@@ -4,9 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
     <title>Inventario | Editar contraseña</title>
-    <!-- Tailwind CSS Link -->
-    <link rel="stylesheet" 
-    href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.1/tailwind.min.css">
+    <!-- Tailwind CSS Link -->    
+    <link rel="stylesheet" href="{{asset('css/tailwind.css')}}">
     <link rel="stylesheet" href="{{asset('css/style.css')}}">
     <script defer src="{{URL::asset('js/nav-menu.js')}}"></script>
     <script src="https://kit.fontawesome.com/89b8204556.js" crossorigin="anonymous"></script>
@@ -14,18 +13,10 @@
   <body background="{{asset('img/sicuanii.jpg')}}">
     @include('partials/nav')
     @include('partials/status')
-    @if(auth()->check())
-      <div class="user-info">
-        Bienvenid@ {{auth()->user()->nombres}} <br>
-        <a href="{{route('login.destroy')}}"> Cerrar sesión </a>
-      </div>
-    @else
-      <div class="user-info">
-        <a href="{{route('login.create')}}"> Iniciar sesión </a>
-      </div>
-    @endif
+    @include('partials/user-info')
+
     <div class="block mx-auto my-12 p-8 bg-white w-1/3 border border-gray-200 rounded-lg" id="form_registro">
-        <h1 class="text-3x1 text-center font-bold">CAMBIAR CONTRASEÑA</h1>
+        <h1 class="text-2xl text-center font-bold">CAMBIAR CONTRASEÑA</h1>
 
         <form action="{{route('passwords.update',$user)}}" class="mt-4" method="POST">
             @csrf @method('PATCH')

@@ -4,7 +4,7 @@
 @endsection
 @section('content')
     <div class="title-form">
-        <h1>Movimiento {{$movimiento->idmovimiento}}</h1>
+        <h1 class="text-2xl text-center font-bold">Movimiento {{$movimiento->idmovimiento}}</h1>
     </div>
     <a href="{{route('movimientos.edit',$movimiento)}}" class="btn btn-primary">Editar</a>
     {{-- <form action="{{route('movimientos.destroy',$movimiento)}}" method="POST">
@@ -12,30 +12,30 @@
         <button class="btn btn-primary">Eliminar</button>
     </form> --}}
     <div>
-        <table class="table-show table table-striped table-hover">
+        <table class="table-show table table-striped table-hover border-collapse border-separate border-2">
             <tr>
-                <td>ID MOVIMIENTO</td>
-                <td>{{$movimiento->idmovimiento}}</td>
+                <td class="col-header border-2">ID MOVIMIENTO</td>
+                <td class="border-2">{{$movimiento->idmovimiento}}</td>
             </tr>
             <tr>
-                <td>BIEN</td>
-                <td>{{$bien->nombre}}</td>
+                <td class="col-header border-2">BIEN</td>
+                <td class="border-2">{{$bien->nombre}}</td>
             </tr>
             <tr>
-                <td>FECHA</td>
-                <td>{{$movimiento->fecha}}</td>
+                <td class="col-header border-2">FECHA</td>
+                <td class="border-2">{{$movimiento->fecha}}</td>
             </tr>
             <tr>
-                <td>SERVICIO</td>
-                <td>{{$servicio->nombre}}</td>
+                <td class="col-header border-2">SERVICIO</td>
+                <td class="border-2">{{$servicio->nombre}}</td>
             </tr>
             <tr>
-                <td>MOTIVO</td>
-                <td>{{$movimiento->motivo}}</td>
+                <td class="col-header border-2">MOTIVO</td>
+                <td class="border-2">{{$movimiento->motivo}}</td>
             </tr>
             <tr>
-                <td>OBSERVACIONES</td>
-                <td>{{$movimiento->observaciones}}</td>
+                <td class="col-header border-2">OBSERVACIONES</td>
+                <td class="border-2">{{$movimiento->observaciones}}</td>
             </tr>
         </table>
     </div>

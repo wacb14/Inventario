@@ -5,7 +5,7 @@
 @section('content')
 <div class="content">
     <div class="title-form">
-        <h1>RESPONSABLES</h1>
+        <h1 class="text-2xl text-center font-bold">RESPONSABLES</h1>
     </div>
     <div class="new-and-search">
         @if(auth()->check())
@@ -21,17 +21,17 @@
     </div>
     <div class="list">
         @isset($responsables)
-            <table class="elements-table table-list table table-striped table-hover">
+            <table class="elements-table table-list table table-striped table-hover border-collapse border-separate border-2">
                 <tr>
-                    <th>ID RESPONSABLE</th>
-                    <th>NOMBRES</th>
-                    <th>APELLIDOS</th>
+                    <th class="border-2">ID RESPONSABLE</th>
+                    <th class="border-2">NOMBRES</th>
+                    <th class="border-2">APELLIDOS</th>
                 </tr>
                 @foreach ($responsables as $responsable)
                     <tr>
-                        <td><a href="{{route('responsables.show', $responsable->idresponsable)}}">{{$responsable->idresponsable}}</a></td>
-                        <td><a href="{{route('responsables.show', $responsable->idresponsable)}}">{{$responsable->nombres}}</a></td>
-                        <td><a href="{{route('responsables.show', $responsable->idresponsable)}}">{{$responsable->apellidos}}</a></td>
+                        <td class="border-2"><a href="{{route('responsables.show', $responsable->idresponsable)}}">{{$responsable->idresponsable}}</a></td>
+                        <td class="border-2"><a href="{{route('responsables.show', $responsable->idresponsable)}}">{{$responsable->nombres}}</a></td>
+                        <td class="border-2"><a href="{{route('responsables.show', $responsable->idresponsable)}}">{{$responsable->apellidos}}</a></td>
                     </tr>
                 @endforeach
             </table>

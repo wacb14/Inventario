@@ -4,7 +4,7 @@
 @endsection
 @section('content')
 <div class="title-form">
-    <h1>{{$user->nombres}}</h1>
+    <h1 class="text-2xl text-center font-bold">{{$user->nombres}}</h1>
 </div>
 <div class="content">
     @if(auth()->check())
@@ -18,26 +18,26 @@
         @endif
     @endif
     <div>
-        <table class="table-show table table-striped table-hover">
+        <table class="table-show table table-striped table-hover border-collapse border-separate border-2">
             <tr>
-                <td class="col-header">NOMBRES</td>
-                <td>{{$user->nombres}}</td>
+                <td class="col-header border-2">NOMBRES</td>
+                <td class="border-2">{{$user->nombres}}</td>
             </tr>
             <tr>
-                <td class="col-header">APELLIDOS</td>
-                <td>{{$user->apellidos}}</td>
+                <td class="col-header border-2">APELLIDOS</td>
+                <td class="border-2">{{$user->apellidos}}</td>
             </tr>
             <tr>
-                <td class="col-header">USUARIO</td>
-                <td>{{$user->usuario}}</td>
+                <td class="col-header border-2">USUARIO</td>
+                <td class="border-2">{{$user->usuario}}</td>
             </tr>
             <tr>
-                <td class="col-header">TIPO DE USUARIO</td>
-                <td>{{$user->tipo_usuario}}</td>
+                <td class="col-header border-2">TIPO DE USUARIO</td>
+                <td class="border-2">{{$user->tipo_usuario}}</td>
             </tr>
             <tr>
-                <td class="col-header">CONTRASEÑA</td>
-                <td>{{$user->password}}</td>
+                <td class="col-header border-2">CONTRASEÑA</td>
+                <td class="border-2">{{$user->password}}</td>
             </tr>
         </table>
     </div>

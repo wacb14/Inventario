@@ -5,7 +5,7 @@
 @section('content')
 <div class="content">
     <div class="title-form">
-        <h1>SECCIÓN DE BIENES</h1>
+        <h1 class="text-2xl text-center font-bold">SECCIÓN DE BIENES</h1>
     </div>
     <div class="new-and-search">
 
@@ -23,19 +23,19 @@
     </div>
     <div class="list">
         @isset($bienes)
-            <table class="elements-table table-list table table-striped table-hover">
+            <table class="elements-table table-list table table-striped table-hover border-collapse border-separate border-2">
                 <tr>
-                    <th>ID BIEN</th>
-                    <th>NOMBRE</th>
-                    <th>SERVICIO</th>
-                    <th>COD PATRIMONIAL</th>
+                    <th class="border-2">ID BIEN</th>
+                    <th class="border-2">NOMBRE</th>
+                    <th class="border-2">SERVICIO</th>
+                    <th class="border-2">COD PATRIMONIAL</th>
                 </tr>
                 @foreach ($bienes as $bien)
                     <tr>
-                        <td><a href="{{route('bienes.show', $bien->idbien)}}">{{$bien->idbien}}</a></td>
-                        <td><a href="{{route('bienes.show', $bien->idbien)}}">{{$bien->nombre}}</a></td>
-                        <td><a href="{{route('bienes.show', $bien->idbien)}}">{{$bien->servicio}}</a></td>
-                        <td><a href="{{route('bienes.show', $bien->idbien)}}">{{$bien->cod_patrimonial}}</a></td>
+                        <td class="border-2"><a href="{{route('bienes.show', $bien->idbien)}}">{{$bien->idbien}}</a></td>
+                        <td class="border-2"><a href="{{route('bienes.show', $bien->idbien)}}">{{$bien->nombre}}</a></td>
+                        <td class="border-2"><a href="{{route('bienes.show', $bien->idbien)}}">{{$bien->servicio}}</a></td>
+                        <td class="border-2"><a href="{{route('bienes.show', $bien->idbien)}}">{{$bien->cod_patrimonial}}</a></td>
                     </tr>
                 @endforeach
             </table>

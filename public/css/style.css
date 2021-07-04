@@ -136,8 +136,22 @@ body{
 }
 /* Informacion de usuario */
 .user-info{
-  text-align: end;
+  display: flex;
+  justify-content: flex-end;
   width: 100%;
+}
+.user-info-box{
+  background-color: #0f6cf8fb;
+  text-align: center;
+  padding: 10px 10px;
+  color: white;
+  border-radius: 0.5rem;
+}
+.link{
+  text-decoration:underline;
+}
+.link:hover{
+  color: red;
 }
 /* Formularios */
 .content{
@@ -178,8 +192,8 @@ body{
   border-top-left-radius: 0.5rem;
   border-bottom-left-radius: 0.5rem;
   padding: 0 40px;
+  padding-top: 15px;
   position:relative;
-  font-weight: bold;
   background: rgba(255, 255, 255);
   z-index: 0;
 }
@@ -187,20 +201,22 @@ body{
   border-top-right-radius: 0.5rem;
   border-bottom-right-radius: 0.5rem;
   padding: 0 40px;
+  padding-top: 15px;
   position:relative;
-  font-weight: bold;
   background: rgba(255, 255, 255);
 }
 .form-center{
   position:relative;
-  font-weight: bold;
   border-radius: 0.5rem;
+  padding: 0 40px;
+  padding-top: 15px;
   text-align: center;
-  background: rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255);
 }
 .form-center_button{
   position:relative;
   text-align: center;
+  padding: 15px 0;
 }
 /* Menu de Paginacion*/
 .pagination-menu{

@@ -25,10 +25,10 @@ class SaveBienRequest extends FormRequest
     {
         return [
             'idservicio'=>'required|numeric|max:20',
-            'cod_patrimonial'=>'required|numeric|max:255',
+            'cod_patrimonial'=>'required|numeric',
             'procedencia'=>'required|max:30',
             'nombre'=>'required|max:30',
-            'cantidad'=>'required|numeric|max:11',
+            'cantidad'=>'required|numeric',
             'marca'=>'required|max:20',
             'modelo'=>'required|max:20',
             'num_serie'=>'required|max:20',

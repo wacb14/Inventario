@@ -5,7 +5,7 @@
 @section('content')
 <div class="content">
     <div class="title-form">
-        <h1>{{$responsable->nombres}}</h1>
+        <h1 class="text-2xl text-center font-bold">{{$responsable->nombres}}</h1>
     </div>
     @if(auth()->check())
         @if(auth()->user()->tipo_usuario == 'ADMINISTRADOR')
@@ -17,26 +17,26 @@
         @endif
     @endif
     <div>
-        <table class="table-show table table-striped table-hover">
+        <table class="table-show table table-striped table-hover border-collapse border-separate border-2">
             <tr>
-                <td>ID RESPONSABLE</td>
-                <td>{{$responsable->idresponsable}}</td>
+                <td class="col-header border-2">ID RESPONSABLE</td>
+                <td class="border-2">{{$responsable->idresponsable}}</td>
             </tr>
             <tr>
-                <td>NOMBRES</td>
-                <td>{{$responsable->nombres}}</td>
+                <td class="col-header border-2">NOMBRES</td>
+                <td class="border-2">{{$responsable->nombres}}</td>
             </tr>
             <tr>
-                <td>APELLIDOS</td>
-                <td>{{$responsable->apellidos}}</td>
+                <td class="col-header border-2">APELLIDOS</td>
+                <td class="border-2">{{$responsable->apellidos}}</td>
             </tr>
             <tr>
-                <td>CARGO</td>
-                <td>{{$responsable->cargo}}</td>
+                <td class="col-header border-2">CARGO</td>
+                <td class="border-2">{{$responsable->cargo}}</td>
             </tr>
             <tr>
-                <td>MODALIDAD</td>
-                <td>{{$responsable->modalidad}}</td>
+                <td class="col-header border-2">MODALIDAD</td>
+                <td class="border-2">{{$responsable->modalidad}}</td>
             </tr>
         </table>
     </div>
