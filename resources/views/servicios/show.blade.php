@@ -16,7 +16,7 @@
             </form> --}}
         @endif
     @endif
-    <div>
+    <div class="list">
         <table class="table-show table table-striped table-hover border-collapse border-separate border-2">
             <tr>
                 <td class="col-header border-2">ID SERVICIO</td>

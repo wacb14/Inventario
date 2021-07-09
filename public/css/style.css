@@ -123,10 +123,39 @@ body{
   }
 }
 
-@media (max-width: 320px){
+@media(max-width: 376px){
   body{
-    padding: 70px 15px;
-    margin: 0;
+    padding: 70px 25px;
+  }
+  .table{
+    font-size: x-small;
+  }
+  .user-info-box,.btn,.pagination-menu,.search-bar{
+    font-size: 0.7rem;
+  }
+  #form_registro,#form_login{
+    width: 90%;
+  }
+  .title-form{
+    padding-top: 25px;
+    padding-bottom: 20px;
+  }
+  input{
+    width: 100%;
+  }
+  .form-left{
+    border-top-right-radius: 0.5rem;
+    border-bottom-left-radius: 0rem;
+    width: 100%;
+  }
+  .form-right{
+    border-top-right-radius: 0rem;
+    border-bottom-left-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+    width: 100%;
+  }
+  .list{
+    margin-top: 15px;
   }
 }
 
@@ -178,7 +207,6 @@ body{
 }
 .list{
   width: 100%;
-  margin: 0;
   align-content: center;
 }
 .form{
@@ -196,14 +224,16 @@ body{
   position:relative;
   background: rgba(255, 255, 255);
   z-index: 0;
+  width: 20rem;
 }
 .form-right{
   border-top-right-radius: 0.5rem;
   border-bottom-right-radius: 0.5rem;
-  padding: 0 40px;
+  padding: 25px 40px;
   padding-top: 15px;
   position:relative;
   background: rgba(255, 255, 255);
+  width: 20rem;
 }
 .form-center{
   position:relative;
