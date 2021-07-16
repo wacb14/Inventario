@@ -15,8 +15,10 @@ class CreateTservicioTable extends Migration
     {
         Schema::create('tservicio', function (Blueprint $table) {
             $table->id('idservicio');
-            $table->string('nombre',70);
+            $table->string('nombre',70)->unique();
             $table->unsignedBigInteger('idresponsable');
+            $table->date('fecha_inicio');
+            $table->date('fecha_fin')->nullable();
             $table->timestamps();
             //Clave foranea
             $table->foreign("idresponsable")->references("idresponsable")->on("tresponsable");

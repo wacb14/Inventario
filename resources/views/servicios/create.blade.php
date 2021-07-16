@@ -32,6 +32,10 @@
                 </label> <br>
                 {!! $errors->first('idresponsable','<small class="msg_error">:message</small><br>') !!}
                 <br>
+                <label>
+                    Fecha inicio <br>
+                    <input type="date" name="fecha_inicio" value="{{old('fecha_inicio')}}" class="border border-gray-200 rounded-md bg-gray-200 w-full text-sm placeholder-gray-900 p-2 focus:bg-white">
+                </label> <br>
             </div>
         </div>
         <div class="form-center_button">

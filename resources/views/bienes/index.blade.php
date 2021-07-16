@@ -2,13 +2,21 @@
 @section('title')
     Inventario | Bienes
 @endsection
+<div class="listar-estado">
+    Estado de bienes<br>
+    <select name="tipo_listado">
+        <option value="TODOS">TODOS</option>
+        <option value="ACTIVOS" selected>ACTIVOS</option>
+        <option value="DE BAJA">DE BAJA</option>
+    </select>
+</div>
 @section('content')
 <div class="content">
     <div class="title-form">
         <h1 class="text-2xl text-center font-bold">SECCIÓN DE BIENES</h1>
     </div>
     <div class="new-and-search">
-
+    
     @if(auth()->check())
         @if(auth()->user()->tipo_usuario == 'ADMINISTRADOR')
             <div class="new-item">

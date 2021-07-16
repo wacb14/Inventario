@@ -28,7 +28,8 @@ class CreateTbienTable extends Migration
             $table->string('estado_conservacion',30)->nullable();
             $table->string('estado',15)->nullable();
             $table->string('observacion',100)->nullable();
-            $table->date('fecha_adquisicion')->nullable();    //dateTime?    
+            $table->date('fecha_adquisicion')->nullable();  
+            $table->date('fecha_ult_inventario')->nullable();
             $table->timestamps();
             //Clave foranea
             $table->foreign("idservicio")->references("idservicio")->on("tservicio");

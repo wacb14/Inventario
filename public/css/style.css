@@ -167,7 +167,6 @@ body{
 .user-info{
   display: flex;
   justify-content: flex-end;
-  width: 100%;
 }
 .user-info-box{
   background-color: #0f6cf8fb;
@@ -181,6 +180,12 @@ body{
 }
 .link:hover{
   color: red;
+}
+/* ComboBox para listar*/
+.listar-estado{
+  float: left;
+  padding: 10px;
+  text-align: center;
 }
 /* Formularios */
 .content{
