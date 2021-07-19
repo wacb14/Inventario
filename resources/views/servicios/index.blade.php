@@ -38,17 +38,9 @@
         @else
         No existen servicios aun para mostrar
         @endisset
-        @if(!isset($_GET["busqueda"]))
-            <div class="pagination-menu"> 
-                @include('partials/pagmenu')
-            </div>
-        @else
-            @if($_GET["busqueda"]=="")
-                <div class="pagination-menu"> 
-                    @include('partials/pagmenu')
-                </div>
-            @endif
-        @endif
+        <div class="pagination-menu"> 
+            @include('partials/pagmenu')
+        </div>
     </div>
 </div>
 @endsection

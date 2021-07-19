@@ -12,8 +12,15 @@ use DB;
 class MovimientoController extends Controller
 {
     public function index(){
+        if(isset($_GET["busqueda"])){
+            $busqueda=$_GET["busqueda"];
+            $total = DB::select('CALL SP_contarBusquedaMovimientos(?)',array($busqueda))[0]->cantidad;
+        }
+        else{
+            $busqueda="";
+            $total = Movimiento::count();
+        }
         /* Paginacion */
-        $total = Movimiento::count();
         $nroElement = 14;
         $nroPaginas = $total%$nroElement==0?intdiv($total,$nroElement):intdiv($total,$nroElement)+1;
         $cantidadReg = $nroElement;
@@ -27,13 +34,8 @@ class MovimientoController extends Controller
             }
             $inicio=($pag-1)*$nroElement;
         }
-        if(isset($_GET["busqueda"])){
-            $busqueda=$_GET["busqueda"];
-            $movimientos = DB::select('CALL SP_listarBusquedaMovimientos(?)',array($busqueda));
-        }
-        else
-            $movimientos=DB::select('CALL SP_listarMovimientosBienServicio(?,?)',array($inicio,$cantidadReg));
-        return view('movimientos/index',['movimientos'=>$movimientos,'nroPaginas'=>$nroPaginas,'pag'=>$pag]);
+        $movimientos = DB::select('CALL SP_listarBusquedaMovimientos(?,?,?)',array($busqueda, $inicio, $cantidadReg));
+        return view('movimientos/index',['movimientos'=>$movimientos,'nroPaginas'=>$nroPaginas,'pag'=>$pag, 'busqueda'=>$busqueda]);
     }
     public function create(){
         $consulta=DB::select('CALL SP_autoId(?)',array('tmovimiento'));

@@ -8,13 +8,20 @@
     <select name="tipo_listado" onchange="this.form.submit()">
         <option value="FUNCIONAL" @if($tipo_listado=="FUNCIONAL") {{'selected'}} @endif>FUNCIONALES</option>
         <option value="BAJA" @if($tipo_listado=="BAJA") {{'selected'}} @endif>DE BAJA</option>
-        <option value="" @if($tipo_listado=="") {{'selected'}} @endif>TODOS</option>
+        <option value="TODO" @if($tipo_listado=="TODO") {{'selected'}} @endif>TODOS</option>
     </select>
 </div>
 @section('content')
 <div class="content">
     <div class="title-form">
-        <h1 class="text-2xl text-center font-bold">SECCIÓN DE BIENES</h1>
+        <h1 class="text-2xl text-center font-bold">SECCIÓN DE BIENES @switch($tipo_listado)
+            @case("FUNCIONAL")
+                (FUNCIONALES)
+                @break
+            @case("BAJA")
+                (DE BAJA)
+                @break
+        @endswitch</h1>
     </div>
     <div class="new-and-search">
     
@@ -53,17 +60,9 @@
         @else
         No existen bienes aun para mostrar
         @endisset
-        @if(!isset($_GET["busqueda"]))
-            <div class="pagination-menu"> 
-                @include('partials/pagmenu')
-            </div>
-        @else
-            @if($_GET["busqueda"]=="")
-                <div class="pagination-menu"> 
-                    @include('partials/pagmenu')
-                </div>
-            @endif
-        @endif
+        <div class="pagination-menu"> 
+            @include('partials/pagmenu')
+        </div>
     </div>
 </div>
 @endsection

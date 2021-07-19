@@ -16,8 +16,15 @@ class ResponsableController extends Controller
      */
     public function index()
     {
+        if(isset($_GET["busqueda"])){
+            $busqueda=$_GET["busqueda"];
+            $total = DB::select('CALL SP_contarBusquedaResponsables(?)',array($busqueda))[0]->cantidad;
+        }
+        else{
+            $busqueda="";
+            $total = Responsable::count();
+        }
         /* Paginacion */
-        $total = Responsable::count();
         $nroElement = 14;
         $nroPaginas = $total%$nroElement==0?intdiv($total,$nroElement):intdiv($total,$nroElement)+1;
         $cantidadReg = $nroElement;
@@ -31,14 +38,8 @@ class ResponsableController extends Controller
             }
             $inicio=($pag-1)*$nroElement;
         }
-        if(isset($_GET["busqueda"])){
-            $busqueda=$_GET["busqueda"];
-            $responsables = DB::select('CALL SP_listarBusquedaResponsables(?)',array($busqueda));
-            $total = count($responsables);
-        }
-        else
-            $responsables = DB::select('CALL SP_listarResponsables(?,?)',array($inicio,$cantidadReg));
-        return view('responsables/index', ['responsables'=>$responsables,'nroPaginas'=>$nroPaginas,'pag'=>$pag]);
+        $responsables = DB::select('CALL SP_listarBusquedaResponsables(?,?,?)',array($busqueda, $inicio, $cantidadReg));
+        return view('responsables/index', ['responsables'=>$responsables,'nroPaginas'=>$nroPaginas,'pag'=>$pag,'busqueda'=>$busqueda]);
     }
     /**
      * Show the form for creating a new resource.

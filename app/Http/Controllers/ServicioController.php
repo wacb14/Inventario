@@ -17,28 +17,30 @@ class ServicioController extends Controller
      */
     public function index()
     {
+        if(isset($_GET["busqueda"])){
+            $busqueda=$_GET["busqueda"];
+            $total = DB::select('CALL SP_contarBusquedaServicios(?)',array($busqueda))[0]->cantidad;
+        }
+        else{
+            $busqueda="";
+            $total = Servicio::count();
+        }
         /* Paginacion */
-        $total = Servicio::count();
         $nroElement = 14;
         $nroPaginas = $total%$nroElement==0?intdiv($total,$nroElement):intdiv($total,$nroElement)+1;
         $cantidadReg = $nroElement;
-        $pag=1;
+        $pag = 1;
         $inicio = 0; // El primer registro que se va a tomar para la paginacion
         /* En el caso que la pagina este determinada */
         if(isset($_GET["page"])){
-            $pag=$_GET["page"];
-            if($total%$nroElement!=0 && $pag==$nroPaginas){
+            $pag = $_GET["page"];
+            if($total % $nroElement!=0 && $pag==$nroPaginas){
                 $cantidadReg = $total%$nroElement;
             }
-            $inicio=($pag-1)*$nroElement;
+            $inicio = ($pag-1) * $nroElement;
         }
-        if(isset($_GET["busqueda"])){
-            $busqueda=$_GET["busqueda"];
-            $servicios = DB::select('CALL SP_listarBusquedaServicios(?)',array($busqueda));
-        }
-        else
-            $servicios=DB::select('CALL SP_listarServiciosResponsable(?,?)',array($inicio,$cantidadReg));
-        return view('servicios/index',['servicios'=>$servicios,'nroPaginas'=>$nroPaginas,'pag'=>$pag]);
+        $servicios=DB::select('CALL SP_listarBusquedaServicios(?,?,?)',array($busqueda, $inicio, $cantidadReg));
+        return view('servicios/index',['servicios'=>$servicios,'nroPaginas'=>$nroPaginas,'pag'=>$pag, 'busqueda'=>$busqueda]);
     }
 
     /**

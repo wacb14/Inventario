@@ -37,16 +37,8 @@
         No existen movimientos aun para mostrar
         @endisset
     </div>
-    @if(!isset($_GET["busqueda"]))
-            <div class="pagination-menu"> 
-                @include('partials/pagmenu')
-            </div>
-        @else
-            @if($_GET["busqueda"]=="")
-                <div class="pagination-menu"> 
-                    @include('partials/pagmenu')
-                </div>
-            @endif
-        @endif
+    <div class="pagination-menu"> 
+        @include('partials/pagmenu')
+    </div>
 </div>
 @endsection

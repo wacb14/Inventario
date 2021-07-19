@@ -11,30 +11,49 @@ use DB;
 class BienController extends Controller
 {
     public function index(){
+        /* Comprobamos las variables para la vista */
+        if(isset($_GET["busqueda"]))
+            $busqueda=$_GET["busqueda"];
+        else
+            $busqueda="";
+            
+        if(isset($_GET["tipo_listado"])){
+            $tipo_listado=$_GET['tipo_listado'];
+            switch($tipo_listado){
+                case "FUNCIONAL":
+                    $total = DB::select('CALL SP_contarBusquedaBienes(?,?)',array($busqueda, "FUNCIONAL"))[0]->cantidad;
+                    break;
+                case "BAJA":
+                    $total = DB::select('CALL SP_contarBusquedaBienes(?,?)',array($busqueda, "BAJA"))[0]->cantidad;
+                    break;
+                case "TODO":
+                    $total = DB::select('CALL SP_contarBusquedaBienes(?,?)',array($busqueda, ""))[0]->cantidad;
+                    break;
+            }
+        }
+        else{
+            // Valores por defecto
+            $tipo_listado="FUNCIONAL";
+            $total = DB::select('CALL SP_contarBusquedaBienes(?,?)',array($busqueda, "FUNCIONAL"))[0]->cantidad;
+        }
         /* Paginacion */
-        $total = Bien::count();
         $nroElement = 14;
         $nroPaginas = $total%$nroElement==0?intdiv($total,$nroElement):intdiv($total,$nroElement)+1;
         $cantidadReg = $nroElement;
         $pag=1;
         $inicio = 0; // El primer registro que se va a tomar para la paginacion
-        /* En el caso que la pagina este determinada */
+
+        /* Obtenemos el numero de pagina */
         if(isset($_GET["page"])){
             $pag=$_GET["page"];
+            // En caso de que existan residuos
             if($total%$nroElement!=0 && $pag==$nroPaginas){
                 $cantidadReg = $total%$nroElement;
             }
+            // El inicio en base al numero de página
             $inicio=($pag-1)*$nroElement;
         }
-        if(isset($_GET["busqueda"]))
-            $busqueda=$_GET["busqueda"];
-        else
-            $busqueda="";
-        if(isset($_GET["tipo_listado"]))
-            $tipo_listado=$_GET['tipo_listado']; 
-        else
-            $tipo_listado="";
-        $bienes = DB::select('CALL SP_listarBusquedaBienes(?,?,?,?)',array($busqueda, $inicio, $cantidadReg, $tipo_listado));
+        $bienes = DB::select('CALL SP_listarBusquedaBienes(?,?,?,?)',array($busqueda, $inicio, $cantidadReg, $tipo_listado=="TODO"?"":$tipo_listado));
         return view('bienes/index',['bienes'=>$bienes,'nroPaginas'=>$nroPaginas,'pag'=>$pag, 'busqueda'=>$busqueda,'tipo_listado'=>$tipo_listado]);
     }
 

@@ -12,8 +12,15 @@ use DB;
 class RegisterController extends Controller
 {
     public function index(){
+        if(isset($_GET["busqueda"])){
+            $busqueda=$_GET["busqueda"];
+            $total = DB::select('CALL SP_contarBusquedaUsuarios(?)',array($busqueda))[0]->cantidad;
+        }
+        else{
+            $busqueda="";
+            $total = User::count();
+        }
         /* Paginacion */
-        $total = User::count();
         $nroElement = 14;
         $nroPaginas = $total%$nroElement==0?intdiv($total,$nroElement):intdiv($total,$nroElement)+1;
         $cantidadReg = $nroElement;
@@ -27,13 +34,8 @@ class RegisterController extends Controller
             }
             $inicio=($pag-1)*$nroElement;
         }
-        if(isset($_GET["busqueda"])){
-            $busqueda=$_GET["busqueda"];
-            $users = DB::select('CALL SP_listarBusquedaUsuarios(?)',array($busqueda));
-        }
-        else
-            $users = DB::select('CALL SP_listarUsuarios(?,?)',array($inicio, $cantidadReg));           
-        return view('auth/index',['users'=>$users,'nroPaginas'=>$nroPaginas,'pag'=>$pag]);
+        $users = DB::select('CALL SP_listarBusquedaUsuarios(?,?,?)',array($busqueda, $inicio, $cantidadReg));           
+        return view('auth/index',['users'=>$users, 'nroPaginas'=>$nroPaginas, 'pag'=>$pag, 'busqueda'=>$busqueda]);
     }
     public function create(){
         return view('auth/register');

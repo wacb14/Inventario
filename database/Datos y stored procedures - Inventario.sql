@@ -39,106 +39,6 @@ DELIMITER
 #CALL SP_autoId('tservicio')
 
 DELIMITER $$
-CREATE PROCEDURE SP_listarResponsables(IN inicio SMALLINT UNSIGNED, IN limite SMALLINT UNSIGNED)
-BEGIN
-	SELECT idresponsable,nombres,apellidos FROM tresponsable
-	LIMIT inicio,limite;
-END$$
-DELIMITER
-#CALL SP_listarResponsables()
-
-DELIMITER $$
-CREATE PROCEDURE SP_listarServiciosResponsable(IN inicio SMALLINT UNSIGNED, IN limite SMALLINT UNSIGNED)
-BEGIN
-	SELECT S.idservicio,S.nombre, CONCAT(R.nombres,' ',R.apellidos) AS responsable
-		FROM tservicio S INNER JOIN tresponsable R ON S.idresponsable=R.idresponsable
-		LIMIT inicio,limite;
-END$$
-DELIMITER
-#CALL SP_listarServiciosResponsable()
-
-DELIMITER $$
-CREATE PROCEDURE SP_listarMovimientosBienServicio(IN inicio SMALLINT UNSIGNED, IN limite SMALLINT UNSIGNED)
-BEGIN
-	CREATE TEMPORARY TABLE T1
-		SELECT M.idmovimiento,B.nombre,M.fecha,M.idservicio
-			FROM tmovimiento M INNER JOIN tbien B ON M.idbien=B.idbien;
-	SELECT T.idmovimiento,T.nombre AS bien,T.fecha,S.nombre AS servicio
-			FROM T1 T INNER JOIN tservicio S ON T.idservicio=S.idservicio
-			LIMIT inicio,limite;
-END$$
-DELIMITER
-#CALL SP_listarMovimientosBienServicio()
-
-DELIMITER $$
-CREATE PROCEDURE SP_listarBienesServicio(IN inicio SMALLINT UNSIGNED, IN limite SMALLINT UNSIGNED)
-BEGIN
-	SELECT B.idbien, B.nombre, S.nombre AS servicio, B.cod_patrimonial
-		FROM tbien B INNER JOIN tservicio S ON B.idservicio=S.idservicio
-		LIMIT inicio,limite;
-END$$
-DELIMITER
-#CALL SP_listarBienesServicio(1,2)
-
-DELIMITER $$
-CREATE PROCEDURE SP_listarBusquedaBienes(IN busqueda VARCHAR(100))
-BEGIN
-	SELECT B.idbien, B.nombre, S.nombre AS servicio, B.cod_patrimonial
-		FROM tbien B INNER JOIN tservicio S ON B.idservicio=S.idservicio
-		WHERE B.nombre LIKE CONCAT('%',busqueda,'%') OR B.idbien = busqueda OR S.nombre LIKE CONCAT('%',busqueda,'%') OR B.cod_patrimonial = busqueda;
-END$$
-DELIMITER
-#CALL SP_listarBusquedaBienes('4')
-
-DELIMITER $$
-CREATE PROCEDURE SP_listarBusquedaMovimientos(IN busqueda VARCHAR(100))
-BEGIN
-	CREATE TEMPORARY TABLE T1
-		SELECT M.idmovimiento,B.nombre,M.fecha,M.idservicio
-			FROM tmovimiento M INNER JOIN tbien B ON M.idbien=B.idbien;
-	SELECT T.idmovimiento,T.nombre AS bien,T.fecha,S.nombre AS servicio
-			FROM T1 T INNER JOIN tservicio S ON T.idservicio=S.idservicio
-			WHERE T.idmovimiento = busqueda OR T.nombre LIKE CONCAT('%',busqueda,'%') OR T.fecha = busqueda OR S.nombre LIKE CONCAT('%',busqueda,'%');
-END
-$$ DELIMITER
-
-DELIMITER $$
-CREATE PROCEDURE SP_listarBusquedaResponsables(IN busqueda VARCHAR(100))
-BEGIN
-	SELECT *
-		FROM tresponsable
-		WHERE idresponsable = busqueda OR nombres LIKE CONCAT('%',busqueda,'%') OR apellidos LIKE CONCAT('%',busqueda,'%');
-END$$
-DELIMITER
-
-DELIMITER $$
-CREATE PROCEDURE SP_listarBusquedaServicios(IN busqueda VARCHAR(100))
-BEGIN
-	SELECT S.idservicio,S.nombre, CONCAT(R.nombres,' ',R.apellidos) AS responsable
-		FROM tservicio S INNER JOIN tresponsable R ON S.idresponsable=R.idresponsable
-		WHERE S.idservicio = busqueda OR S.nombre LIKE CONCAT('%',busqueda,'%') OR CONCAT(R.nombres,' ',R.apellidos) LIKE CONCAT('%',busqueda,'%');
-END$$
-DELIMITER
-
-DELIMITER $$
-CREATE PROCEDURE SP_listarBusquedaUsuarios(IN busqueda VARCHAR(100))
-BEGIN
-	SELECT id,nombres,apellidos,usuario
-		FROM users
-		WHERE nombres LIKE CONCAT('%',busqueda,'%') OR apellidos LIKE CONCAT('%',busqueda,'%') OR usuario LIKE CONCAT('%',busqueda,'%');
-END$$
-DELIMITER*
-
-DELIMITER $$
-CREATE PROCEDURE SP_listarUsuarios(IN inicio SMALLINT UNSIGNED, IN limite SMALLINT UNSIGNED)
-BEGIN
-	SELECT id,nombres,apellidos,usuario
-	FROM users
-	LIMIT inicio,limite;
-END$$
-DELIMITER*/
-
-/*DELIMITER $$
 CREATE PROCEDURE SP_listarBusquedaBienes(IN busqueda VARCHAR(100), IN inicio SMALLINT UNSIGNED, IN limite SMALLINT UNSIGNED, IN estado VARCHAR(15))
 BEGIN
 	SELECT B.idbien, B.nombre, S.nombre AS servicio, B.cod_patrimonial
@@ -146,5 +46,100 @@ BEGIN
 		WHERE (B.nombre LIKE CONCAT('%',busqueda,'%') OR B.idbien = busqueda OR S.nombre LIKE CONCAT('%',busqueda,'%') OR B.cod_patrimonial = busqueda) AND B.estado LIKE CONCAT('%',estado,'%')
 		LIMIT inicio,limite;
 END$$
+DELIMITER
+CALL SP_listarBusquedaBienes('',0,15,'')*/
+
+/*DELIMITER $$
+CREATE PROCEDURE SP_contarBusquedaBienes(IN busqueda VARCHAR(100), IN estado VARCHAR(15))
+BEGIN
+	SELECT COUNT(B.idbien) AS cantidad
+		FROM tbien B INNER JOIN tservicio S ON B.idservicio=S.idservicio
+		WHERE (B.nombre LIKE CONCAT('%',busqueda,'%') OR B.idbien = busqueda OR S.nombre LIKE CONCAT('%',busqueda,'%') OR B.cod_patrimonial = busqueda) AND B.estado LIKE CONCAT('%',estado,'%');	
+END$$
+DELIMITER
+CALL SP_contarBusquedaBienes('','BAJA')*/
+
+/*DELIMITER $$
+CREATE PROCEDURE SP_listarBusquedaMovimientos(IN busqueda VARCHAR(100), IN inicio SMALLINT UNSIGNED, IN limite SMALLINT UNSIGNED)
+BEGIN
+	CREATE TEMPORARY TABLE T1
+		SELECT M.idmovimiento,B.nombre,M.fecha,M.idservicio
+			FROM tmovimiento M INNER JOIN tbien B ON M.idbien=B.idbien;
+	SELECT T.idmovimiento,T.nombre AS bien,T.fecha,S.nombre AS servicio
+		FROM T1 T INNER JOIN tservicio S ON T.idservicio=S.idservicio
+		WHERE T.idmovimiento = busqueda OR T.nombre LIKE CONCAT('%',busqueda,'%') OR T.fecha = busqueda OR S.nombre LIKE CONCAT('%',busqueda,'%')
+		LIMIT inicio,limite;
+	DROP TABLE T1;
+END
+$$ DELIMITER
+
+DELIMITER $$
+CREATE PROCEDURE SP_contarBusquedaMovimientos(IN busqueda VARCHAR(100))
+BEGIN
+	CREATE TEMPORARY TABLE T1
+		SELECT M.idmovimiento,B.nombre,M.fecha,M.idservicio
+			FROM tmovimiento M INNER JOIN tbien B ON M.idbien=B.idbien;
+	SELECT COUNT(T.idmovimiento) AS cantidad
+		FROM T1 T INNER JOIN tservicio S ON T.idservicio=S.idservicio
+		WHERE T.idmovimiento = busqueda OR T.nombre LIKE CONCAT('%',busqueda,'%') OR T.fecha = busqueda OR S.nombre LIKE CONCAT('%',busqueda,'%');
+	DROP TABLE T1;
+END
+$$ DELIMITER*/
+/*CALL SP_contarBusquedaMovimientos('Cre')*/
+
+/*DELIMITER $$
+CREATE PROCEDURE SP_listarBusquedaResponsables(IN busqueda VARCHAR(100), IN inicio SMALLINT UNSIGNED, IN limite SMALLINT UNSIGNED)
+BEGIN
+	SELECT idresponsable, nombres, apellidos
+		FROM tresponsable
+		WHERE idresponsable = busqueda OR nombres LIKE CONCAT('%',busqueda,'%') OR apellidos LIKE CONCAT('%',busqueda,'%')
+		LIMIT inicio,limite;
+END$$
+DELIMITER
+
+DELIMITER $$
+CREATE PROCEDURE SP_contarBusquedaResponsables(IN busqueda VARCHAR(100))
+BEGIN
+	SELECT COUNT(idresponsable) AS cantidad
+		FROM tresponsable
+		WHERE idresponsable = busqueda OR nombres LIKE CONCAT('%',busqueda,'%') OR apellidos LIKE CONCAT('%',busqueda,'%');
+END$$
 DELIMITER*/
-CALL SP_listarBusquedaBienes('',0,15,'')
+
+/*DELIMITER $$
+CREATE PROCEDURE SP_listarBusquedaServicios(IN busqueda VARCHAR(100), IN inicio SMALLINT UNSIGNED, IN limite SMALLINT UNSIGNED)
+BEGIN
+	SELECT S.idservicio,S.nombre, CONCAT(R.nombres,' ',R.apellidos) AS responsable
+		FROM tservicio S INNER JOIN tresponsable R ON S.idresponsable=R.idresponsable
+		WHERE S.idservicio = busqueda OR S.nombre LIKE CONCAT('%',busqueda,'%') OR CONCAT(R.nombres,' ',R.apellidos) LIKE CONCAT('%',busqueda,'%')
+		LIMIT inicio,limite;
+END$$
+DELIMITER
+
+DELIMITER $$
+CREATE PROCEDURE SP_contarBusquedaServicios(IN busqueda VARCHAR(100))
+BEGIN
+	SELECT COUNT(S.idservicio) AS cantidad
+		FROM tservicio S INNER JOIN tresponsable R ON S.idresponsable=R.idresponsable
+		WHERE S.idservicio = busqueda OR S.nombre LIKE CONCAT('%',busqueda,'%') OR CONCAT(R.nombres,' ',R.apellidos) LIKE CONCAT('%',busqueda,'%');
+END$$
+DELIMITER*/
+
+/*DELIMITER $$
+CREATE PROCEDURE SP_listarBusquedaUsuarios(IN busqueda VARCHAR(100), IN inicio SMALLINT UNSIGNED, IN limite SMALLINT UNSIGNED)
+BEGIN
+	SELECT id,nombres,apellidos,usuario
+		FROM users
+		WHERE nombres LIKE CONCAT('%',busqueda,'%') OR apellidos LIKE CONCAT('%',busqueda,'%') OR usuario LIKE CONCAT('%',busqueda,'%')
+		LIMIT inicio,limite;
+END$$
+DELIMITER*/
+
+DELIMITER $$
+CREATE PROCEDURE SP_contarBusquedaUsuarios(IN busqueda VARCHAR(100))
+BEGIN
+	SELECT COUNT(id) AS cantidad
+		FROM users
+		WHERE nombres LIKE CONCAT('%',busqueda,'%') OR apellidos LIKE CONCAT('%',busqueda,'%') OR usuario LIKE CONCAT('%',busqueda,'%');
+END$$
+DELIMITER
