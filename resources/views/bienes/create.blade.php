@@ -16,7 +16,7 @@
                     <input type="text" name="idbien" value="{{$ID}}" disabled class="border border-gray-200 rounded-md bg-gray-200 w-full text-sm 
                     placeholder-gray-900 p-2 focus:bg-white">
                 </label>
-                <br>
+                <br><br>
                 <label>
                     Servicio<br>
                     <select name="idservicio" class="border border-gray-200 rounded-md bg-gray-200 w-full text-sm 
@@ -135,6 +135,14 @@
                     placeholder-gray-900 p-2  focus:bg-white">
                 </label> <br>
                 {!! $errors->first('fecha_adquisicion','<small class="msg_error">:message</small><br>') !!}
+                <br>
+                <label>
+                    Fecha de último inventariado <br>
+                    <input type="date" name="fecha_ult_inventario" value="{{old('fecha_ult_inventario')}}"
+                    class="border border-gray-200 rounded-md bg-gray-200 w-full text-sm 
+                    placeholder-gray-900 p-2  focus:bg-white">
+                </label> <br>
+                {!! $errors->first('fecha_ult_inventario','<small class="msg_error">:message</small><br>') !!}
             </div>
         </div>
         <div class="form-center_button">

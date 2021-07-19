@@ -19,7 +19,7 @@ INSERT INTO tmovimiento VALUES (NULL,'2','2020/11/01','1','FALTA DE EQUIPOS EN E
 /* El primero usuario administrador CONTRASEÑA=admin12345 
 INSERT INTO users VALUES (NULL,'ADMIN','ADMIN','admin','ADMINISTRADOR','$2y$10$vJy33so1szW3gJPMizSELuoap7OwhSohsw3jL5eFYDOmCxXeTDeam',NULL,NOW(),NOW());
 */
-DELIMITER $$
+/*DELIMITER $$
 CREATE PROCEDURE SP_recuperarPorID(IN id BIGINT)
 BEGIN
 	SELECT * FROM tbien WHERE idbien=id;
@@ -88,7 +88,7 @@ BEGIN
 		WHERE B.nombre LIKE CONCAT('%',busqueda,'%') OR B.idbien = busqueda OR S.nombre LIKE CONCAT('%',busqueda,'%') OR B.cod_patrimonial = busqueda;
 END$$
 DELIMITER
-#CALL SP_listarBusquedaBienesServicio('4')
+#CALL SP_listarBusquedaBienes('4')
 
 DELIMITER $$
 CREATE PROCEDURE SP_listarBusquedaMovimientos(IN busqueda VARCHAR(100))
@@ -136,5 +136,15 @@ BEGIN
 	FROM users
 	LIMIT inicio,limite;
 END$$
-DELIMITER
+DELIMITER*/
 
+/*DELIMITER $$
+CREATE PROCEDURE SP_listarBusquedaBienes(IN busqueda VARCHAR(100), IN inicio SMALLINT UNSIGNED, IN limite SMALLINT UNSIGNED, IN estado VARCHAR(15))
+BEGIN
+	SELECT B.idbien, B.nombre, S.nombre AS servicio, B.cod_patrimonial
+		FROM tbien B INNER JOIN tservicio S ON B.idservicio=S.idservicio
+		WHERE (B.nombre LIKE CONCAT('%',busqueda,'%') OR B.idbien = busqueda OR S.nombre LIKE CONCAT('%',busqueda,'%') OR B.cod_patrimonial = busqueda) AND B.estado LIKE CONCAT('%',estado,'%')
+		LIMIT inicio,limite;
+END$$
+DELIMITER*/
+CALL SP_listarBusquedaBienes('',0,15,'')

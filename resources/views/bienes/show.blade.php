@@ -71,8 +71,12 @@
                 <td class="border-2">{{$bien->observacion}}</td>
             </tr>
             <tr>
-                <td class="col-header border-2">FECHA ADQUISICION</td>
+                <td class="col-header border-2">FECHA DE ADQUISICION</td>
                 <td class="border-2">{{$bien->fecha_adquisicion}}</td>
+            </tr>
+            <tr>
+                <td class="col-header border-2">FECHA DE ÚLTIMO INVENTARIADO</td>
+                <td class="border-2">{{$bien->fecha_ult_inventario}}</td>
             </tr>
         </table>
     </div>

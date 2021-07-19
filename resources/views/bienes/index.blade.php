@@ -2,12 +2,13 @@
 @section('title')
     Inventario | Bienes
 @endsection
+<form action="" method="GET">
 <div class="listar-estado">
-    Estado de bienes<br>
-    <select name="tipo_listado">
-        <option value="TODOS">TODOS</option>
-        <option value="ACTIVOS" selected>ACTIVOS</option>
-        <option value="DE BAJA">DE BAJA</option>
+    Listar por estado<br>
+    <select name="tipo_listado" onchange="this.form.submit()">
+        <option value="FUNCIONAL" @if($tipo_listado=="FUNCIONAL") {{'selected'}} @endif>FUNCIONALES</option>
+        <option value="BAJA" @if($tipo_listado=="BAJA") {{'selected'}} @endif>DE BAJA</option>
+        <option value="" @if($tipo_listado=="") {{'selected'}} @endif>TODOS</option>
     </select>
 </div>
 @section('content')
@@ -26,7 +27,9 @@
     @endif
         
         <div class="search-bar">
-            @include('partials/searchbar')
+                <input name="busqueda" type="search" value="{{$busqueda}}">
+                <button class="btn btn-primary">Buscar</button>
+            </form>
         </div>
     </div>
     <div class="list">

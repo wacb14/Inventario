@@ -38,6 +38,7 @@ class SaveBienRequest extends FormRequest
             'estado'=>'required|max:15',
             'observacion'=>'required|max:100',
             'fecha_adquisicion'=>'required|date',
+            'fecha_ult_inventario'=>'required|date'
         ];
     }
     public function messages(){

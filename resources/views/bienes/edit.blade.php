@@ -101,9 +101,12 @@
                 {!! $errors->first('estado_conservacion','<small class="msg_error">:message</small><br>') !!}
                 <br>
                 <label>
-                    Estado <br>
-                    <input type="text" name="estado" value="{{old('estado',$bien->estado)}}"
-                    class="border border-gray-200 rounded-md bg-gray-200 w-full text-sm placeholder-gray-900 p-2 focus:bg-white">
+                    Estado<br>
+                    <select name="estado" class="border border-gray-200 rounded-md bg-gray-200 w-full text-sm 
+                    placeholder-gray-900 p-2 focus:bg-white">
+                        <option value="ACTIVO" @if($bien->estado=="ACTIVO") {{'selected'}} @endif>ACTIVO</option>
+                        <option value="BAJA" @if($bien->estado=="BAJA") {{'selected'}} @endif>BAJA</option>
+                    </select>
                 </label> <br>
                 {!! $errors->first('estado','<small class="msg_error">:message</small><br>') !!}
                 <br>
@@ -120,6 +123,14 @@
                     class="border border-gray-200 rounded-md bg-gray-200 w-full text-sm placeholder-gray-900 p-2 focus:bg-white">
                 </label> <br>
                 {!! $errors->first('fecha_adquisicion','<small class="msg_error">:message</small><br>') !!}
+                <br>
+                <label>
+                    Fecha de último inventariado <br>
+                    <input type="date" name="fecha_ult_inventario" value="{{old('fecha_ult_inventario', $bien->fecha_ult_inventario)}}"
+                    class="border border-gray-200 rounded-md bg-gray-200 w-full text-sm 
+                    placeholder-gray-900 p-2  focus:bg-white">
+                </label> <br>
+                {!! $errors->first('fecha_ult_inventario','<small class="msg_error">:message</small><br>') !!}
             </div>
         </div>
         <div class="form-center_button">
