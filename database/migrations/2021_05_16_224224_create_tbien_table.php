@@ -16,7 +16,7 @@ class CreateTbienTable extends Migration
         Schema::create('tbien', function (Blueprint $table) {
             $table->id('idbien');
             $table->unsignedBigInteger('idservicio');
-            $table->string('cod_patrimonial')->nullable();
+            $table->string('cod_patrimonial')->unique();
             $table->string('procedencia',30)->nullable();
             $table->string('nombre');
             $table->integer('cantidad')->nullable();

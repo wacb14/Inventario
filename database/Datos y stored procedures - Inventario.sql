@@ -133,7 +133,7 @@ BEGIN
 		WHERE nombres LIKE CONCAT('%',busqueda,'%') OR apellidos LIKE CONCAT('%',busqueda,'%') OR usuario LIKE CONCAT('%',busqueda,'%')
 		LIMIT inicio,limite;
 END$$
-DELIMITER*/
+DELIMITER
 
 DELIMITER $$
 CREATE PROCEDURE SP_contarBusquedaUsuarios(IN busqueda VARCHAR(100))
@@ -142,4 +142,16 @@ BEGIN
 		FROM users
 		WHERE nombres LIKE CONCAT('%',busqueda,'%') OR apellidos LIKE CONCAT('%',busqueda,'%') OR usuario LIKE CONCAT('%',busqueda,'%');
 END$$
-DELIMITER
+DELIMITERusers*/
+
+/*DELIMITER $$
+CREATE TRIGGER TG_actualizarServicioBien BEFORE INSERT ON tmovimiento
+	FOR EACH ROW
+	BEGIN
+		SET @newidbien=NEW.idbien;
+		SET @newidservicio=NEW.idservicio;
+		UPDATE tbien
+		SET idservicio=@newidservicio
+		WHERE idbien=@newidbien;
+	END;
+$$ DELIMITER*/

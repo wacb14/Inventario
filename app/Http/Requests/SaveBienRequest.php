@@ -24,7 +24,7 @@ class SaveBienRequest extends FormRequest
     public function rules()
     {
         return [
-            'idservicio'=>'required|numeric|max:20',
+            'idservicio'=>'required|numeric',
             'cod_patrimonial'=>'required|numeric',
             'procedencia'=>'required|max:30',
             'nombre'=>'required|max:30',

@@ -16,18 +16,19 @@
                     <input type="text" name="idmovimiento" value="{{$ID}}" disabled class="border border-gray-200 rounded-md bg-gray-200 w-full text-sm 
                     placeholder-gray-900 p-2 focus:bg-white">
                 </label>
-                <br>
+                <br><br>
                 <label>
-                    Bien <br>
-                    <select name="idbien" class="border border-gray-200 rounded-md bg-gray-200 w-full text-sm 
+                    Codigo patrimonial bien
+                    <input type="text" id="cod_patrimonial" name="cod_patrimonial" class="border border-gray-200 rounded-md bg-gray-200 w-full text-sm 
                     placeholder-gray-900 p-2 focus:bg-white">
-                        @foreach ($bienes as $bien)
-                            <option value="{{$bien->idbien}}">{{$bien->idbien."-".$bien->nombre}}</option>
-                        @endforeach
-                    </select>
                 </label> <br>
-                {!! $errors->first('idbien','<small class="msg_error">:message</small><br>') !!}
-                <br>
+                {!! $errors->first('cod_patrimonial','<small class="msg_error">:message</small><br>') !!}   
+                
+                Nombre bien
+                <input type="text" id="nombre_bien" name="nombre_bien" disabled class="border border-gray-200 rounded-md bg-gray-200 w-full text-sm 
+                placeholder-gray-900 p-2 focus:bg-white">
+                </label>
+                <br><br>
                 <label>
                     Fecha <br>
                     <input type="date" name="fecha" value="{{old('fecha')}}" class="border border-gray-200 rounded-md bg-gray-200 w-full text-sm 
@@ -36,7 +37,7 @@
                 {!! $errors->first('fecha','<small class="msg_error">:message</small><br>') !!}
                 <br>
                 <label>
-                    Servicio <br> 
+                    Servicio de destino<br>
                     <select name="idservicio" class="border border-gray-200 rounded-md bg-gray-200 w-full text-sm 
                     placeholder-gray-900 p-2 focus:bg-white">
                         @foreach ($servicios as $servicio)
@@ -66,5 +67,8 @@
             <button class="btn btn-primary">Guardar</button>
         </div>
     </form>
+    <label>
+        <button class="btn btn-primary" onclick="">Buscar</button>
+        <br><br>
 </div>
 @endsection

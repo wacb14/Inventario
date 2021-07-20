@@ -24,8 +24,8 @@ class SaveServicioRequest extends FormRequest
     public function rules()
     {
         return [
-            'nombre'=>'required|max:70|unique:tservicio,nombre',
-            'idresponsable'=>'required|numeric|max:20',
+            'nombre'=>'required|max:70',
+            'idresponsable'=>'required|numeric',
             'fecha_inicio'=>'required'
         ];
     }

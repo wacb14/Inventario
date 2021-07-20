@@ -24,9 +24,9 @@ class SaveMovimientoRequest extends FormRequest
     public function rules()
     {
         return [
-            'idbien'=>'required|numeric|max:20',
+            'idbien'=>'required|numeric',
             'fecha'=>'required|date',
-            'idservicio'=>'required|numeric|max:20',
+            'idservicio'=>'required|numeric',
             'motivo'=>'required|max:50',
             'observaciones'=>'required|max:50'            
         ];

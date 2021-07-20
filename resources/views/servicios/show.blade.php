@@ -31,7 +31,10 @@
                 <td class="border-2">
                 {{$responsable->nombres.' '.$responsable->apellidos}}
                 </td>
-                
+            </tr>
+            <tr>
+                <td class="col-header border-2">FECHA DE INICIO RESPONSABLE</td>
+                <td class="border-2">{{$servicio->fecha_inicio}}</td>
             </tr>
         </table>
     </div>

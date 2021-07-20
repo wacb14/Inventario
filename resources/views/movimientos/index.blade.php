@@ -19,10 +19,10 @@
         @isset($movimientos)
             <table class="elements-table table-list table table-striped table-hover border-collapse border-separate border-2">
                 <tr>
-                    <th class="border-2">ID MOVIMIENTO</th>
+                    <th class="border-2">ID MOV</th>
                     <th class="border-2">BIEN</th>
                     <th class="border-2">FECHA</th>
-                    <th class="border-2">SERVICIO</th> 
+                    <th class="border-2">SERVICIO DESTINO</th>
                 </tr>
                 @foreach ($movimientos as $movimiento)
                     <tr>

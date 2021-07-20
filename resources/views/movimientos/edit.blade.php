@@ -35,7 +35,7 @@
                 {!! $errors->first('fecha','<small class="msg_error">:message</small><br>') !!}
                 <br>
                 <label>
-                    Servicio <br> 
+                    Servicio de destino<br> 
                     <select name="idservicio" class="border border-gray-200 rounded-md bg-gray-200 w-full text-sm placeholder-gray-900 p-2 focus:bg-white">
                         @foreach ($servicios as $servicio)
                             <option value="{{$servicio->idservicio}}" @if($servicio->idservicio==$movimiento->idservicio) {{'selected'}} @endif>{{$servicio->idservicio."-".$servicio->nombre}}</option>

@@ -40,7 +40,7 @@ class MovimientoController extends Controller
     public function create(){
         $consulta=DB::select('CALL SP_autoId(?)',array('tmovimiento'));
         $ID=$consulta[0]->ID;
-        $bienes=Bien::select(['idbien','nombre'])->get();
+        $bienes=Bien::select(['idbien','nombre'])->where('estado','=','FUNCIONAL')->get();
         $servicios=Servicio::select(['idservicio','nombre'])->get();
         return view('movimientos/create',['ID'=>$ID,'bienes'=>$bienes,'servicios'=>$servicios]);
     }
@@ -54,8 +54,6 @@ class MovimientoController extends Controller
         return view('movimientos/show',['movimiento'=>$movimiento,'bien'=>$bien,'servicio'=>$servicio]);
     }
     public function edit(Movimiento $movimiento){
-        /*$consulta=DB::select('call SP_recuperarPorID(?)',array($idmovimiento));
-        $movimiento=$consulta[0]; esta es la forma de llamar a un SP */
         $bienes=Bien::select(['idbien','nombre'])->get();
         $servicios=Servicio::select(['idservicio','nombre'])->get();
         return view('movimientos/edit',['movimiento'=>$movimiento,'bienes'=>$bienes,'servicios'=>$servicios]);

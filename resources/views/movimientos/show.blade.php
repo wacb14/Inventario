@@ -26,7 +26,7 @@
                 <td class="border-2">{{$movimiento->fecha}}</td>
             </tr>
             <tr>
-                <td class="col-header border-2">SERVICIO</td>
+                <td class="col-header border-2">SERVICIO DESTINO</td>
                 <td class="border-2">{{$servicio->nombre}}</td>
             </tr>
             <tr>

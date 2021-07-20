@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="{{asset('css/style.css')}}">
     <script defer src="{{URL::asset('js/nav-menu.js')}}"></script>
     <script src="https://kit.fontawesome.com/89b8204556.js" crossorigin="anonymous"></script>
+    <script src={{asset('js/buscar_cod_patrimonial.js')}}></script>
     <style>
     </style>
 </head>
