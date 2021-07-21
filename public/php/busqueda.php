@@ -5,13 +5,14 @@ if ($codigo) {
     $link = mysqli_connect("localhost", "root", "");
     mysqli_select_db($link, "inventario");
     $result = mysqli_query($link,
-        "SELECT nombre
+        "SELECT idbien, nombre
             FROM tbien
             WHERE cod_patrimonial = '".$codigo."'");
     $fila = mysqli_fetch_array($result);
     // echo $fila["nombre"];
     if($fila!=NULL)
         echo $fila["nombre"];
+        echo $fila["idbien"];
     mysqli_close($link);
 }
 else {
