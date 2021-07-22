@@ -42,7 +42,7 @@ class MovimientoController extends Controller
         $ID=$consulta[0]->ID;
         $bienes=Bien::select(['idbien','nombre'])->where('estado','=','FUNCIONAL')->get();
         $servicios=Servicio::select(['idservicio','nombre'])->get();
-        return view('movimientos/create3',['ID'=>$ID,'bienes'=>$bienes,'servicios'=>$servicios]);
+        return view('movimientos/create',['ID'=>$ID,'bienes'=>$bienes,'servicios'=>$servicios]);
     }
     public function store(SaveMovimientoRequest $request){
         Movimiento::create($request->validated());

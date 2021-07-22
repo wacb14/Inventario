@@ -33,6 +33,8 @@ class SaveMovimientoRequest extends FormRequest
     }
     public function messages()
     {
-        return [];
+        return [
+            'idbien.required'=>'Ingrese  el código de un bien válido'
+        ];
     }
 }

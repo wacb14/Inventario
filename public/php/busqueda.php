@@ -7,12 +7,10 @@ if ($codigo) {
     $result = mysqli_query($link,
         "SELECT idbien, nombre
             FROM tbien
-            WHERE cod_patrimonial = '".$codigo."'");
+            WHERE cod_patrimonial = '".$codigo."'  AND estado = 'FUNCIONAL'");
     $fila = mysqli_fetch_array($result);
-    // echo $fila["nombre"];
     if($fila!=NULL)
-        echo $fila["nombre"];
-        echo $fila["idbien"];
+        echo $fila["idbien"].",".$fila["nombre"];
     mysqli_close($link);
 }
 else {
