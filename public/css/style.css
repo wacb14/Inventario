@@ -192,9 +192,13 @@ body{
 }
 /* ComboBox para listar*/
 .listar-estado{
-  float: left;
   padding: 10px;
   text-align: center;
+  width: fit-content;
+}
+#select-state{
+  display: flex;
+  justify-content: flex-start;
 }
 /* Formularios */
 .content{

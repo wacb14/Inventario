@@ -2,16 +2,18 @@
 @section('title')
     Inventario | Bienes
 @endsection
-<form action="" method="GET">
-<div class="listar-estado">
-    Listar por estado<br>
-    <select name="tipo_listado" onchange="this.form.submit()">
-        <option value="FUNCIONAL" @if($tipo_listado=="FUNCIONAL") {{'selected'}} @endif>FUNCIONALES</option>
-        <option value="BAJA" @if($tipo_listado=="BAJA") {{'selected'}} @endif>DE BAJA</option>
-        <option value="TODO" @if($tipo_listado=="TODO") {{'selected'}} @endif>TODOS</option>
-    </select>
-</div>
 @section('content')
+<form action="" method="GET">
+<div id="select-estate">
+    <div class="listar-estado">
+        Listar por estado<br>
+        <select name="tipo_listado" onchange="this.form.submit()">
+            <option value="FUNCIONAL" @if($tipo_listado=="FUNCIONAL") {{'selected'}} @endif>FUNCIONALES</option>
+            <option value="BAJA" @if($tipo_listado=="BAJA") {{'selected'}} @endif>DE BAJA</option>
+            <option value="TODO" @if($tipo_listado=="TODO") {{'selected'}} @endif>TODOS</option>
+        </select>
+    </div>
+</div>
 <div class="content">
     <div class="title-form">
         <h1 class="text-2xl text-center font-bold">SECCIÓN DE BIENES @switch($tipo_listado)
