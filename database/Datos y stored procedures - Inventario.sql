@@ -63,11 +63,11 @@ CALL SP_contarBusquedaBienes('','BAJA')*/
 CREATE PROCEDURE SP_listarBusquedaMovimientos(IN busqueda VARCHAR(100), IN inicio SMALLINT UNSIGNED, IN limite SMALLINT UNSIGNED)
 BEGIN
 	CREATE TEMPORARY TABLE T1
-		SELECT M.idmovimiento,B.nombre,M.fecha,M.idservicio
+		SELECT M.idmovimiento,B.cod_patrimonial,M.fecha,M.idservicio
 			FROM tmovimiento M INNER JOIN tbien B ON M.idbien=B.idbien;
-	SELECT T.idmovimiento,T.nombre AS bien,T.fecha,S.nombre AS servicio
+	SELECT T.idmovimiento,T.cod_patrimonial,T.fecha,S.nombre AS servicio
 		FROM T1 T INNER JOIN tservicio S ON T.idservicio=S.idservicio
-		WHERE T.idmovimiento = busqueda OR T.nombre LIKE CONCAT('%',busqueda,'%') OR T.fecha = busqueda OR S.nombre LIKE CONCAT('%',busqueda,'%')
+		WHERE T.idmovimiento = busqueda OR T.cod_patrimonial=busqueda OR T.fecha LIKE CONCAT('%',busqueda,'%') OR S.nombre LIKE CONCAT('%',busqueda,'%')
 		LIMIT inicio,limite;
 	DROP TABLE T1;
 END
@@ -77,11 +77,11 @@ DELIMITER $$
 CREATE PROCEDURE SP_contarBusquedaMovimientos(IN busqueda VARCHAR(100))
 BEGIN
 	CREATE TEMPORARY TABLE T1
-		SELECT M.idmovimiento,B.nombre,M.fecha,M.idservicio
+		SELECT M.idmovimiento,B.cod_patrimonial,M.fecha,M.idservicio
 			FROM tmovimiento M INNER JOIN tbien B ON M.idbien=B.idbien;
 	SELECT COUNT(T.idmovimiento) AS cantidad
 		FROM T1 T INNER JOIN tservicio S ON T.idservicio=S.idservicio
-		WHERE T.idmovimiento = busqueda OR T.nombre LIKE CONCAT('%',busqueda,'%') OR T.fecha = busqueda OR S.nombre LIKE CONCAT('%',busqueda,'%');
+		WHERE T.idmovimiento = busqueda OR T.cod_patrimonial=busqueda OR T.fecha LIKE CONCAT('%',busqueda,'%') OR S.nombre LIKE CONCAT('%',busqueda,'%');
 	DROP TABLE T1;
 END
 $$ DELIMITER*/

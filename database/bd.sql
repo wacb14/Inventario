@@ -11,6 +11,11 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
+
+-- Volcando estructura de base de datos para inventario
+CREATE DATABASE IF NOT EXISTS `inventario` /*!40100 DEFAULT CHARACTER SET latin1 */;
+USE `inventario`;
+
 -- Volcando estructura para tabla inventario.failed_jobs
 CREATE TABLE IF NOT EXISTS `failed_jobs` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
@@ -79,8 +84,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_contarBusquedaBienes`(IN busqued
 BEGIN
 	SELECT COUNT(B.idbien) AS cantidad
 		FROM tbien B INNER JOIN tservicio S ON B.idservicio=S.idservicio
-		WHERE (B.nombre LIKE CONCAT('%',busqueda,'%') OR B.idbien = busqueda OR S.nombre LIKE CONCAT('%',busqueda,'%') OR B.cod_patrimonial = busqueda) AND B.estado LIKE CONCAT('%',estado,'%');
-		
+		WHERE (B.nombre LIKE CONCAT('%',busqueda,'%') OR B.idbien = busqueda OR S.nombre LIKE CONCAT('%',busqueda,'%') OR B.cod_patrimonial = busqueda) AND B.estado LIKE CONCAT('%',estado,'%');	
 END//
 DELIMITER ;
 
@@ -89,11 +93,11 @@ DELIMITER //
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_contarBusquedaMovimientos`(IN busqueda VARCHAR(100))
 BEGIN
 	CREATE TEMPORARY TABLE T1
-		SELECT M.idmovimiento,B.nombre,M.fecha,M.idservicio
+		SELECT M.idmovimiento,B.cod_patrimonial,M.fecha,M.idservicio
 			FROM tmovimiento M INNER JOIN tbien B ON M.idbien=B.idbien;
 	SELECT COUNT(T.idmovimiento) AS cantidad
 		FROM T1 T INNER JOIN tservicio S ON T.idservicio=S.idservicio
-		WHERE T.idmovimiento = busqueda OR T.nombre LIKE CONCAT('%',busqueda,'%') OR T.fecha = busqueda OR S.nombre LIKE CONCAT('%',busqueda,'%');
+		WHERE T.idmovimiento = busqueda OR T.cod_patrimonial=busqueda OR T.fecha LIKE CONCAT('%',busqueda,'%') OR S.nombre LIKE CONCAT('%',busqueda,'%');
 	DROP TABLE T1;
 END//
 DELIMITER ;
@@ -130,12 +134,7 @@ DELIMITER ;
 
 -- Volcando estructura para procedimiento inventario.SP_listarBusquedaBienes
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_listarBusquedaBienes`(
-	IN `busqueda` VARCHAR(100),
-	IN `inicio` SMALLINT UNSIGNED,
-	IN `limite` SMALLINT UNSIGNED,
-	IN `estado` VARCHAR(15)
-)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_listarBusquedaBienes`(IN busqueda VARCHAR(100), IN inicio SMALLINT UNSIGNED, IN limite SMALLINT UNSIGNED, IN estado VARCHAR(15))
 BEGIN
 	SELECT B.idbien, B.nombre, S.nombre AS servicio, B.cod_patrimonial
 		FROM tbien B INNER JOIN tservicio S ON B.idservicio=S.idservicio
@@ -146,18 +145,14 @@ DELIMITER ;
 
 -- Volcando estructura para procedimiento inventario.SP_listarBusquedaMovimientos
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_listarBusquedaMovimientos`(
-	IN `busqueda` VARCHAR(100),
-	IN `inicio` SMALLINT UNSIGNED,
-	IN `limite` SMALLINT UNSIGNED
-)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_listarBusquedaMovimientos`(IN busqueda VARCHAR(100), IN inicio SMALLINT UNSIGNED, IN limite SMALLINT UNSIGNED)
 BEGIN
 	CREATE TEMPORARY TABLE T1
-		SELECT M.idmovimiento,B.nombre,M.fecha,M.idservicio
+		SELECT M.idmovimiento,B.cod_patrimonial,M.fecha,M.idservicio
 			FROM tmovimiento M INNER JOIN tbien B ON M.idbien=B.idbien;
-	SELECT T.idmovimiento,T.nombre AS bien,T.fecha,S.nombre AS servicio
+	SELECT T.idmovimiento,T.cod_patrimonial,T.fecha,S.nombre AS servicio
 		FROM T1 T INNER JOIN tservicio S ON T.idservicio=S.idservicio
-		WHERE T.idmovimiento = busqueda OR T.nombre LIKE CONCAT('%',busqueda,'%') OR T.fecha = busqueda OR S.nombre LIKE CONCAT('%',busqueda,'%')
+		WHERE T.idmovimiento = busqueda OR T.cod_patrimonial=busqueda OR T.fecha LIKE CONCAT('%',busqueda,'%') OR S.nombre LIKE CONCAT('%',busqueda,'%')
 		LIMIT inicio,limite;
 	DROP TABLE T1;
 END//
@@ -208,7 +203,7 @@ DELIMITER ;
 CREATE TABLE IF NOT EXISTS `tbien` (
   `idbien` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `idservicio` bigint(20) unsigned NOT NULL,
-  `cod_patrimonial` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `cod_patrimonial` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `procedencia` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `nombre` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `cantidad` int(11) DEFAULT NULL,
@@ -225,23 +220,18 @@ CREATE TABLE IF NOT EXISTS `tbien` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`idbien`),
+  UNIQUE KEY `tbien_cod_patrimonial_unique` (`cod_patrimonial`),
   KEY `tbien_idservicio_foreign` (`idservicio`),
   CONSTRAINT `tbien_idservicio_foreign` FOREIGN KEY (`idservicio`) REFERENCES `tservicio` (`idservicio`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Volcando datos para la tabla inventario.tbien: ~10 rows (aproximadamente)
+-- Volcando datos para la tabla inventario.tbien: ~3 rows (aproximadamente)
 /*!40000 ALTER TABLE `tbien` DISABLE KEYS */;
 INSERT INTO `tbien` (`idbien`, `idservicio`, `cod_patrimonial`, `procedencia`, `nombre`, `cantidad`, `marca`, `modelo`, `num_serie`, `color`, `medidas`, `estado_conservacion`, `estado`, `observacion`, `fecha_adquisicion`, `fecha_ult_inventario`, `created_at`, `updated_at`) VALUES
-	(1, 3, '536565', 'COMPRADO', 'IMPRESORA LASER', 1, 'EPSON', '1005', 'EX65435', 'PLOMO', '65x14', 'NUEVO', 'BAJA', 'NINGUNA2', '1990-05-04', '2021-07-19', '2021-07-03 19:47:31', '2021-07-19 03:39:56'),
-	(2, 1, '536566', 'COMPRADO', 'IMPRESORA LASER', 1, 'EPSON', '1005', 'EX65445', 'PLOMO', '65x14', 'BUENA', 'FUNCIONAL', 'RODILLOS CAMBIADOS', '1998-02-02', '2021-07-18', '2021-07-03 19:47:31', '2021-07-03 19:47:31'),
+	(1, 1, '536565', 'COMPRADO', 'IMPRESORA LASER', 1, 'EPSON', '1005', 'EX65435', 'PLOMO', '65x14', 'NUEVO', 'BAJA', 'NINGUNA2', '1990-05-04', '2021-07-19', '2021-07-03 19:47:31', '2021-07-19 03:39:56'),
 	(3, 3, '454565', 'DONATIVO', 'MONITOR PANTALLA PLANA', 1, 'LG', 'EX-332', 'PR65465', 'NEGRO', '40x24', 'NUEVO', 'FUNCIONAL', 'NINGUNA', '2015-06-03', '2021-07-18', '2021-07-03 19:47:31', '2021-07-03 19:47:31'),
 	(4, 2, '841565', 'DONATIVO', 'MOUSE', 1, 'GENIUS', 'ER546', '345R343', 'BLANCO', '15x10', 'MEDIO', 'FUNCIONAL', 'EL SENSOR OPTICO NO FUNCIONA A VECES', '2006-07-01', '2021-07-18', '2021-07-03 19:47:31', '2021-07-03 19:47:31'),
-	(5, 3, '536565', 'COMPRADO', 'IMPRESORA LASER', 1, 'EPSON', '1005', 'EX65435', 'PLOMO', '65x14', 'NUEVO', 'FUNCIONAL', 'NINGUNA', '1990-05-04', '2021-07-18', '2021-07-03 19:48:20', '2021-07-03 19:48:20'),
-	(6, 1, '536566', 'COMPRADO', 'IMPRESORA LASER', 1, 'EPSON', '1005', 'EX65445', 'PLOMO', '65x14', 'BUENA', 'FUNCIONAL', 'RODILLOS CAMBIADOS', '1998-02-02', '2021-07-18', '2021-07-03 19:48:20', '2021-07-03 19:48:20'),
-	(7, 3, '454565', 'DONATIVO', 'MONITOR PANTALLA PLANA', 1, 'LG', 'EX-332', 'PR65465', 'NEGRO', '40x24', 'NUEVO', 'FUNCIONAL', 'NINGUNA', '2015-06-03', '2021-07-18', '2021-07-03 19:48:20', '2021-07-03 19:48:20'),
-	(8, 2, '841565', 'DONATIVO', 'MOUSE', 1, 'GENIUS', 'ER546', '345R343', 'BLANCO', '15x10', 'MEDIO', 'FUNCIONAL', 'EL SENSOR OPTICO NO FUNCIONA A VECES', '2006-07-01', '2021-07-18', '2021-07-03 19:48:20', '2021-07-03 19:48:20'),
-	(9, 1, '987987', '564466', 'TV LG', 1, '456456456', '456456456', '464655', '44646', '4654', '46446', 'BAJA', '45645645645646', '2021-07-07', '2021-07-18', '2021-07-04 04:09:15', '2021-07-18 23:30:13'),
-	(10, 3, '6456456', '4564446', '456646', 4, '45654', '4564545', '45546465', '4464646', '464646', '444456', 'ACTIVO', '4564644', '2021-07-14', NULL, '2021-07-19 14:20:40', '2021-07-19 14:20:40');
+	(9, 3, '987987', '564466', 'TV LG', 1, '456456456', '456456456', '464655', '44646', '4654', '46446', 'BAJA', '45645645645646', '2021-07-07', '2021-07-18', '2021-07-04 04:09:15', '2021-07-18 23:30:13');
 /*!40000 ALTER TABLE `tbien` ENABLE KEYS */;
 
 -- Volcando estructura para tabla inventario.tmovimiento
@@ -259,21 +249,13 @@ CREATE TABLE IF NOT EXISTS `tmovimiento` (
   KEY `tmovimiento_idservicio_foreign` (`idservicio`),
   CONSTRAINT `tmovimiento_idbien_foreign` FOREIGN KEY (`idbien`) REFERENCES `tbien` (`idbien`),
   CONSTRAINT `tmovimiento_idservicio_foreign` FOREIGN KEY (`idservicio`) REFERENCES `tservicio` (`idservicio`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Volcando datos para la tabla inventario.tmovimiento: ~10 rows (aproximadamente)
+-- Volcando datos para la tabla inventario.tmovimiento: ~2 rows (aproximadamente)
 /*!40000 ALTER TABLE `tmovimiento` DISABLE KEYS */;
 INSERT INTO `tmovimiento` (`idmovimiento`, `idbien`, `fecha`, `idservicio`, `motivo`, `observaciones`, `created_at`, `updated_at`) VALUES
-	(1, 3, '2017-02-02', 3, 'PRESTAMO PARA LA CAMPAÑA DE VACUNACION', 'NINGUNA', '2021-07-03 19:47:31', '2021-07-03 19:47:31'),
-	(2, 1, '2018-03-04', 2, 'PRESTAMO PARA LA CAPACITACION DE NIÑO SANO', 'SE REALIZA EL PRESTAMO SIN EL CABLE', '2021-07-03 19:47:31', '2021-07-03 19:47:31'),
-	(3, 2, '2020-11-01', 1, 'FALTA DE EQUIPOS EN EL AREA', 'NINGUNA', '2021-07-03 19:47:31', '2021-07-03 19:47:31'),
-	(4, 3, '2017-02-02', 3, 'PRESTAMO PARA LA CAMPAÑA DE VACUNACION', 'NINGUNA', '2021-07-03 19:48:20', '2021-07-03 19:48:20'),
-	(5, 1, '2018-03-04', 2, 'PRESTAMO PARA LA CAPACITACION DE NIÑO SANO', 'SE REALIZA EL PRESTAMO SIN EL CABLE', '2021-07-03 19:48:20', '2021-07-03 19:48:20'),
-	(6, 2, '2020-11-01', 1, 'FALTA DE EQUIPOS EN EL AREA', 'NINGUNA', '2021-07-03 19:48:20', '2021-07-03 19:48:20'),
-	(7, 1, '2021-06-30', 1, '45666666666', '4564646464664', '2021-07-04 04:30:12', '2021-07-04 04:30:12'),
-	(8, 9, '2021-06-29', 1, '44444\r\n4546564', '456446466', '2021-07-04 04:30:43', '2021-07-04 04:30:43'),
-	(9, 8, '2021-07-03', 1, '45444\r\n454444', '4444444444444', '2021-07-04 04:32:58', '2021-07-04 04:32:58'),
-	(10, 9, '2021-07-03', 1, 'perro\r\ngato', '4564464646', '2021-07-04 04:34:03', '2021-07-04 04:34:03');
+	(2, 1, '2018-03-04', 2, 'PRESTAMO PARA LA CAPACITACION DE NIÑO SANO', 'SE REALIZA EL PRESTAMO SIN EL CABLE', '2021-07-03 19:47:31', '2021-07-23 16:46:21'),
+	(11, 4, '2021-07-29', 1, '123', '123', '2021-07-20 15:26:10', '2021-07-20 15:26:10');
 /*!40000 ALTER TABLE `tmovimiento` ENABLE KEYS */;
 
 -- Volcando estructura para tabla inventario.tresponsable
@@ -286,7 +268,7 @@ CREATE TABLE IF NOT EXISTS `tresponsable` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`idresponsable`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Volcando datos para la tabla inventario.tresponsable: ~3 rows (aproximadamente)
 /*!40000 ALTER TABLE `tresponsable` DISABLE KEYS */;
@@ -301,25 +283,21 @@ CREATE TABLE IF NOT EXISTS `tservicio` (
   `idservicio` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `nombre` varchar(70) COLLATE utf8mb4_unicode_ci NOT NULL,
   `idresponsable` bigint(20) unsigned NOT NULL,
-  `fecha_inicio` date DEFAULT NULL,
+  `fecha_inicio` date NOT NULL,
   `fecha_fin` date DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`idservicio`),
   KEY `tservicio_idresponsable_foreign` (`idresponsable`),
   CONSTRAINT `tservicio_idresponsable_foreign` FOREIGN KEY (`idresponsable`) REFERENCES `tresponsable` (`idresponsable`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Volcando datos para la tabla inventario.tservicio: ~7 rows (aproximadamente)
+-- Volcando datos para la tabla inventario.tservicio: ~3 rows (aproximadamente)
 /*!40000 ALTER TABLE `tservicio` DISABLE KEYS */;
 INSERT INTO `tservicio` (`idservicio`, `nombre`, `idresponsable`, `fecha_inicio`, `fecha_fin`, `created_at`, `updated_at`) VALUES
 	(1, 'CRED', 1, '2021-07-16', NULL, '2021-07-03 19:47:31', '2021-07-03 19:47:31'),
 	(2, 'ESTADISTICA', 2, '2021-07-16', NULL, '2021-07-03 19:47:31', '2021-07-03 19:47:31'),
-	(3, 'MEDICINA GENERAL', 3, '2021-07-16', NULL, '2021-07-03 19:47:31', '2021-07-03 19:47:31'),
-	(4, 'CRED', 1, '2021-07-16', NULL, '2021-07-03 19:48:20', '2021-07-03 19:48:20'),
-	(5, 'ESTADISTICA', 2, '2021-07-16', NULL, '2021-07-03 19:48:20', '2021-07-03 19:48:20'),
-	(6, 'MEDICINA GENERAL', 3, '2021-07-16', NULL, '2021-07-03 19:48:20', '2021-07-03 19:48:20'),
-	(8, 'MARC ANTHONY', 1, '2021-07-15', NULL, '2021-07-19 16:35:18', '2021-07-19 16:35:18');
+	(3, 'MEDICINA GENERAL', 3, '2021-07-16', NULL, '2021-07-03 19:47:31', '2021-07-03 19:47:31');
 /*!40000 ALTER TABLE `tservicio` ENABLE KEYS */;
 
 -- Volcando estructura para tabla inventario.users
@@ -335,14 +313,27 @@ CREATE TABLE IF NOT EXISTS `users` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_usuario_unique` (`usuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Volcando datos para la tabla inventario.users: ~2 rows (aproximadamente)
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` (`id`, `nombres`, `apellidos`, `usuario`, `tipo_usuario`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-	(2, 'ADMIN', 'ADMIN', 'admin', 'ADMINISTRADOR', '$2y$10$vJy33so1szW3gJPMizSELuoap7OwhSohsw3jL5eFYDOmCxXeTDeam', NULL, '2021-07-03 20:01:32', '2021-07-03 20:01:32'),
-	(3, 'Willy Aldair', 'Cruz Bejar', 'wacb14', 'ADMINISTRADOR', '$2y$10$RICaPp/Of17g9aiuHTIdmOWsAlKqW.FJu2KaaOM2B6i8yy5MKURIm', NULL, '2021-07-09 03:49:19', '2021-07-09 03:49:19');
+	(1, 'ADMIN', 'ADMIN', 'admin', 'ADMINISTRADOR', '$2y$10$vJy33so1szW3gJPMizSELuoap7OwhSohsw3jL5eFYDOmCxXeTDeam', NULL, '2021-07-03 20:01:32', '2021-07-03 20:01:32'),
+	(2, 'Willy Aldair', 'Cruz Bejar', 'wacb14', 'ADMINISTRADOR', '$2y$10$RICaPp/Of17g9aiuHTIdmOWsAlKqW.FJu2KaaOM2B6i8yy5MKURIm', NULL, '2021-07-09 03:49:19', '2021-07-09 03:49:19');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
+
+-- Volcando estructura para disparador inventario.TG_actualizarServicioBien
+SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';
+DELIMITER //
+CREATE TRIGGER `TG_actualizarServicioBien` BEFORE INSERT ON `tmovimiento` FOR EACH ROW BEGIN
+		SET @newidbien=NEW.idbien;
+		SET @newidservicio=NEW.idservicio;
+		UPDATE tbien
+		SET idservicio=@newidservicio
+		WHERE idbien=@newidbien;
+	END//
+DELIMITER ;
+SET SQL_MODE=@OLDTMP_SQL_MODE;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;

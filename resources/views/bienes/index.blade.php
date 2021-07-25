@@ -48,7 +48,7 @@
                     <th class="border-2">ID BIEN</th>
                     <th class="border-2">NOMBRE</th>
                     <th class="border-2">SERVICIO</th>
-                    <th class="border-2">COD PATRIMONIAL</th>
+                    <th class="border-2">C. PATRIMONIAL</th>
                 </tr>
                 @foreach ($bienes as $bien)
                     <tr>

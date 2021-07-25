@@ -20,14 +20,14 @@
             <table class="elements-table table-list table table-striped table-hover border-collapse border-separate border-2">
                 <tr>
                     <th class="border-2">ID MOV</th>
-                    <th class="border-2">BIEN</th>
+                    <th class="border-2">C. PATRIMONIAL</th>
                     <th class="border-2">FECHA</th>
                     <th class="border-2">SERVICIO DESTINO</th>
                 </tr>
                 @foreach ($movimientos as $movimiento)
                     <tr>
                         <td class="border-2"><a href="{{route('movimientos.show', $movimiento->idmovimiento)}}">{{$movimiento->idmovimiento}}</a></td>
-                        <td class="border-2"><a href="{{route('movimientos.show', $movimiento->idmovimiento)}}">{{$movimiento->bien}}</a></td>
+                        <td class="border-2"><a href="{{route('movimientos.show', $movimiento->idmovimiento)}}">{{$movimiento->cod_patrimonial}}</a></td>
                         <td class="border-2"><a href="{{route('movimientos.show', $movimiento->idmovimiento)}}">{{$movimiento->fecha}}</a></td>
                         <td class="border-2"><a href="{{route('movimientos.show', $movimiento->idmovimiento)}}">{{$movimiento->servicio}}</a></td>
                     </tr>

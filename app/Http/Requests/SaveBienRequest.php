@@ -25,7 +25,7 @@ class SaveBienRequest extends FormRequest
     {
         return [
             'idservicio'=>'required|numeric',
-            'cod_patrimonial'=>'required|numeric',
+            'cod_patrimonial'=>'required|numeric|unique:tbien,cod_patrimonial',
             'procedencia'=>'required|max:30',
             'nombre'=>'required|max:30',
             'cantidad'=>'required|numeric',

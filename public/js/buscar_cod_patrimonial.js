@@ -18,7 +18,7 @@ function buscar() {
         }
     }
     var cadenaParametros = 'codigo='+encodeURIComponent(str);
-    xmlhttp.open('POST', '../php/busqueda.php'); // Método post y url invocada
+    xmlhttp.open('POST', '../../php/busqueda.php'); // Método post y url invocada
     xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded'); // Establecer cabeceras de petición
     xmlhttp.send(cadenaParametros); // Envio de parámetros usando POST
 }

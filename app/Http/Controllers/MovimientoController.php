@@ -49,14 +49,14 @@ class MovimientoController extends Controller
         return redirect()->route('movimientos.index')->with('status','La información del movimiento se guardó exitosamente');
     }
     public function show(Movimiento $movimiento){
-        $bien=Bien::where('idbien',$movimiento->idbien)->get()[0];
-        $servicio=Servicio::where('idservicio',$movimiento->idservicio)->get()[0];
+        $bien=Bien::where('idbien','=',$movimiento->idbien)->get()[0];
+        $servicio=Servicio::where('idservicio','=',$movimiento->idservicio)->get()[0];
         return view('movimientos/show',['movimiento'=>$movimiento,'bien'=>$bien,'servicio'=>$servicio]);
     }
     public function edit(Movimiento $movimiento){
-        $bienes=Bien::select(['idbien','nombre'])->get();
+        $bien=Bien::where('idbien','=',$movimiento->idbien)->get()[0];
         $servicios=Servicio::select(['idservicio','nombre'])->get();
-        return view('movimientos/edit',['movimiento'=>$movimiento,'bienes'=>$bienes,'servicios'=>$servicios]);
+        return view('movimientos/edit',['movimiento'=>$movimiento,'bien'=>$bien,'servicios'=>$servicios]);
     }
     public function update(Movimiento $movimiento, SaveMovimientoRequest $request){
         $movimiento->update($request->validated());

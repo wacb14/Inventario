@@ -22,6 +22,10 @@
                 <td class="border-2">{{$bien->nombre}}</td>
             </tr>
             <tr>
+                <td class="col-header border-2">COD PATRIMONIAL</td>
+                <td class="border-2">{{$bien->cod_patrimonial}}</td>
+            </tr>
+            <tr>
                 <td class="col-header border-2">FECHA</td>
                 <td class="border-2">{{$movimiento->fecha}}</td>
             </tr>

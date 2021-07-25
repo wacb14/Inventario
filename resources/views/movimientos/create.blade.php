@@ -62,7 +62,6 @@
                     placeholder-gray-900 p-2 focus:bg-white">{{old('observaciones')}}</textarea>
                 </label> <br>
                 {!! $errors->first('observaciones','<small class="msg_error">:message</small><br>') !!}
-                
                 <button class="btn btn-primary">Guardar</button>   
             </div>
         </div>
