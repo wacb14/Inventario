@@ -4,13 +4,8 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SaveServicioRequest extends FormRequest
+class SaveServicioResponsableRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
     public function authorize()
     {
         return true;
@@ -24,7 +19,7 @@ class SaveServicioRequest extends FormRequest
     public function rules()
     {
         return [
-            'nombre'=>'required|max:70|unique:tservicio,nombre',
+            'nombre'=>'required|max:70',
             'idresponsable'=>'required|numeric',
             'fecha_inicio'=>'required'
         ];
@@ -32,7 +27,6 @@ class SaveServicioRequest extends FormRequest
     public function messages()
     {
         return [
-            'nombre.unique'=>'Un servicio con este nombre ya ha sido registrado. Ingrese un nombre nuevo o cambie el responsable en "Nuevo Responsable"'
         ];
     }
 }

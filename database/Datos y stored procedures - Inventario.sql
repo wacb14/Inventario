@@ -109,9 +109,9 @@ DELIMITER*/
 /*DELIMITER $$
 CREATE PROCEDURE SP_listarBusquedaServicios(IN busqueda VARCHAR(100), IN inicio SMALLINT UNSIGNED, IN limite SMALLINT UNSIGNED)
 BEGIN
-	SELECT S.idservicio,S.nombre, CONCAT(R.nombres,' ',R.apellidos) AS responsable
+	SELECT S.idservicio,S.nombre, CONCAT(R.nombres,' ',R.apellidos) AS responsable, S.fecha_inicio, S.fecha_fin
 		FROM tservicio S INNER JOIN tresponsable R ON S.idresponsable=R.idresponsable
-		WHERE S.idservicio = busqueda OR S.nombre LIKE CONCAT('%',busqueda,'%') OR CONCAT(R.nombres,' ',R.apellidos) LIKE CONCAT('%',busqueda,'%')
+		WHERE S.idservicio = busqueda OR S.nombre LIKE CONCAT('%',busqueda,'%') OR CONCAT(R.nombres,' ',R.apellidos) LIKE CONCAT('%',busqueda,'%') OR S.fecha_inicio LIKE CONCAT('%',busqueda,'%') OR S.fecha_fin LIKE CONCAT('%',busqueda,'%')
 		LIMIT inicio,limite;
 END$$
 DELIMITER
@@ -121,7 +121,7 @@ CREATE PROCEDURE SP_contarBusquedaServicios(IN busqueda VARCHAR(100))
 BEGIN
 	SELECT COUNT(S.idservicio) AS cantidad
 		FROM tservicio S INNER JOIN tresponsable R ON S.idresponsable=R.idresponsable
-		WHERE S.idservicio = busqueda OR S.nombre LIKE CONCAT('%',busqueda,'%') OR CONCAT(R.nombres,' ',R.apellidos) LIKE CONCAT('%',busqueda,'%');
+		WHERE S.idservicio = busqueda OR S.nombre LIKE CONCAT('%',busqueda,'%') OR CONCAT(R.nombres,' ',R.apellidos) LIKE CONCAT('%',busqueda,'%') OR S.fecha_inicio LIKE CONCAT('%',busqueda,'%') OR S.fecha_fin LIKE CONCAT('%',busqueda,'%');
 END$$
 DELIMITER*/
 
@@ -142,7 +142,7 @@ BEGIN
 		FROM users
 		WHERE nombres LIKE CONCAT('%',busqueda,'%') OR apellidos LIKE CONCAT('%',busqueda,'%') OR usuario LIKE CONCAT('%',busqueda,'%');
 END$$
-DELIMITERusers*/
+DELIMITER*/
 
 /*DELIMITER $$
 CREATE TRIGGER TG_actualizarServicioBien BEFORE INSERT ON tmovimiento
@@ -153,5 +153,56 @@ CREATE TRIGGER TG_actualizarServicioBien BEFORE INSERT ON tmovimiento
 		UPDATE tbien
 		SET idservicio=@newidservicio
 		WHERE idbien=@newidbien;
-	END;
+	END
 $$ DELIMITER*/
+
+/*DELIMITER $$
+CREATE PROCEDURE SP_actualizarFechaFinServicio(IN fecha_fin2 DATE, IN nombre2 VARCHAR(50), IN idservicio2 BIGINT)
+BEGIN
+	UPDATE tservicio
+		SET fecha_fin = DATE_SUB(fecha_fin2, INTERVAL 1 DAY)
+		WHERE nombre = nombre2 AND idservicio=idservicio2 AND fecha_fin IS NULL;
+END$$
+DELIMITER*/
+
+/*DELIMITER $$
+CREATE PROCEDURE SP_listarBusquedaServicios(IN busqueda VARCHAR(100), IN inicio SMALLINT UNSIGNED, IN limite SMALLINT UNSIGNED,IN  tipo_listado VARCHAR(20))
+BEGIN
+	IF(tipo_listado='TODO')
+	THEN
+		SELECT S.idservicio,S.nombre, CONCAT(R.nombres,' ',R.apellidos) AS responsable, S.fecha_inicio, S.fecha_fin
+			FROM tservicio S INNER JOIN tresponsable R ON S.idresponsable=R.idresponsable
+			WHERE S.idservicio = busqueda OR S.nombre LIKE CONCAT('%',busqueda,'%') OR CONCAT(R.nombres,' ',R.apellidos) LIKE CONCAT('%',busqueda,'%') OR S.fecha_inicio LIKE CONCAT('%',busqueda,'%') OR S.fecha_fin LIKE CONCAT('%',busqueda,'%') 
+			LIMIT inicio,limite;
+	ELSEIF(tipo_listado='ACTIVO') THEN
+		SELECT S.idservicio,S.nombre, CONCAT(R.nombres,' ',R.apellidos) AS responsable, S.fecha_inicio, S.fecha_fin
+			FROM tservicio S INNER JOIN tresponsable R ON S.idresponsable=R.idresponsable
+			WHERE (S.idservicio = busqueda OR S.nombre LIKE CONCAT('%',busqueda,'%') OR CONCAT(R.nombres,' ',R.apellidos) LIKE CONCAT('%',busqueda,'%') OR S.fecha_inicio LIKE CONCAT('%',busqueda,'%') OR S.fecha_fin LIKE CONCAT('%',busqueda,'%')) AND S.fecha_fin IS NULL
+			LIMIT inicio,limite;
+	ELSE 
+		SELECT S.idservicio,S.nombre, CONCAT(R.nombres,' ',R.apellidos) AS responsable, S.fecha_inicio, S.fecha_fin
+			FROM tservicio S INNER JOIN tresponsable R ON S.idresponsable=R.idresponsable
+			WHERE (S.idservicio = busqueda OR S.nombre LIKE CONCAT('%',busqueda,'%') OR CONCAT(R.nombres,' ',R.apellidos) LIKE CONCAT('%',busqueda,'%') OR S.fecha_inicio LIKE CONCAT('%',busqueda,'%') OR S.fecha_fin LIKE CONCAT('%',busqueda,'%')) AND S.fecha_fin IS NOT NULL
+			LIMIT inicio,limite;
+	END IF;
+END$$
+DELIMITER
+
+DELIMITER $$
+CREATE PROCEDURE SP_contarBusquedaServicios(IN busqueda VARCHAR(100),IN  tipo_listado VARCHAR(20))
+BEGIN
+	IF (tipo_listado='TODO') THEN
+		SELECT COUNT(S.idservicio) AS cantidad
+			FROM tservicio S INNER JOIN tresponsable R ON S.idresponsable=R.idresponsable
+			WHERE S.idservicio = busqueda OR S.nombre LIKE CONCAT('%',busqueda,'%') OR CONCAT(R.nombres,' ',R.apellidos) LIKE CONCAT('%',busqueda,'%') OR S.fecha_inicio LIKE CONCAT('%',busqueda,'%') OR S.fecha_fin LIKE CONCAT('%',busqueda,'%');
+	ELSEIF (tipo_listado='ACTIVO') THEN
+		SELECT COUNT(S.idservicio) AS cantidad
+			FROM tservicio S INNER JOIN tresponsable R ON S.idresponsable=R.idresponsable
+			WHERE (S.idservicio = busqueda OR S.nombre LIKE CONCAT('%',busqueda,'%') OR CONCAT(R.nombres,' ',R.apellidos) LIKE CONCAT('%',busqueda,'%') OR S.fecha_inicio LIKE CONCAT('%',busqueda,'%') OR S.fecha_fin LIKE CONCAT('%',busqueda,'%')) AND S.fecha_fin IS NULL;
+	ELSE
+		SELECT COUNT(S.idservicio) AS cantidad
+			FROM tservicio S INNER JOIN tresponsable R ON S.idresponsable=R.idresponsable
+			WHERE (S.idservicio = busqueda OR S.nombre LIKE CONCAT('%',busqueda,'%') OR CONCAT(R.nombres,' ',R.apellidos) LIKE CONCAT('%',busqueda,'%') OR S.fecha_inicio LIKE CONCAT('%',busqueda,'%') OR S.fecha_fin LIKE CONCAT('%',busqueda,'%')) AND S.fecha_fin IS NOT NULL;
+	END IF;	
+END$$
+DELIMITER*/

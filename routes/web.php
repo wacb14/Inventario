@@ -39,7 +39,9 @@ Route::patch('/responsables/{responsable}','App\Http\Controllers\ResponsableCont
 
 Route::get('/servicios','App\Http\Controllers\ServicioController@index')->name('servicios.index')->middleware('auth');
 Route::get('/servicios/crear','App\Http\Controllers\ServicioController@create')->name('servicios.create')->middleware('auth.admin');
+Route::get('/servicios/crear/nuevoresponsable','App\Http\Controllers\ServicioController@create_responsable')->name('servicios.responsable.create')->middleware('auth.admin');
 Route::post('/servicios','App\Http\Controllers\ServicioController@store')->name('servicios.store')->middleware('auth.admin');
+Route::post('/servicios/responsable','App\Http\Controllers\ServicioController@store_responsable')->name('servicios.responsable.store')->middleware('auth.admin');
 Route::get('/servicios/{servicio}/editar','App\Http\Controllers\ServicioController@edit')->name('servicios.edit')->middleware('auth.admin');
 Route::get('/servicios/{servicio}','App\Http\Controllers\ServicioController@show')->name('servicios.show')->middleware('auth');
 Route::patch('/servicios/{servicio}','App\Http\Controllers\ServicioController@update')->name('servicios.update')->middleware('auth.admin');

@@ -23,7 +23,7 @@
         @isset($responsables)
             <table class="elements-table table-list table table-striped table-hover border-collapse border-separate border-2">
                 <tr>
-                    <th class="border-2">ID RESPONSABLE</th>
+                    <th class="border-2">ID RESP.</th>
                     <th class="border-2">NOMBRES</th>
                     <th class="border-2">APELLIDOS</th>
                 </tr>

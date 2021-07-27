@@ -6,7 +6,7 @@
 <form action="" method="GET">
 <div id="select-estate">
     <div class="listar-estado">
-        Listar por estado<br>
+        Estado del bien<br>
         <select name="tipo_listado" onchange="this.form.submit()">
             <option value="FUNCIONAL" @if($tipo_listado=="FUNCIONAL") {{'selected'}} @endif>FUNCIONALES</option>
             <option value="BAJA" @if($tipo_listado=="BAJA") {{'selected'}} @endif>DE BAJA</option>
@@ -38,8 +38,8 @@
         <div class="search-bar">
                 <input name="busqueda" type="search" value="{{$busqueda}}">
                 <button class="btn btn-primary">Buscar</button>
-            </form>
         </div>
+    </form>
     </div>
     <div class="list">
         @isset($bienes)

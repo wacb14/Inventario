@@ -65,6 +65,21 @@ CREATE TABLE IF NOT EXISTS `password_resets` (
 /*!40000 ALTER TABLE `password_resets` DISABLE KEYS */;
 /*!40000 ALTER TABLE `password_resets` ENABLE KEYS */;
 
+-- Volcando estructura para procedimiento inventario.SP_actualizarFechaFinServicio
+DELIMITER //
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_actualizarFechaFinServicio`(
+	IN `fecha_fin2` DATE,
+	IN `nombre2` VARCHAR(50),
+	IN `idservicio2` BIGINT
+
+)
+BEGIN
+	UPDATE tservicio
+		SET fecha_fin = DATE_SUB(fecha_fin2, INTERVAL 1 DAY)
+		WHERE nombre = nombre2 AND idservicio<>idservicio2 AND fecha_fin IS NULL;
+END//
+DELIMITER ;
+
 -- Volcando estructura para procedimiento inventario.SP_autoId
 DELIMITER //
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_autoId`(
@@ -114,11 +129,21 @@ DELIMITER ;
 
 -- Volcando estructura para procedimiento inventario.SP_contarBusquedaServicios
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_contarBusquedaServicios`(IN busqueda VARCHAR(100))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_contarBusquedaServicios`(IN busqueda VARCHAR(100),IN  tipo_listado VARCHAR(20))
 BEGIN
-	SELECT COUNT(S.idservicio) AS cantidad
-		FROM tservicio S INNER JOIN tresponsable R ON S.idresponsable=R.idresponsable
-		WHERE S.idservicio = busqueda OR S.nombre LIKE CONCAT('%',busqueda,'%') OR CONCAT(R.nombres,' ',R.apellidos) LIKE CONCAT('%',busqueda,'%');
+	IF (tipo_listado='TODO') THEN
+		SELECT COUNT(S.idservicio) AS cantidad
+			FROM tservicio S INNER JOIN tresponsable R ON S.idresponsable=R.idresponsable
+			WHERE S.idservicio = busqueda OR S.nombre LIKE CONCAT('%',busqueda,'%') OR CONCAT(R.nombres,' ',R.apellidos) LIKE CONCAT('%',busqueda,'%') OR S.fecha_inicio LIKE CONCAT('%',busqueda,'%') OR S.fecha_fin LIKE CONCAT('%',busqueda,'%');
+	ELSEIF (tipo_listado='ACTIVO') THEN
+		SELECT COUNT(S.idservicio) AS cantidad
+			FROM tservicio S INNER JOIN tresponsable R ON S.idresponsable=R.idresponsable
+			WHERE (S.idservicio = busqueda OR S.nombre LIKE CONCAT('%',busqueda,'%') OR CONCAT(R.nombres,' ',R.apellidos) LIKE CONCAT('%',busqueda,'%') OR S.fecha_inicio LIKE CONCAT('%',busqueda,'%') OR S.fecha_fin LIKE CONCAT('%',busqueda,'%')) AND S.fecha_fin IS NULL;
+	ELSE
+		SELECT COUNT(S.idservicio) AS cantidad
+			FROM tservicio S INNER JOIN tresponsable R ON S.idresponsable=R.idresponsable
+			WHERE (S.idservicio = busqueda OR S.nombre LIKE CONCAT('%',busqueda,'%') OR CONCAT(R.nombres,' ',R.apellidos) LIKE CONCAT('%',busqueda,'%') OR S.fecha_inicio LIKE CONCAT('%',busqueda,'%') OR S.fecha_fin LIKE CONCAT('%',busqueda,'%')) AND S.fecha_fin IS NOT NULL;
+	END IF;	
 END//
 DELIMITER ;
 
@@ -171,12 +196,25 @@ DELIMITER ;
 
 -- Volcando estructura para procedimiento inventario.SP_listarBusquedaServicios
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_listarBusquedaServicios`(IN busqueda VARCHAR(100), IN inicio SMALLINT UNSIGNED, IN limite SMALLINT UNSIGNED)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_listarBusquedaServicios`(IN busqueda VARCHAR(100), IN inicio SMALLINT UNSIGNED, IN limite SMALLINT UNSIGNED,IN  tipo_listado VARCHAR(20))
 BEGIN
-	SELECT S.idservicio,S.nombre, CONCAT(R.nombres,' ',R.apellidos) AS responsable
-		FROM tservicio S INNER JOIN tresponsable R ON S.idresponsable=R.idresponsable
-		WHERE S.idservicio = busqueda OR S.nombre LIKE CONCAT('%',busqueda,'%') OR CONCAT(R.nombres,' ',R.apellidos) LIKE CONCAT('%',busqueda,'%')
-		LIMIT inicio,limite;
+	IF(tipo_listado='TODO')
+	THEN
+		SELECT S.idservicio,S.nombre, CONCAT(R.nombres,' ',R.apellidos) AS responsable, S.fecha_inicio, S.fecha_fin
+			FROM tservicio S INNER JOIN tresponsable R ON S.idresponsable=R.idresponsable
+			WHERE S.idservicio = busqueda OR S.nombre LIKE CONCAT('%',busqueda,'%') OR CONCAT(R.nombres,' ',R.apellidos) LIKE CONCAT('%',busqueda,'%') OR S.fecha_inicio LIKE CONCAT('%',busqueda,'%') OR S.fecha_fin LIKE CONCAT('%',busqueda,'%') 
+			LIMIT inicio,limite;
+	ELSEIF(tipo_listado='ACTIVO') THEN
+		SELECT S.idservicio,S.nombre, CONCAT(R.nombres,' ',R.apellidos) AS responsable, S.fecha_inicio, S.fecha_fin
+			FROM tservicio S INNER JOIN tresponsable R ON S.idresponsable=R.idresponsable
+			WHERE (S.idservicio = busqueda OR S.nombre LIKE CONCAT('%',busqueda,'%') OR CONCAT(R.nombres,' ',R.apellidos) LIKE CONCAT('%',busqueda,'%') OR S.fecha_inicio LIKE CONCAT('%',busqueda,'%') OR S.fecha_fin LIKE CONCAT('%',busqueda,'%')) AND S.fecha_fin IS NULL
+			LIMIT inicio,limite;
+	ELSE 
+		SELECT S.idservicio,S.nombre, CONCAT(R.nombres,' ',R.apellidos) AS responsable, S.fecha_inicio, S.fecha_fin
+			FROM tservicio S INNER JOIN tresponsable R ON S.idresponsable=R.idresponsable
+			WHERE (S.idservicio = busqueda OR S.nombre LIKE CONCAT('%',busqueda,'%') OR CONCAT(R.nombres,' ',R.apellidos) LIKE CONCAT('%',busqueda,'%') OR S.fecha_inicio LIKE CONCAT('%',busqueda,'%') OR S.fecha_fin LIKE CONCAT('%',busqueda,'%')) AND S.fecha_fin IS NOT NULL
+			LIMIT inicio,limite;
+	END IF;
 END//
 DELIMITER ;
 
@@ -225,7 +263,7 @@ CREATE TABLE IF NOT EXISTS `tbien` (
   CONSTRAINT `tbien_idservicio_foreign` FOREIGN KEY (`idservicio`) REFERENCES `tservicio` (`idservicio`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Volcando datos para la tabla inventario.tbien: ~3 rows (aproximadamente)
+-- Volcando datos para la tabla inventario.tbien: ~4 rows (aproximadamente)
 /*!40000 ALTER TABLE `tbien` DISABLE KEYS */;
 INSERT INTO `tbien` (`idbien`, `idservicio`, `cod_patrimonial`, `procedencia`, `nombre`, `cantidad`, `marca`, `modelo`, `num_serie`, `color`, `medidas`, `estado_conservacion`, `estado`, `observacion`, `fecha_adquisicion`, `fecha_ult_inventario`, `created_at`, `updated_at`) VALUES
 	(1, 1, '536565', 'COMPRADO', 'IMPRESORA LASER', 1, 'EPSON', '1005', 'EX65435', 'PLOMO', '65x14', 'NUEVO', 'BAJA', 'NINGUNA2', '1990-05-04', '2021-07-19', '2021-07-03 19:47:31', '2021-07-19 03:39:56'),
@@ -290,14 +328,15 @@ CREATE TABLE IF NOT EXISTS `tservicio` (
   PRIMARY KEY (`idservicio`),
   KEY `tservicio_idresponsable_foreign` (`idresponsable`),
   CONSTRAINT `tservicio_idresponsable_foreign` FOREIGN KEY (`idresponsable`) REFERENCES `tresponsable` (`idresponsable`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Volcando datos para la tabla inventario.tservicio: ~3 rows (aproximadamente)
+-- Volcando datos para la tabla inventario.tservicio: ~4 rows (aproximadamente)
 /*!40000 ALTER TABLE `tservicio` DISABLE KEYS */;
 INSERT INTO `tservicio` (`idservicio`, `nombre`, `idresponsable`, `fecha_inicio`, `fecha_fin`, `created_at`, `updated_at`) VALUES
-	(1, 'CRED', 1, '2021-07-16', NULL, '2021-07-03 19:47:31', '2021-07-03 19:47:31'),
-	(2, 'ESTADISTICA', 2, '2021-07-16', NULL, '2021-07-03 19:47:31', '2021-07-03 19:47:31'),
-	(3, 'MEDICINA GENERAL', 3, '2021-07-16', NULL, '2021-07-03 19:47:31', '2021-07-03 19:47:31');
+	(1, 'CRED', 1, '2021-07-16', '2021-07-26', '2021-07-03 19:47:31', '2021-07-03 19:47:31'),
+	(2, 'ESTADISTICA', 2, '2021-07-16', '2021-07-26', '2021-07-03 19:47:31', '2021-07-03 19:47:31'),
+	(3, 'MEDICINA GENERAL', 3, '2021-07-16', '2021-07-30', '2021-07-03 19:47:31', '2021-07-03 19:47:31'),
+	(4, 'MEDICINA GENERAL', 2, '2021-07-31', NULL, '2021-07-27 14:06:17', '2021-07-27 14:06:17');
 /*!40000 ALTER TABLE `tservicio` ENABLE KEYS */;
 
 -- Volcando estructura para tabla inventario.users

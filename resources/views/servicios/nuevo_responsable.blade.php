@@ -1,25 +1,27 @@
 @extends('layout')
 @section('title')
-    Inventario | Nuevo servicio
+    Inventario | Nuevo responsable servicio
 @endsection
 @section('content')
 <div class="title-form">
-    <h1 class="text-2xl text-center font-bold">NUEVO SERVICIO</h1><br>
+    <h1 class="text-2xl text-center font-bold">NUEVO RESPONSABLE SERVICIO</h1><br>
 </div>
 <div class="content">
-    <form action="{{route('servicios.store')}}" method="POST">
+    <form action="{{route('servicios.responsable.store')}}" method="POST">
         <div class="form">
             @csrf
             <div class="form-center">
                 <label>
-                    ID Servicio<br>
-                    <input type="number" name="idservicio" value={{$ID}} readonly class="border border-gray-200 rounded-md bg-gray-200 w-full text-sm placeholder-gray-900 p-2 focus:bg-white">
+                    <input type="hidden" name="idservicio" value={{$ID}} readonly class="border border-gray-200 rounded-md bg-gray-200 w-full text-sm placeholder-gray-900 p-2 focus:bg-white">
                 </label>
                 {!! $errors->first('idservicio','<small class="msg_error">:message</small><br>') !!}
-                <br><br>
                 <label>
                     Nombre <br>
-                    <input type="text" name="nombre" value="{{old('nombre')}}" class="border border-gray-200 rounded-md bg-gray-200 w-full text-sm placeholder-gray-900 p-2 focus:bg-white">
+                    <select name="nombre" class="border border-gray-200 rounded-md bg-gray-200 w-full text-sm placeholder-gray-900 p-2 focus:bg-white">
+                        @foreach ($servicios as $servicio)
+                            <option value="{{$servicio->nombre}}">{{$servicio->nombre}}</option>
+                        @endforeach
+                    </select>
                 </label> <br>
                 {!! $errors->first('nombre','<small class="msg_error">:message</small><br>') !!}
                 <br>

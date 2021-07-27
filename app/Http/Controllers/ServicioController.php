@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Servicio;
 use App\Models\Responsable;
 use App\Http\Requests\SaveServicioRequest;
+use App\Http\Requests\SaveServicioResponsableRequest;
 use DB;
 
 class ServicioController extends Controller
@@ -19,11 +20,18 @@ class ServicioController extends Controller
     {
         if(isset($_GET["busqueda"])){
             $busqueda=$_GET["busqueda"];
-            $total = DB::select('CALL SP_contarBusquedaServicios(?)',array($busqueda))[0]->cantidad;
         }
         else{
             $busqueda="";
-            $total = Servicio::count();
+        }
+        if(isset($_GET["tipo_listado"])){
+            $tipo_listado=$_GET['tipo_listado'];
+            $total = DB::select('CALL SP_contarBusquedaServicios(?,?)',array($busqueda,$tipo_listado))[0]->cantidad;
+        }
+        else{
+            // Valores por defecto
+            $tipo_listado="ACTIVO";
+            $total = DB::select('CALL SP_contarBusquedaBienes(?,?)',array($busqueda, "ACTIVO"))[0]->cantidad;
         }
         /* Paginacion */
         $nroElement = 14;
@@ -39,15 +47,10 @@ class ServicioController extends Controller
             }
             $inicio = ($pag-1) * $nroElement;
         }
-        $servicios=DB::select('CALL SP_listarBusquedaServicios(?,?,?)',array($busqueda, $inicio, $cantidadReg));
-        return view('servicios/index',['servicios'=>$servicios,'nroPaginas'=>$nroPaginas,'pag'=>$pag, 'busqueda'=>$busqueda]);
+        $servicios=DB::select('CALL SP_listarBusquedaServicios(?,?,?,?)',array($busqueda, $inicio, $cantidadReg, $tipo_listado));
+        return view('servicios/index',['servicios'=>$servicios,'nroPaginas'=>$nroPaginas,'pag'=>$pag, 'busqueda'=>$busqueda,'tipo_listado'=>$tipo_listado]);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
     public function create()
     {
         $consulta=DB::select('CALL SP_autoId(?)',array('tservicio'));
@@ -56,9 +59,28 @@ class ServicioController extends Controller
         return view('servicios/create',['ID'=>$ID,'responsables'=>$responsables]);
     }
 
+    public function create_responsable()
+    {
+        $consulta = DB::select('CALL SP_autoId(?)',array('tservicio'));
+        $ID = $consulta[0]->ID;
+        $servicios = Servicio::select(['nombre'])->distinct()->get();
+        $responsables = Responsable::select(['idresponsable','nombres','apellidos'])->get();
+        return view('servicios/nuevo_responsable',['ID'=>$ID,'responsables'=>$responsables, 'servicios'=>$servicios]);
+    }
+
     public function store(SaveServicioRequest $request)
     {
         Servicio::create($request->validated());
+        return redirect()->route('servicios.index')->with('status','La información del servicio se guardó exitosamente');
+    }
+    public function store_responsable(SaveServicioResponsableRequest $request)
+    {
+        Servicio::create($request->validated());
+        // Actualizamos la fecha_fin del anterior responsable
+        $fecha_inicio = $_POST["fecha_inicio"];
+        $nombre = $_POST["nombre"];
+        $idservicio = $_POST["idservicio"];
+        DB::select('CALL SP_actualizarFechaFinServicio(?,?,?)',array($fecha_inicio, $nombre, $idservicio));
         return redirect()->route('servicios.index')->with('status','La información del servicio se guardó exitosamente');
     }
 
@@ -74,18 +96,12 @@ class ServicioController extends Controller
         return view('servicios/edit',['servicio'=>$servicio,'responsables'=>$responsables]);
     }
 
-    public function update(SaveServicioRequest $request, Servicio $servicio)
+    public function update(SaveServicioResponsableRequest $request, Servicio $servicio)
     {
         $servicio->update($request->validated());
         return redirect()->route('servicios.show',['servicio'=>$servicio])->with('status','La información del servicio se actualizó exitosamente');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Servicio $servicio)
     {
         $servicio->delete();
