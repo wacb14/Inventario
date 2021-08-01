@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Bien;
 use App\Models\Servicio;
 use App\Http\Requests\SaveBienRequest;
+use App\Http\Requests\UpdateBienRequest;
 use DB;
 
 class BienController extends Controller
@@ -80,7 +81,7 @@ class BienController extends Controller
         return view('bienes/edit',['bien'=>$bien,'servicios'=>$servicios]);
     }
 
-    public function update(Bien $bien, SaveBienRequest $request){
+    public function update(Bien $bien, UpdateBienRequest $request){
         $bien->update($request->validated());
         return redirect()->route('bienes.show',$bien)->with('status','La información del bien se actualizó exitosamente');
     }

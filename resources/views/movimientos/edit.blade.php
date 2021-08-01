@@ -8,7 +8,7 @@
         <div class="form">
             @csrf @method('PATCH')
             <div class="form-center">
-                <h1 class="text-2xl text-center font-bold">EDITAR MOVIMIENTO</h1><br>
+                <h1 class="text-2xl text-center font-bold">EDITAR MOVIMIENTO</h1><hr><br>
                 <label>
                     ID Movimiento<br>
                     <input type="text" name="idmovimiento" value={{old('idmovimiento',$movimiento->idmovimiento)}} disabled

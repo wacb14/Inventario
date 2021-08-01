@@ -3,20 +3,16 @@
     Inventario | Nuevo servicio
 @endsection
 @section('content')
-<div class="title-form">
-    <h1 class="text-2xl text-center font-bold">NUEVO SERVICIO</h1><br>
-</div>
 <div class="content">
     <form action="{{route('servicios.store')}}" method="POST">
         <div class="form">
             @csrf
             <div class="form-center">
+                <h1 class="text-2xl text-center font-bold">NUEVO SERVICIO</h1><hr><br>
                 <label>
-                    ID Servicio<br>
-                    <input type="number" name="idservicio" value={{$ID}} readonly class="border border-gray-200 rounded-md bg-gray-200 w-full text-sm placeholder-gray-900 p-2 focus:bg-white">
+                    <input type="hidden" name="idservicio" value={{$ID}} readonly class="border border-gray-200 rounded-md bg-gray-200 w-full text-sm placeholder-gray-900 p-2 focus:bg-white">
                 </label>
                 {!! $errors->first('idservicio','<small class="msg_error">:message</small><br>') !!}
-                <br><br>
                 <label>
                     Nombre <br>
                     <input type="text" name="nombre" value="{{old('nombre')}}" class="border border-gray-200 rounded-md bg-gray-200 w-full text-sm placeholder-gray-900 p-2 focus:bg-white">
@@ -40,10 +36,8 @@
                 </label> <br>
                 {!! $errors->first('fecha_inicio','<small class="msg_error">:message</small><br>') !!}
                 <br>
+                <button class="btn btn-primary">Guardar</button>
             </div>
-        </div>
-        <div class="form-center_button">
-            <button class="btn btn-primary">Guardar</button>
         </div>
     </form>
 </div>

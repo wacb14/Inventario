@@ -4,19 +4,15 @@
 @endsection
 @section('content')
 <div class="content">
-    <div class="title-form">
-        <h1 class="text-2xl text-center font-bold">EDITAR RESPONSABLE</h1><br>
-    </div>
     <form action="{{route('responsables.update', $responsable)}}" method="POST">
         <div class="form">
             @csrf @method('PATCH')
             <div class="form-center">
+                <h1 class="text-2xl text-center font-bold">EDITAR RESPONSABLE</h1><hr><br>
                 <label>
-                    ID Responsable<br>
-                    <input type="text" name="idresponsable" value="{{old('idresponsable',$responsable->idresponsable)}}" disabled
+                    <input type="hidden" name="idresponsable" value="{{old('idresponsable',$responsable->idresponsable)}}" disabled
                     class="border border-gray-200 rounded-md bg-gray-200 w-full text-sm placeholder-gray-900 p-2 focus:bg-white">
                 </label>
-                <br>
                 <label>
                     Nombres <br>
                     <input type="text" name="nombres" value="{{old('nombres',$responsable->nombres)}}"
@@ -45,10 +41,8 @@
                 </label> <br>
                 {!! $errors->first('modalidad','<small class="msg_error">:message</small><br>') !!}
                 <br>
+                <button class="btn btn-primary">Actualizar</button>
             </div>
-        </div>
-        <div class="form-center_button">
-            <button class="btn btn-primary">Actualizar</button>
         </div>
     </form>
 </div>
