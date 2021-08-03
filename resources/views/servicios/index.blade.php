@@ -13,8 +13,7 @@
         @if(auth()->check())
             @if(auth()->user()->tipo_usuario == 'ADMINISTRADOR')
                 <div class="new-item">
-                    <a class="btn btn-primary" href="{{route('servicios.create')}}">Nuevo Servicio</a>
-                    <a class="btn btn-primary" href="{{route('servicios.responsable.create')}}">Nuevo Responsable</a>
+                    <a class="btn btn-primary" href="{{route('servicios.create')}}">Nuevo</a>
                 </div>
             @endif
         @endif

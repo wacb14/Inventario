@@ -22,3 +22,14 @@ function buscar() {
     xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded'); // Establecer cabeceras de petición
     xmlhttp.send(cadenaParametros); // Envio de parámetros usando POST
 }
+
+function nuevoResponsable(value){
+    if(value==true){
+        document.getElementById("idresponsable").disabled=false;
+        document.getElementById("fecha_inicio").disabled=false;
+    }
+    else{
+        document.getElementById("idresponsable").disabled=true;
+        document.getElementById("fecha_inicio").disabled=true;
+    }
+}

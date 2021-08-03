@@ -25,7 +25,7 @@ class SaveServicioRequest extends FormRequest
     {
         return [
             'idservicio'=>'required',
-            'nombre'=>'required|max:70|unique:tservicio,nombre',
+            'nombre'=>'required|max:70',
             'idresponsable'=>'required|numeric',
             'fecha_inicio'=>'required'
         ];

@@ -7,7 +7,6 @@ use App\Models\Servicio;
 use App\Models\Servicio_detalle;
 use App\Models\Responsable;
 use App\Http\Requests\SaveServicioRequest;
-use App\Http\Requests\SaveServicioResponsableRequest;
 use DB;
 
 class ServicioController extends Controller
@@ -47,19 +46,10 @@ class ServicioController extends Controller
     
     public function create()
     {
-        $consulta=DB::select('CALL SP_autoId(?)',array('tservicio'));
-        $ID=$consulta[0]->ID;
-        $responsables=Responsable::select(['idresponsable','nombres','apellidos'])->get();
-        return view('servicios/create',['ID'=>$ID,'responsables'=>$responsables]);
-    }
-
-    public function create_responsable()
-    {
         $consulta = DB::select('CALL SP_autoId(?)',array('tservicio'));
         $ID = $consulta[0]->ID;
-        $servicios = Servicio::select(['nombre'])->distinct()->get();
         $responsables = Responsable::select(['idresponsable','nombres','apellidos'])->get();
-        return view('servicios/nuevo_responsable',['ID'=>$ID,'responsables'=>$responsables, 'servicios'=>$servicios]);
+        return view('servicios/create',['ID'=>$ID,'responsables'=>$responsables]);
     }
 
     public function store(SaveServicioRequest $request)
@@ -68,15 +58,14 @@ class ServicioController extends Controller
         Servicio_detalle::create($request->validated());
         return redirect()->route('servicios.index')->with('status','La información del servicio se guardó exitosamente');
     }
-    public function store_responsable(SaveServicioResponsableRequest $request)
+
+    public function update(SaveServicioRequest $request, Servicio $servicio)
     {
-        Servicio::create($request->validated());
-        // Actualizamos la fecha_fin del anterior responsable
-        $fecha_inicio = $_POST["fecha_inicio"];
-        $nombre = $_POST["nombre"];
-        $idservicio = $_POST["idservicio"];
-        DB::select('CALL SP_actualizarFechaFinServicio(?,?,?)',array($fecha_inicio, $nombre, $idservicio));
-        return redirect()->route('servicios.index')->with('status','La información del servicio se guardó exitosamente');
+        $servicio->update($request->validated());
+        if($request["nuevo_responsable"]=="si"){
+            Servicio_detalle::create($request->validated());
+        }
+        return redirect()->route('servicios.show',['servicio'=>$servicio])->with('status','La información del servicio se modificó exitosamente');
     }
 
     public function show(Servicio $servicio)
@@ -88,14 +77,9 @@ class ServicioController extends Controller
 
     public function edit(Servicio $servicio)
     {
-        $responsables=Responsable::select(['idresponsable','nombres','apellidos'])->get();
-        return view('servicios/edit',['servicio'=>$servicio,'responsables'=>$responsables]);
-    }
-
-    public function update(SaveServicioResponsableRequest $request, Servicio $servicio)
-    {
-        $servicio->update($request->validated());
-        return redirect()->route('servicios.show',['servicio'=>$servicio])->with('status','La información del servicio se actualizó exitosamente');
+        $responsables = Responsable::select(['idresponsable','nombres','apellidos'])->get();
+        $detalle=Servicio_detalle::where('idservicio',$servicio->idservicio)->get()[0];
+        return view('servicios/edit',['servicio'=>$servicio,'responsables'=>$responsables,'detalle'=>$detalle]);
     }
 
     public function destroy(Servicio $servicio)
