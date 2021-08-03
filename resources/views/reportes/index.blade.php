@@ -9,7 +9,7 @@
             Escoger uno o varios filtros: <br>
             <select name="" id="">
                 <option value="">Bienes</option>
-                <option value="">Movmientos</option>
+                <option value="">Movimientos</option>
             </select>
         </div>
     </div>

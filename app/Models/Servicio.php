@@ -10,5 +10,5 @@ class Servicio extends Model
     use HasFactory;
     protected $table = 'tservicio';
     protected $primaryKey = 'idservicio';
-    protected $fillable = ['nombre','idresponsable','fecha_inicio'];
+    protected $fillable = ['nombre', 'idresponsable'];
 }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTservicioTable extends Migration
+class CreateTservicioDetalleTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,15 @@ class CreateTservicioTable extends Migration
      */
     public function up()
     {
-        Schema::create('tservicio', function (Blueprint $table) {
-            $table->id('idservicio');
-            $table->string('nombre',70);
+        Schema::create('tservicio_detalle', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('idservicio');
             $table->unsignedBigInteger('idresponsable');
+            $table->date('fecha_inicio');
+            $table->date('fecha_fin')->nullable();
             $table->timestamps();
-
-            //Clave foranea
+            //Claves foraneas
+            $table->foreign("idservicio")->references("idservicio")->on("tservicio");
             $table->foreign("idresponsable")->references("idresponsable")->on("tresponsable");
         });
     }
@@ -31,6 +33,6 @@ class CreateTservicioTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tservicio');
+        Schema::dropIfExists('tservicio_detalle');
     }
 }

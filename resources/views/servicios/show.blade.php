@@ -34,11 +34,11 @@
             </tr>
             <tr>
                 <td class="col-header border-2">F. INICIO RESPONSABLE</td>
-                <td class="border-2">{{$servicio->fecha_inicio}}</td>
+                <td class="border-2">{{$detalle->fecha_inicio}}</td>
             </tr>
             <tr>
                 <td class="col-header border-2">F. FIN RESPONSABLE</td>
-                <td class="border-2">{{$servicio->fecha_fin==NULL?'-':$servicio->fecha_fin}}</td>
+                <td class="border-2">{{$detalle->fecha_fin==NULL?'-':$detalle->fecha_fin}}</td>
             </tr>
         </table>
     </div>
