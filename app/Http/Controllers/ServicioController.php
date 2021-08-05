@@ -78,7 +78,7 @@ class ServicioController extends Controller
     public function edit(Servicio $servicio)
     {
         $responsables = Responsable::select(['idresponsable','nombres','apellidos'])->get();
-        $detalle=Servicio_detalle::where('idservicio',$servicio->idservicio)->get()[0];
+        $detalle = Servicio_detalle::where('idservicio',$servicio->idservicio)->get()[0];
         return view('servicios/edit',['servicio'=>$servicio,'responsables'=>$responsables,'detalle'=>$detalle]);
     }
 
@@ -86,5 +86,10 @@ class ServicioController extends Controller
     {
         $servicio->delete();
         return redirect()->route('servicios.index')->with('status','El servicio se eliminó exitosamente');
+    }
+
+    public function show_history(Servicio $servicio){
+        $detalles = DB::select('CALL SP_listarHistorialServicio(?)',array($servicio->idservicio));
+        return view('servicios/history',['servicio'=>$servicio,'detalles'=>$detalles]);
     }
 }

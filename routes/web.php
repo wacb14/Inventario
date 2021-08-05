@@ -42,6 +42,7 @@ Route::get('/servicios/crear','App\Http\Controllers\ServicioController@create')-
 Route::post('/servicios','App\Http\Controllers\ServicioController@store')->name('servicios.store')->middleware('auth.admin');
 Route::get('/servicios/{servicio}/editar','App\Http\Controllers\ServicioController@edit')->name('servicios.edit')->middleware('auth.admin');
 Route::get('/servicios/{servicio}','App\Http\Controllers\ServicioController@show')->name('servicios.show')->middleware('auth');
+Route::get('/servicios/{servicio}/historial','App\Http\Controllers\ServicioController@show_history')->name('servicios.show_history')->middleware('auth');
 Route::patch('/servicios/{servicio}','App\Http\Controllers\ServicioController@update')->name('servicios.update')->middleware('auth.admin');
 // Route::delete('/servicios/{servicio}','App\Http\Controllers\ServicioController@destroy')->name('servicios.destroy')->middleware('auth.admin');
 

@@ -145,7 +145,7 @@ END$$
 DELIMITER*/
 
 /*DELIMITER $$
-CREATE TRIGGER TG_actualizarServicioBien BEFORE INSERT ON tmovimiento
+CREATE TRIGGER TG_actualizarServicioBien AFTER INSERT ON tmovimiento
 	FOR EACH ROW
 	BEGIN
 		SET @newidbien=NEW.idbien;
@@ -183,3 +183,18 @@ BEGIN
 		WHERE S.idservicio = busqueda OR S.nombre LIKE CONCAT('%',busqueda,'%') OR CONCAT(R.nombres,' ',R.apellidos) LIKE CONCAT('%',busqueda,'%');
 END$$
 DELIMITER*/
+
+DELIMITER $$
+CREATE PROCEDURE SP_listarHistorialServicio(IN idservicio2 BIGINT)
+BEGIN
+	CREATE TEMPORARY TABLE T1
+		SELECT * FROM tservicio_detalle WHERE idservicio = idservicio2;
+	CREATE TEMPORARY TABLE T2
+		SELECT T.id, S.nombre, T.idresponsable, T.fecha_inicio, T.fecha_fin
+			FROM T1 T INNER JOIN tservicio S ON T.idservicio = S.idservicio;
+	SELECT T.id, T.nombre, R.nombres AS responsable, T.fecha_inicio, T.fecha_fin
+		FROM T2 T INNER JOIN tresponsable S ON T.idresponsable = S.idresponsable;
+	DROP TABLE T1;
+	DROP TABLE T2;
+END
+$$ DELIMITER
