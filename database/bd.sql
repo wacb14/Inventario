@@ -1,8 +1,8 @@
 -- --------------------------------------------------------
--- Host:                         localhost
--- Versión del servidor:         5.7.24 - MySQL Community Server (GPL)
+-- Host:                         127.0.0.1
+-- Versión del servidor:         5.7.33 - MySQL Community Server (GPL)
 -- SO del servidor:              Win64
--- HeidiSQL Versión:             10.2.0.5599
+-- HeidiSQL Versión:             11.2.0.6213
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -10,6 +10,7 @@
 /*!50503 SET NAMES utf8mb4 */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 
 -- Volcando estructura de base de datos para inventario
@@ -68,22 +69,19 @@ CREATE TABLE IF NOT EXISTS `password_resets` (
 
 -- Volcando estructura para procedimiento inventario.SP_actualizarFechaFinServicio
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_actualizarFechaFinServicio`(
-	IN `fecha_fin2` DATE,
-	IN `nombre2` VARCHAR(50),
-	IN `idservicio2` BIGINT
-
-)
+CREATE PROCEDURE `SP_actualizarFechaFinServicio`(IN idservicio2 BIGINT, IN fecha DATE)
 BEGIN
-	UPDATE tservicio
-		SET fecha_fin = DATE_SUB(fecha_fin2, INTERVAL 1 DAY)
-		WHERE nombre = nombre2 AND idservicio<>idservicio2 AND fecha_fin IS NULL;
+	UPDATE tservicio_detalle
+		SET fecha_fin = DATE_SUB(fecha, INTERVAL 1 DAY)
+		WHERE idservicio = idservicio2
+		ORDER BY fecha_inicio DESC
+		LIMIT 1;
 END//
 DELIMITER ;
 
 -- Volcando estructura para procedimiento inventario.SP_autoId
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_autoId`(
+CREATE PROCEDURE `SP_autoId`(
 	IN `tableName` VARCHAR(35)
 )
 BEGIN
@@ -96,7 +94,7 @@ DELIMITER ;
 
 -- Volcando estructura para procedimiento inventario.SP_contarBusquedaBienes
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_contarBusquedaBienes`(IN busqueda VARCHAR(100), IN estado VARCHAR(15))
+CREATE PROCEDURE `SP_contarBusquedaBienes`(IN busqueda VARCHAR(100), IN estado VARCHAR(15))
 BEGIN
 	SELECT COUNT(B.idbien) AS cantidad
 		FROM tbien B INNER JOIN tservicio S ON B.idservicio=S.idservicio
@@ -106,7 +104,7 @@ DELIMITER ;
 
 -- Volcando estructura para procedimiento inventario.SP_contarBusquedaMovimientos
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_contarBusquedaMovimientos`(IN busqueda VARCHAR(100))
+CREATE PROCEDURE `SP_contarBusquedaMovimientos`(IN busqueda VARCHAR(100))
 BEGIN
 	CREATE TEMPORARY TABLE T1
 		SELECT M.idmovimiento,B.cod_patrimonial,M.fecha,M.idservicio
@@ -120,7 +118,7 @@ DELIMITER ;
 
 -- Volcando estructura para procedimiento inventario.SP_contarBusquedaResponsables
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_contarBusquedaResponsables`(IN busqueda VARCHAR(100))
+CREATE PROCEDURE `SP_contarBusquedaResponsables`(IN busqueda VARCHAR(100))
 BEGIN
 	SELECT COUNT(idresponsable) AS cantidad
 		FROM tresponsable
@@ -130,7 +128,7 @@ DELIMITER ;
 
 -- Volcando estructura para procedimiento inventario.SP_contarBusquedaServicios
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_contarBusquedaServicios`(
+CREATE PROCEDURE `SP_contarBusquedaServicios`(
 	IN `busqueda` VARCHAR(100)
 
 )
@@ -143,7 +141,7 @@ DELIMITER ;
 
 -- Volcando estructura para procedimiento inventario.SP_contarBusquedaUsuarios
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_contarBusquedaUsuarios`(IN busqueda VARCHAR(100))
+CREATE PROCEDURE `SP_contarBusquedaUsuarios`(IN busqueda VARCHAR(100))
 BEGIN
 	SELECT COUNT(id) AS cantidad
 		FROM users
@@ -153,7 +151,7 @@ DELIMITER ;
 
 -- Volcando estructura para procedimiento inventario.SP_listarBusquedaBienes
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_listarBusquedaBienes`(IN busqueda VARCHAR(100), IN inicio SMALLINT UNSIGNED, IN limite SMALLINT UNSIGNED, IN estado VARCHAR(15))
+CREATE PROCEDURE `SP_listarBusquedaBienes`(IN busqueda VARCHAR(100), IN inicio SMALLINT UNSIGNED, IN limite SMALLINT UNSIGNED, IN estado VARCHAR(15))
 BEGIN
 	SELECT B.idbien, B.nombre, S.nombre AS servicio, B.cod_patrimonial
 		FROM tbien B INNER JOIN tservicio S ON B.idservicio=S.idservicio
@@ -164,7 +162,7 @@ DELIMITER ;
 
 -- Volcando estructura para procedimiento inventario.SP_listarBusquedaMovimientos
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_listarBusquedaMovimientos`(IN busqueda VARCHAR(100), IN inicio SMALLINT UNSIGNED, IN limite SMALLINT UNSIGNED)
+CREATE PROCEDURE `SP_listarBusquedaMovimientos`(IN busqueda VARCHAR(100), IN inicio SMALLINT UNSIGNED, IN limite SMALLINT UNSIGNED)
 BEGIN
 	CREATE TEMPORARY TABLE T1
 		SELECT M.idmovimiento,B.cod_patrimonial,M.fecha,M.idservicio
@@ -179,7 +177,7 @@ DELIMITER ;
 
 -- Volcando estructura para procedimiento inventario.SP_listarBusquedaResponsables
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_listarBusquedaResponsables`(IN busqueda VARCHAR(100), IN inicio SMALLINT UNSIGNED, IN limite SMALLINT UNSIGNED)
+CREATE PROCEDURE `SP_listarBusquedaResponsables`(IN busqueda VARCHAR(100), IN inicio SMALLINT UNSIGNED, IN limite SMALLINT UNSIGNED)
 BEGIN
 	SELECT idresponsable, nombres, apellidos
 		FROM tresponsable
@@ -190,7 +188,7 @@ DELIMITER ;
 
 -- Volcando estructura para procedimiento inventario.SP_listarBusquedaServicios
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_listarBusquedaServicios`(
+CREATE PROCEDURE `SP_listarBusquedaServicios`(
 	IN `busqueda` VARCHAR(100),
 	IN `inicio` SMALLINT UNSIGNED,
 	IN `limite` SMALLINT UNSIGNED
@@ -205,7 +203,7 @@ DELIMITER ;
 
 -- Volcando estructura para procedimiento inventario.SP_listarBusquedaUsuarios
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_listarBusquedaUsuarios`(IN busqueda VARCHAR(100), IN inicio SMALLINT UNSIGNED, IN limite SMALLINT UNSIGNED)
+CREATE PROCEDURE `SP_listarBusquedaUsuarios`(IN busqueda VARCHAR(100), IN inicio SMALLINT UNSIGNED, IN limite SMALLINT UNSIGNED)
 BEGIN
 	SELECT id,nombres,apellidos,usuario
 		FROM users
@@ -214,11 +212,21 @@ BEGIN
 END//
 DELIMITER ;
 
--- Volcando estructura para procedimiento inventario.SP_recuperarPorID
+-- Volcando estructura para procedimiento inventario.SP_listarHistorialServicio
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_recuperarPorID`(IN id BIGINT)
+CREATE PROCEDURE `SP_listarHistorialServicio`(
+	IN `idservicio2` BIGINT
+)
 BEGIN
-	SELECT * FROM tbien WHERE idbien=id;
+	CREATE TEMPORARY TABLE T1
+		SELECT * FROM tservicio_detalle WHERE idservicio = idservicio2;
+	CREATE TEMPORARY TABLE T2
+		SELECT T.id, S.nombre, T.idresponsable, T.fecha_inicio, T.fecha_fin
+			FROM T1 T INNER JOIN tservicio S ON T.idservicio = S.idservicio;
+	SELECT T.id, T.nombre, R.nombres AS responsable, T.fecha_inicio, T.fecha_fin
+		FROM T2 T INNER JOIN tresponsable R ON T.idresponsable = R.idresponsable;
+	DROP TABLE T1;
+	DROP TABLE T2;
 END//
 DELIMITER ;
 
@@ -248,7 +256,7 @@ CREATE TABLE IF NOT EXISTS `tbien` (
   CONSTRAINT `tbien_idservicio_foreign` FOREIGN KEY (`idservicio`) REFERENCES `tservicio` (`idservicio`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Volcando datos para la tabla inventario.tbien: ~3 rows (aproximadamente)
+-- Volcando datos para la tabla inventario.tbien: ~4 rows (aproximadamente)
 /*!40000 ALTER TABLE `tbien` DISABLE KEYS */;
 INSERT INTO `tbien` (`idbien`, `idservicio`, `cod_patrimonial`, `procedencia`, `nombre`, `cantidad`, `marca`, `modelo`, `num_serie`, `color`, `medidas`, `estado_conservacion`, `estado`, `observacion`, `fecha_adquisicion`, `fecha_ult_inventario`, `created_at`, `updated_at`) VALUES
 	(1, 2, '536565', 'COMPRADO', 'IMPRESORA LASER', 1, 'EPSON', '1005', 'EX65435', 'PLOMO', '65x14', 'NUEVO', 'BAJA', 'NINGUNA2', '1990-05-04', '2021-07-19', '2021-07-03 19:47:31', '2021-07-19 03:39:56'),
@@ -316,10 +324,10 @@ CREATE TABLE IF NOT EXISTS `tservicio` (
 -- Volcando datos para la tabla inventario.tservicio: ~5 rows (aproximadamente)
 /*!40000 ALTER TABLE `tservicio` DISABLE KEYS */;
 INSERT INTO `tservicio` (`idservicio`, `nombre`, `idresponsable`, `created_at`, `updated_at`) VALUES
-	(1, 'CRED', 3, '2021-07-03 19:47:31', '2021-08-03 17:46:21'),
+	(1, 'CRED', 3, '2021-07-03 19:47:31', '2021-08-05 22:18:14'),
 	(2, 'ESTADISTICA', 1, '2021-07-03 19:47:31', '2021-07-03 19:47:31'),
 	(3, 'MEDICINA GENERAL', 2, '2021-07-03 19:47:31', '2021-07-03 19:47:31'),
-	(9, 'ODONTOLOGIA', 1, '2021-08-03 13:33:47', '2021-08-03 13:33:47'),
+	(9, 'ODONTOLOGIA', 2, '2021-08-03 13:33:47', '2021-08-05 22:22:04'),
 	(10, 'CRED-II', 1, '2021-08-03 17:50:43', '2021-08-03 17:50:43');
 /*!40000 ALTER TABLE `tservicio` ENABLE KEYS */;
 
@@ -337,18 +345,19 @@ CREATE TABLE IF NOT EXISTS `tservicio_detalle` (
   KEY `tservicio_detalle_idresponsable_foreign` (`idresponsable`),
   CONSTRAINT `tservicio_detalle_idresponsable_foreign` FOREIGN KEY (`idresponsable`) REFERENCES `tresponsable` (`idresponsable`),
   CONSTRAINT `tservicio_detalle_idservicio_foreign` FOREIGN KEY (`idservicio`) REFERENCES `tservicio` (`idservicio`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Volcando datos para la tabla inventario.tservicio_detalle: ~7 rows (aproximadamente)
+-- Volcando datos para la tabla inventario.tservicio_detalle: ~8 rows (aproximadamente)
 /*!40000 ALTER TABLE `tservicio_detalle` DISABLE KEYS */;
 INSERT INTO `tservicio_detalle` (`id`, `idservicio`, `idresponsable`, `fecha_inicio`, `fecha_fin`, `created_at`, `updated_at`) VALUES
-	(1, 1, 1, '2021-08-02', '2021-08-02', '2021-08-02 09:29:46', '2021-08-02 09:29:46'),
+	(1, 1, 1, '2021-07-02', '2021-08-04', '2021-08-02 09:29:46', '2021-08-02 09:29:46'),
 	(2, 3, 2, '2021-02-02', NULL, '2021-08-02 09:30:18', '2021-08-02 09:30:18'),
 	(3, 2, 3, '2021-09-02', NULL, '2021-08-02 12:50:40', '2021-08-02 12:50:40'),
-	(5, 9, 1, '2021-08-19', NULL, '2021-08-03 13:33:47', '2021-08-03 13:33:47'),
-	(6, 1, 3, '2021-08-02', NULL, '2021-08-03 14:37:33', '2021-08-03 14:37:33'),
-	(7, 1, 3, '2021-08-02', NULL, '2021-08-03 17:43:47', '2021-08-03 17:43:47'),
-	(11, 10, 1, '2021-08-03', NULL, '2021-08-03 17:50:43', '2021-08-03 17:50:43');
+	(5, 9, 1, '2021-08-19', '2021-12-09', '2021-08-03 13:33:47', '2021-08-03 13:33:47'),
+	(6, 1, 3, '2021-08-02', '2021-07-14', '2021-08-03 14:37:33', '2021-08-03 14:37:33'),
+	(11, 10, 1, '2021-08-03', '2021-08-04', '2021-08-03 17:50:43', '2021-08-03 17:50:43'),
+	(12, 1, 3, '2021-07-15', NULL, '2021-08-05 22:20:57', '2021-08-05 22:20:57'),
+	(13, 9, 2, '2021-12-10', NULL, '2021-08-05 22:22:04', '2021-08-05 22:22:04');
 /*!40000 ALTER TABLE `tservicio_detalle` ENABLE KEYS */;
 
 -- Volcando estructura para tabla inventario.users
@@ -373,6 +382,22 @@ INSERT INTO `users` (`id`, `nombres`, `apellidos`, `usuario`, `tipo_usuario`, `p
 	(2, 'Willy Aldair', 'Cruz Bejar', 'wacb14', 'ADMINISTRADOR', '$2y$10$RICaPp/Of17g9aiuHTIdmOWsAlKqW.FJu2KaaOM2B6i8yy5MKURIm', NULL, '2021-07-09 03:49:19', '2021-07-09 03:49:19');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
+-- Volcando estructura para disparador inventario.TG_actualizarServicioBien
+SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO';
+DELIMITER //
+CREATE TRIGGER TG_actualizarServicioBien AFTER INSERT ON tmovimiento
+	FOR EACH ROW
+	BEGIN
+		SET @newidbien=NEW.idbien;
+		SET @newidservicio=NEW.idservicio;
+		UPDATE tbien
+		SET idservicio=@newidservicio
+		WHERE idbien=@newidbien;
+	END//
+DELIMITER ;
+SET SQL_MODE=@OLDTMP_SQL_MODE;
+
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
-/*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
+/*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40111 SET SQL_NOTES=IFNULL(@OLD_SQL_NOTES, 1) */;

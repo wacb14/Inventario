@@ -19,7 +19,7 @@
                 {!! $errors->first('nombre','<small class="msg_error">:message</small><br>') !!}
                 <br>
                 <label>
-                    <input type="checkbox" value="si" name="@" onchange="nuevoResponsable(this.checked);"> Nuevo responsable?
+                    <input type="checkbox" value="si" name="nuevo_responsable" onchange="nuevoResponsable(this.checked);"> Nuevo responsable?
                 </label>
                 <br><br>
                 <label>

@@ -62,7 +62,9 @@ class ServicioController extends Controller
     public function update(SaveServicioRequest $request, Servicio $servicio)
     {
         $servicio->update($request->validated());
+        // Solo se guarda un nuevo detalle si es que hay un nuevo responsable
         if($request["nuevo_responsable"]=="si"){
+            DB::select('CALL SP_actualizarFechaFinServicio(?,?)', array($servicio->idservicio, $request->fecha_inicio));// Actualizamos la fecha de fin del antiguo responsable (OJO: siempre debe ir antes de guardar al nuevo detalle del servicio)
             Servicio_detalle::create($request->validated());
         }
         return redirect()->route('servicios.show',['servicio'=>$servicio])->with('status','La información del servicio se modificó exitosamente');

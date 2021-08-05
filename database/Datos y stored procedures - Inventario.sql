@@ -157,15 +157,6 @@ CREATE TRIGGER TG_actualizarServicioBien AFTER INSERT ON tmovimiento
 $$ DELIMITER*/
 
 /*DELIMITER $$
-CREATE PROCEDURE SP_actualizarFechaFinServicio(IN fecha_fin2 DATE, IN nombre2 VARCHAR(50), IN idservicio2 BIGINT)
-BEGIN
-	UPDATE tservicio
-		SET fecha_fin = DATE_SUB(fecha_fin2, INTERVAL 1 DAY)
-		WHERE nombre = nombre2 AND idservicio=idservicio2 AND fecha_fin IS NULL;
-END$$
-DELIMITER*/
-
-/*DELIMITER $$
 CREATE PROCEDURE SP_listarBusquedaServicios(IN busqueda VARCHAR(100), IN inicio SMALLINT UNSIGNED, IN limite SMALLINT UNSIGNED)
 BEGIN
 	SELECT S.idservicio, S.nombre, CONCAT(R.nombres, ' ', R.apellidos) AS responsable
@@ -184,7 +175,7 @@ BEGIN
 END$$
 DELIMITER*/
 
-DELIMITER $$
+/*DELIMITER $$
 CREATE PROCEDURE SP_listarHistorialServicio(IN idservicio2 BIGINT)
 BEGIN
 	CREATE TEMPORARY TABLE T1
@@ -197,4 +188,15 @@ BEGIN
 	DROP TABLE T1;
 	DROP TABLE T2;
 END
-$$ DELIMITER
+$$ DELIMITER*/
+
+DELIMITER $$
+CREATE PROCEDURE SP_actualizarFechaFinServicio(IN idservicio2 BIGINT, IN fecha DATE)
+BEGIN
+	UPDATE tservicio_detalle
+		SET fecha_fin = DATE_SUB(fecha, INTERVAL 1 DAY)
+		WHERE idservicio = idservicio2
+		ORDER BY fecha_inicio DESC
+		LIMIT 1;
+END$$
+DELIMITER
