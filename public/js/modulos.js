@@ -24,12 +24,39 @@ function buscar() {
 }
 
 function nuevoResponsable(value){
-    if(value==true){
+    if(value == true){
         document.getElementById("idresponsable").disabled=false;
         document.getElementById("fecha_inicio").disabled=false;
     }
     else{
         document.getElementById("idresponsable").disabled=true;
         document.getElementById("fecha_inicio").disabled=true;
+    }
+}
+
+function ColorearFila(i){
+    if(document.getElementById("chkbox-"+(i)).checked){
+        document.getElementById("fila-"+(i)).style.backgroundColor="#18EF0D";
+    }
+    else{
+        document.getElementById("fila-"+(i)).style.backgroundColor="#FFFFFF";
+    }    
+}
+
+function marcarBien(){
+    // Comprobamos si no esta vacio
+    if(document.getElementById("valor_busqueda").value.trim()!=""){
+        // Cambiamos el valor del check si el codigo coincide
+        var tabla = document.getElementById("tabla_verif");
+        for (var i = 0, row; row = tabla.rows[i]; i++) {
+            var col = row.cells[2];
+            if(col.innerText == document.getElementById("valor_busqueda").value.trim()){
+                document.getElementById("chkbox-"+(i-1)).checked = true;
+                document.getElementById("fila-"+(i-1)).style.backgroundColor="#18EF0D";      
+            }
+        }
+        //Limpiamos la caja de texto
+        document.getElementById("valor_busqueda").value="";
+        document.getElementById("valor_busqueda").focus();
     }
 }

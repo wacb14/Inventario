@@ -72,12 +72,52 @@ body{
   cursor: pointer;
 }
 
-@media(max-width: 425px){
+@media(max-width: 376px){
+  body{
+    padding: 70px 15px;
+  }
+  .table{
+    font-size: xx-small !important;
+  }
+  .user-info-box,.btn,.pagination-menu,.search-bar{
+    font-size: 0.7rem;
+  }
+  #form_registro,#form_login{
+    width: 90%;
+  }
+  .title-form{
+    padding-top: 25px;
+    padding-bottom: 20px;
+  }
+  input{
+    width: 100%;
+  }
+  .form-left, .form-right{
+    width: 100% !important;
+  }
+  .form-center-double, .form-center-double-button{
+    width: 100% !important;
+  }
+  .list{
+    margin-top: 15px;
+  }
+  .zone{
+    flex-wrap: wrap;
+  }
+  .zone-left, .zone-right{
+    width: 100% !important;
+  }
+  .half-zone{
+    width: 100% !important;
+  }
+}
+
+@media(max-width: 426px){
   body{
     padding: 70px 25px !important;
   }
   .table{
-    font-size: x-small !important;
+    font-size: xx-small !important;
   }
 }
 @media(min-width: 1025px){
@@ -134,46 +174,6 @@ body{
   }
   .nav-menu_visible{
     left: 0;
-  }
-}
-
-@media(max-width: 376px){
-  body{
-    padding: 70px 15px;
-  }
-  .table{
-    font-size: x-small;
-  }
-  .user-info-box,.btn,.pagination-menu,.search-bar{
-    font-size: 0.7rem;
-  }
-  #form_registro,#form_login{
-    width: 90%;
-  }
-  .title-form{
-    padding-top: 25px;
-    padding-bottom: 20px;
-  }
-  input{
-    width: 100%;
-  }
-  .form-left, .form-right{
-    width: 100% !important;
-  }
-  .form-center-double, .form-center-double-button{
-    width: 100% !important;
-  }
-  .list{
-    margin-top: 15px;
-  }
-  .zone{
-    flex-wrap: wrap;
-  }
-  .zone-left, .zone-right{
-    width: 100% !important;
-  }
-  .half-zone{
-    width: 100% !important;
   }
 }
 
@@ -296,6 +296,14 @@ body{
 }
 #boton{
   margin: 5px 0px;
+}
+.center-input{
+  display: block;
+  margin: auto;
+}
+.alineado-end{
+  display: flex;
+  justify-content: flex-end;
 }
 /* Menu de Paginacion*/
 .pagination-menu{

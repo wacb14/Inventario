@@ -57,6 +57,20 @@ class BienController extends Controller
         $bienes = DB::select('CALL SP_listarBusquedaBienes(?,?,?,?)',array($busqueda, $inicio, $cantidadReg, $tipo_listado=="TODO"?"":$tipo_listado));
         return view('bienes/index',['bienes'=>$bienes,'nroPaginas'=>$nroPaginas,'pag'=>$pag, 'busqueda'=>$busqueda,'tipo_listado'=>$tipo_listado]);
     }
+    
+    public function index_bien_verif(){
+        $servicios = Servicio::select(['idservicio','nombre'])->get();
+        if(isset($_GET["idservicio"])){
+            $idservicio = $_GET["idservicio"];
+            $servicio_list = Servicio::where('idservicio', $idservicio)->get()[0]->nombre;
+            $bienes = Bien::where('idservicio', $idservicio)->get();
+        }
+        else{
+            $servicio_list=$servicios[0]->nombre;
+            $bienes = Bien::where('idservicio', $servicios[0]->idservicio)->get();
+        }
+        return view('bienes/verificacion', ['bienes'=>$bienes, 'servicios'=>$servicios, 'servicio_list'=>$servicio_list]);
+    }
 
     public function create(){
         $ID = DB::select('CALL SP_autoId(?)',array('tbien'))[0]->ID;

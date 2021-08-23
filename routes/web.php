@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::view('/','home')->name('home');
+Route::get('/bienes/verificacion','App\Http\Controllers\BienController@index_bien_verif')->name('bienes.verif')->middleware('auth.admin');
 Route::get('/bienes','App\Http\Controllers\BienController@index')->name('bienes.index')->middleware('auth');
 Route::get('/bienes/crear','App\Http\Controllers\BienController@create')->name('bienes.create')->middleware('auth.admin');
 Route::post('/bienes','App\Http\Controllers\BienController@store')->name('bienes.store')->middleware('auth.admin');
@@ -20,6 +21,7 @@ Route::get('/bienes/{bien}/editar','App\Http\Controllers\BienController@edit')->
 Route::get('/bienes/{bien}','App\Http\Controllers\BienController@show')->name('bienes.show')->middleware('auth');
 Route::patch('/bienes/{bien}','App\Http\Controllers\BienController@update')->name('bienes.update')->middleware('auth.admin');
 // Route::delete('/bienes/{bien}','App\Http\Controllers\BienController@destroy')->name('bienes.destroy')->middleware('auth.admin');
+
 
 Route::get('/movimientos','App\Http\Controllers\MovimientoController@index')->name('movimientos.index')->middleware('auth');
 Route::get('/movimientos/crear','App\Http\Controllers\MovimientoController@create')->name('movimientos.create')->middleware('auth');

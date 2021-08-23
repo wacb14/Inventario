@@ -11,5 +11,5 @@ class Bien extends Model
     protected $table='tbien';
     protected $primaryKey = 'idbien';
     protected $fillable=['idservicio','cod_patrimonial','procedencia','nombre','cantidad','marca','modelo',
-    'num_serie','color','medidas','estado_conservacion','estado','observacion','fecha_adquisicion'];
+    'num_serie','color','medidas','estado_conservacion','estado','observacion','fecha_adquisicion','fecha_ult_inventario'];
 }

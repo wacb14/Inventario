@@ -104,7 +104,7 @@
                         Estado<br>
                         <select name="estado" class="border border-gray-200 rounded-md bg-gray-200 w-full text-sm 
                         placeholder-gray-900 p-2 focus:bg-white">
-                            <option value="ACTIVO" @if($bien->estado=="ACTIVO") {{'selected'}} @endif>ACTIVO</option>
+                            <option value="FUNCIONAL" @if($bien->estado=="FUNCIONAL") {{'selected'}} @endif>FUNCIONAL</option>
                             <option value="BAJA" @if($bien->estado=="BAJA") {{'selected'}} @endif>BAJA</option>
                         </select>
                     </label> <br>
