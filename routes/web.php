@@ -61,3 +61,10 @@ Route::post('/register','App\Http\Controllers\RegisterController@store')->name('
 Route::get('/login','App\Http\Controllers\SessionController@create')->name('login.create')->middleware('guest');
 Route::post('/login','App\Http\Controllers\SessionController@store')->name('login.store');
 Route::get('/logout','App\Http\Controllers\SessionController@destroy')->name('login.destroy')->middleware('auth');
+
+Route::get('/prueba',
+    function(){
+        $pdf = PDF::loadHtml('<h1>Hola Mundo</h1>');
+        return $pdf->stream();
+    }
+);
