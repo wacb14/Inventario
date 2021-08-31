@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::view('/','home')->name('home');
+Route::get('/bienes/imprimir','App\Http\Controllers\BienController@print')->name('bienes.print')->middleware('auth.admin');
 Route::get('/bienes/verificacion','App\Http\Controllers\BienController@index_bien_verif')->name('bienes.verif')->middleware('auth.admin');
 Route::get('/bienes','App\Http\Controllers\BienController@index')->name('bienes.index')->middleware('auth');
 Route::get('/bienes/crear','App\Http\Controllers\BienController@create')->name('bienes.create')->middleware('auth.admin');
@@ -61,10 +62,3 @@ Route::post('/register','App\Http\Controllers\RegisterController@store')->name('
 Route::get('/login','App\Http\Controllers\SessionController@create')->name('login.create')->middleware('guest');
 Route::post('/login','App\Http\Controllers\SessionController@store')->name('login.store');
 Route::get('/logout','App\Http\Controllers\SessionController@destroy')->name('login.destroy')->middleware('auth');
-
-Route::get('/prueba',
-    function(){
-        $pdf = PDF::loadHtml('<h1>Hola Mundo</h1>');
-        return $pdf->stream();
-    }
-);

@@ -8,6 +8,7 @@ use App\Models\Servicio;
 use App\Http\Requests\SaveBienRequest;
 use App\Http\Requests\UpdateBienRequest;
 use DB;
+use PDF;
 
 class BienController extends Controller
 {
@@ -56,6 +57,16 @@ class BienController extends Controller
         }
         $bienes = DB::select('CALL SP_listarBusquedaBienes(?,?,?,?)',array($busqueda, $inicio, $cantidadReg, $tipo_listado=="TODO"?"":$tipo_listado));
         return view('bienes/index',['bienes'=>$bienes,'nroPaginas'=>$nroPaginas,'pag'=>$pag, 'busqueda'=>$busqueda,'tipo_listado'=>$tipo_listado]);
+    }
+
+    public function print(){
+        $bienes=$_GET["bienes"];
+        $recibido = stripslashes($bienes);
+        $recibido = urldecode($recibido );
+        $bienes = unserialize($recibido);
+        $pdf = PDF::loadView('bienes/print',['bienes'=>$bienes]);
+        return $pdf->stream();
+        // return view('bienes/print',['bienes'=>$bienes]);
     }
     
     public function index_bien_verif(){
