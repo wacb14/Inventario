@@ -10,6 +10,11 @@
     <div class="new-and-search">
         <div class="new-item">
             <a href="{{route('movimientos.create')}}" class="btn btn-primary">Nuevo</a>
+            @php
+                $imprimir = serialize($movimientos);
+                $imprimir = urlencode($imprimir);
+            @endphp
+            <a class="btn btn-primary" href="{{route('movimientos.print')}}?@php echo 'movimientos='.$imprimir;@endphp">Imprimir</a>
         </div>
         <div class="search-bar">
             @include('partials/searchbar')

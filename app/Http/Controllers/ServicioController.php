@@ -8,6 +8,7 @@ use App\Models\Servicio_detalle;
 use App\Models\Responsable;
 use App\Http\Requests\SaveServicioRequest;
 use DB;
+use PDF;
 
 class ServicioController extends Controller
 {
@@ -27,7 +28,7 @@ class ServicioController extends Controller
             $total = Servicio::count();
         }
         /* Paginacion */
-        $nroElement = 14;
+        $nroElement = 20;
         $nroPaginas = $total % $nroElement == 0 ? intdiv($total,$nroElement) : intdiv($total,$nroElement) + 1;
         $cantidadReg = $nroElement;
         $pag = 1;
@@ -44,6 +45,16 @@ class ServicioController extends Controller
         return view('servicios/index',['servicios'=>$servicios,'nroPaginas'=>$nroPaginas,'pag'=>$pag, 'busqueda'=>$busqueda]);
     }
     
+    public function print(){
+        $servicios = request("servicios");
+        $recibido = stripslashes($servicios);
+        $recibido = urldecode($recibido );
+        $servicios = unserialize($recibido);
+        $pdf = PDF::loadView('servicios/print',['servicios'=>$servicios]);
+        return $pdf->stream();
+        // return view('servicios/print',['bienes'=>$bienes]);
+    }
+
     public function create()
     {
         $consulta = DB::select('CALL SP_autoId(?)',array('tservicio'));

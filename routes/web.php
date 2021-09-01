@@ -23,7 +23,7 @@ Route::get('/bienes/{bien}','App\Http\Controllers\BienController@show')->name('b
 Route::patch('/bienes/{bien}','App\Http\Controllers\BienController@update')->name('bienes.update')->middleware('auth.admin');
 // Route::delete('/bienes/{bien}','App\Http\Controllers\BienController@destroy')->name('bienes.destroy')->middleware('auth.admin');
 
-
+Route::get('/movimientos/imprimir','App\Http\Controllers\MovimientoController@print')->name('movimientos.print')->middleware('auth.admin');
 Route::get('/movimientos','App\Http\Controllers\MovimientoController@index')->name('movimientos.index')->middleware('auth');
 Route::get('/movimientos/crear','App\Http\Controllers\MovimientoController@create')->name('movimientos.create')->middleware('auth');
 Route::post('/movimientos','App\Http\Controllers\MovimientoController@store')->name('movimientos.store')->middleware('auth');
@@ -32,6 +32,7 @@ Route::get('/movimientos/{movimiento}','App\Http\Controllers\MovimientoControlle
 Route::patch('/movimientos/{movimiento}','App\Http\Controllers\MovimientoController@update')->name('movimientos.update')->middleware('auth');
 // Route::delete('/movimientos/{movimiento}','App\Http\Controllers\MovimientoController@destroy')->name('movimientos.destroy')->middleware('auth');
 
+Route::get('/responsables/imprimir','App\Http\Controllers\ResponsableController@print')->name('responsables.print')->middleware('auth.admin');
 Route::get('/responsables','App\Http\Controllers\ResponsableController@index')->name('responsables.index')->middleware('auth');
 Route::get('/responsables/crear','App\Http\Controllers\ResponsableController@create')->name('responsables.create')->middleware('auth.admin');
 Route::post('/responsables','App\Http\Controllers\ResponsableController@store')->name('responsables.store')->middleware('auth.admin');
@@ -40,6 +41,7 @@ Route::get('/responsables/{responsable}','App\Http\Controllers\ResponsableContro
 Route::patch('/responsables/{responsable}','App\Http\Controllers\ResponsableController@update')->name('responsables.update')->middleware('auth.admin');
 // Route::delete('/responsables/{responsable}','App\Http\Controllers\ResponsableController@destroy')->name('responsables.destroy')->middleware('auth.admin');
 
+Route::get('/servicios/imprimir','App\Http\Controllers\ServicioController@print')->name('servicios.print')->middleware('auth.admin');
 Route::get('/servicios','App\Http\Controllers\ServicioController@index')->name('servicios.index')->middleware('auth');
 Route::get('/servicios/crear','App\Http\Controllers\ServicioController@create')->name('servicios.create')->middleware('auth.admin');
 Route::post('/servicios','App\Http\Controllers\ServicioController@store')->name('servicios.store')->middleware('auth.admin');

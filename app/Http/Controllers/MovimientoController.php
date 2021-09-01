@@ -8,6 +8,7 @@ use App\Models\Bien;
 use App\Models\Servicio;
 use App\Http\Requests\SaveMovimientoRequest;
 use DB;
+use PDF;
 
 class MovimientoController extends Controller
 {
@@ -21,7 +22,7 @@ class MovimientoController extends Controller
             $total = Movimiento::count();
         }
         /* Paginacion */
-        $nroElement = 14;
+        $nroElement = 20;
         $nroPaginas = $total%$nroElement==0?intdiv($total,$nroElement):intdiv($total,$nroElement)+1;
         $cantidadReg = $nroElement;
         $pag=1;
@@ -37,6 +38,17 @@ class MovimientoController extends Controller
         $movimientos = DB::select('CALL SP_listarBusquedaMovimientos(?,?,?)',array($busqueda, $inicio, $cantidadReg));
         return view('movimientos/index',['movimientos'=>$movimientos,'nroPaginas'=>$nroPaginas,'pag'=>$pag, 'busqueda'=>$busqueda]);
     }
+
+    public function print(){
+        $movimientos = request("movimientos");
+        $recibido = stripslashes($movimientos);
+        $recibido = urldecode($recibido );
+        $movimientos = unserialize($recibido);
+        $pdf = PDF::loadView('movimientos/print',['movimientos'=>$movimientos]);
+        return $pdf->stream();
+        // return view('movimientos/print',['bienes'=>$bienes]);
+    }
+
     public function create(){
         $consulta=DB::select('CALL SP_autoId(?)',array('tmovimiento'));
         $ID=$consulta[0]->ID;

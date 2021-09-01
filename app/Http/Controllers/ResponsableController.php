@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Responsable;
 use App\Http\Requests\SaveResponsableRequest;
 use DB;
+use PDF;
 
 class ResponsableController extends Controller
 {
@@ -25,7 +26,7 @@ class ResponsableController extends Controller
             $total = Responsable::count();
         }
         /* Paginacion */
-        $nroElement = 14;
+        $nroElement = 20;
         $nroPaginas = $total%$nroElement==0?intdiv($total,$nroElement):intdiv($total,$nroElement)+1;
         $cantidadReg = $nroElement;
         $pag = 1;
@@ -41,6 +42,17 @@ class ResponsableController extends Controller
         $responsables = DB::select('CALL SP_listarBusquedaResponsables(?,?,?)',array($busqueda, $inicio, $cantidadReg));
         return view('responsables/index', ['responsables'=>$responsables,'nroPaginas'=>$nroPaginas,'pag'=>$pag,'busqueda'=>$busqueda]);
     }
+
+    public function print(){
+        $responsables = request("responsables");
+        $recibido = stripslashes($responsables);
+        $recibido = urldecode($recibido );
+        $responsables = unserialize($recibido);
+        $pdf = PDF::loadView('responsables/print',['responsables'=>$responsables]);
+        return $pdf->stream();
+        // return view('responsables/print',['bienes'=>$bienes]);
+    }
+
     /**
      * Show the form for creating a new resource.
      *

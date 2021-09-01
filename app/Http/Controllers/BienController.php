@@ -39,10 +39,10 @@ class BienController extends Controller
             $total = DB::select('CALL SP_contarBusquedaBienes(?,?)',array($busqueda, "FUNCIONAL"))[0]->cantidad;
         }
         /* Paginacion */
-        $nroElement = 14;
+        $nroElement = 20;
         $nroPaginas = $total%$nroElement==0?intdiv($total,$nroElement):intdiv($total,$nroElement)+1;
         $cantidadReg = $nroElement;
-        $pag=1;
+        $pag = 1;
         $inicio = 0; // El primer registro que se va a tomar para la paginacion
 
         /* Obtenemos el numero de pagina */
@@ -60,7 +60,7 @@ class BienController extends Controller
     }
 
     public function print(){
-        $bienes=$_GET["bienes"];
+        $bienes=request("bienes");
         $recibido = stripslashes($bienes);
         $recibido = urldecode($recibido );
         $bienes = unserialize($recibido);

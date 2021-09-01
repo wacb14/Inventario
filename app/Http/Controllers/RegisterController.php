@@ -21,7 +21,7 @@ class RegisterController extends Controller
             $total = User::count();
         }
         /* Paginacion */
-        $nroElement = 14;
+        $nroElement = 20;
         $nroPaginas = $total%$nroElement==0?intdiv($total,$nroElement):intdiv($total,$nroElement)+1;
         $cantidadReg = $nroElement;
         $pag=1;

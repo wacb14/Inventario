@@ -14,6 +14,11 @@
             @if(auth()->user()->tipo_usuario == 'ADMINISTRADOR')
                 <div class="new-item">
                     <a class="btn btn-primary" href="{{route('servicios.create')}}">Nuevo</a>
+                    @php
+                        $imprimir = serialize($servicios);
+                        $imprimir = urlencode($imprimir);
+                    @endphp
+                    <a class="btn btn-primary" href="{{route('servicios.print')}}?@php echo 'servicios='.$imprimir;@endphp">Imprimir</a>
                 </div>
             @endif
         @endif
