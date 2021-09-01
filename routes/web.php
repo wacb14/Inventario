@@ -51,8 +51,6 @@ Route::get('/servicios/{servicio}/historial','App\Http\Controllers\ServicioContr
 Route::patch('/servicios/{servicio}','App\Http\Controllers\ServicioController@update')->name('servicios.update')->middleware('auth.admin');
 // Route::delete('/servicios/{servicio}','App\Http\Controllers\ServicioController@destroy')->name('servicios.destroy')->middleware('auth.admin');
 
-Route::get('/reportes','App\Http\Controllers\ReporteController@index')->name('reportes.index')->middleware('auth.admin');
-
 Route::get('/users','App\Http\Controllers\RegisterController@index')->name('users.index')->middleware('auth.admin');
 Route::get('/users/{user}/editar','App\Http\Controllers\RegisterController@edit')->name('users.edit')->middleware('auth.admin');
 Route::get('/passwords/{user}/editar','App\Http\Controllers\RegisterController@edit_pass')->name('passwords.edit')->middleware('auth.admin');

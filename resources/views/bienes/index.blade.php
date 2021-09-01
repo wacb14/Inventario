@@ -35,7 +35,8 @@
                     $imprimir = serialize($bienes);
                     $imprimir = urlencode($imprimir);
                 @endphp
-                <a class="btn btn-primary" href="{{route('bienes.print')}}?@php echo 'bienes='.$imprimir;@endphp">Imprimir</a>
+                <a class="btn btn-primary" href="{{route('bienes.verif')}}">Verficar</a>
+                <a class="btn btn-primary" href="{{route('bienes.print')}}?@php echo 'bienes='.$imprimir;@endphp"><img src="{{asset('icons/printer.svg')}}" alt="imprimir" width="25" height="25"></a>
             </div>
         @endif
     @endif

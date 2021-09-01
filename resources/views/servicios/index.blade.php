@@ -18,7 +18,7 @@
                         $imprimir = serialize($servicios);
                         $imprimir = urlencode($imprimir);
                     @endphp
-                    <a class="btn btn-primary" href="{{route('servicios.print')}}?@php echo 'servicios='.$imprimir;@endphp">Imprimir</a>
+                    <a class="btn btn-primary" href="{{route('servicios.print')}}?@php echo 'servicios='.$imprimir;@endphp"><img src="{{asset('icons/printer.svg')}}" alt="imprimir" width="25" height="25"></a>
                 </div>
             @endif
         @endif

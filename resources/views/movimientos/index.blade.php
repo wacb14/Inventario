@@ -14,7 +14,7 @@
                 $imprimir = serialize($movimientos);
                 $imprimir = urlencode($imprimir);
             @endphp
-            <a class="btn btn-primary" href="{{route('movimientos.print')}}?@php echo 'movimientos='.$imprimir;@endphp">Imprimir</a>
+            <a class="btn btn-primary" href="{{route('movimientos.print')}}?@php echo 'movimientos='.$imprimir;@endphp"><img src="{{asset('icons/printer.svg')}}" alt="imprimir" width="25" height="25"></a>
         </div>
         <div class="search-bar">
             @include('partials/searchbar')
