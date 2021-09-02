@@ -49,8 +49,8 @@ function marcarBien(){
         // Cambiamos el valor del check si el codigo coincide
         var tabla = document.getElementById("tabla_verif");
         for (var i = 0, row; row = tabla.rows[i]; i++) {
-            var col = row.cells[2];
-            if(col.innerText == document.getElementById("valor_busqueda").value.trim()){
+            var codigo = row.cells[2];
+            if(codigo.innerText == document.getElementById("valor_busqueda").value.trim()){
                 document.getElementById("chkbox-"+(i-1)).checked = true;
                 document.getElementById("fila-"+(i-1)).style.backgroundColor="#18EF0D";      
             }
@@ -60,3 +60,11 @@ function marcarBien(){
         document.getElementById("valor_busqueda").focus();
     }
 }
+/* Evento de la tecla enter para el cuadro de busqueda de la comprobacion de items */
+var valor_busqueda = document.getElementById("valor_busqueda");
+valor_busqueda.addEventListener("keydown", function (e) {
+    if (e.keyCode === 13) {  //checks whether the pressed key is "Enter"
+        marcarBien();
+    }
+});
+
