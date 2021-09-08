@@ -60,7 +60,7 @@
     </div>
     <div class="row justify-content-center">
         <div class="col-sm-10 text-center">
-            <a class="btn btn-primary" href="{{route('bienes.print')}}?@php echo 'bienes=';@endphp">Imprimir</a>
+            <a id="btnEnviar" class="btn btn-primary" href="{{route('bienes.invent')}}" onclick="enviarIdBienes();">Inventariar</a>
         </div>
     </div>
 </div>

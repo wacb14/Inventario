@@ -1,3 +1,5 @@
+/* Funciones */
+
 function buscar() {
     var str = document.getElementById('cod_patrimonial').value;
     var xmlhttp;
@@ -60,6 +62,19 @@ function marcarBien(){
         document.getElementById("valor_busqueda").focus();
     }
 }
+function enviarIdBienes(){
+    var tabla = document.getElementById("tabla_verif");
+    var idbienes =  "";
+    for (var i = 1, row; row = tabla.rows[i]; i++) {
+        if(document.getElementById("chkbox-"+(i-1)).checked == true){
+            var id = row.cells[0].innerText;
+            idbienes += (id + ",");
+        }
+    }
+    var btnEnviar = document.getElementById("btnEnviar");
+    btnEnviar.href += ("?idbienes="+idbienes);
+}
+/* Eventos */
 /* Evento de la tecla enter para el cuadro de busqueda de la comprobacion de items */
 var valor_busqueda = document.getElementById("valor_busqueda");
 valor_busqueda.addEventListener("keydown", function (e) {

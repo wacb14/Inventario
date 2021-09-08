@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 Route::view('/','home')->name('home');
 Route::get('/bienes/imprimir','App\Http\Controllers\BienController@print')->name('bienes.print')->middleware('auth.admin');
 Route::get('/bienes/verificacion','App\Http\Controllers\BienController@index_bien_verif')->name('bienes.verif')->middleware('auth.admin');
+Route::get('/bienes/inventariado','App\Http\Controllers\BienController@inventariado')->name('bienes.invent')->middleware('auth.admin');
 Route::get('/bienes','App\Http\Controllers\BienController@index')->name('bienes.index')->middleware('auth');
 Route::get('/bienes/crear','App\Http\Controllers\BienController@create')->name('bienes.create')->middleware('auth.admin');
 Route::post('/bienes','App\Http\Controllers\BienController@store')->name('bienes.store')->middleware('auth.admin');

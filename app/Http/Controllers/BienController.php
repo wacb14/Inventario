@@ -69,6 +69,22 @@ class BienController extends Controller
         // return view('bienes/print',['bienes'=>$bienes]);
     }
     
+    public function inventariado(){
+        $ids = request('idbienes');
+        $hoy = date("Y-m-d");
+        if($ids!=null){
+            $datos = explode(',', $ids);
+            foreach($datos as $dato){
+                if($dato!=""){
+                    $bien = Bien::find($dato);
+                    $bien->fecha_ult_inventario=$hoy;
+                    $bien->update();
+                }
+            }
+        }
+        return redirect()->route('bienes.index')->with('status','El inventariado de los bienes se realizó exitosamente');
+    }
+
     public function index_bien_verif(){
         $servicios = Servicio::select(['idservicio','nombre'])->get();
         if(isset($_GET["idservicio"])){
@@ -100,8 +116,6 @@ class BienController extends Controller
     }
 
     public function edit(Bien $bien){
-        /*$consulta=DB::select('call SP_recuperarPorID(?)',array($idbien));
-        $bien=$consulta[0]; esta es la forma de llamar a un SP */
         $servicios = Servicio::select(['idservicio','nombre'])->get();
         return view('bienes/edit',['bien'=>$bien,'servicios'=>$servicios]);
     }
