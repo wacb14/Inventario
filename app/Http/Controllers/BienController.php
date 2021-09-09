@@ -90,11 +90,11 @@ class BienController extends Controller
         if(isset($_GET["idservicio"])){
             $idservicio = $_GET["idservicio"];
             $servicio_list = Servicio::where('idservicio', $idservicio)->get()[0]->nombre;
-            $bienes = Bien::where('idservicio', $idservicio)->get();
+            $bienes = Bien::where('idservicio', $idservicio)->where('estado', "FUNCIONAL")->get();
         }
         else{
             $servicio_list=$servicios[0]->nombre;
-            $bienes = Bien::where('idservicio', $servicios[0]->idservicio)->get();
+            $bienes = Bien::where('idservicio', $servicios[0]->idservicio)->where('estado', "FUNCIONAL")->get();
         }
         return view('bienes/verificacion', ['bienes'=>$bienes, 'servicios'=>$servicios, 'servicio_list'=>$servicio_list]);
     }
