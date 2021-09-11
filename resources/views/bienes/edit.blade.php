@@ -13,12 +13,15 @@
             <div class="form">
                 @csrf @method('PATCH')
                 <div class="form-left">
+                    <div style="text-align: start">
+                        <small class="msg_error">Campos obligatorios *</small><br>
+                    </div>
                     <label>
                         <input type="hidden" name="idbien" value={{old('idbien', $bien->idbien)}} disabled 
                         class="border border-gray-200 rounded-md bg-gray-200 w-full text-sm placeholder-gray-900 p-2 focus:bg-white">
                     </label>
                     <label>
-                        Servicio <br>
+                        Servicio <span class="msg_error">*</span><br>
                         <select name="idservicio" class="border border-gray-200 rounded-md bg-gray-200 w-full text-sm 
                         placeholder-gray-900 p-2 focus:bg-white">
                             @foreach ($servicios as $servicio)
@@ -29,49 +32,49 @@
                     {!! $errors->first('idservicio','<small class="msg_error">:message</small><br>') !!}
                     <br>
                     <label>
-                        Código Patrimonial <br>
+                        Código Patrimonial <span class="msg_error">*</span><br>
                         <input type="number" name="cod_patrimonial" value="{{old('cod_patrimonial',$bien->cod_patrimonial)}}"
                         class="border border-gray-200 rounded-md bg-gray-200 w-full text-sm placeholder-gray-900 p-2 focus:bg-white">
                     </label> <br>
                     {!! $errors->first('cod_patrimonial','<small class="msg_error">:message</small><br>') !!}
                     <br>
                     <label>
-                        Procedencia <br>
+                        Procedencia <span class="msg_error">*</span><br>
                         <input type="text" name="procedencia" value="{{old('procedencia',$bien->procedencia)}}"
                         class="border border-gray-200 rounded-md bg-gray-200 w-full text-sm placeholder-gray-900 p-2 focus:bg-white">
                     </label> <br>
                     {!! $errors->first('procedencia','<small class="msg_error">:message</small><br>') !!}
                     <br>
                     <label>
-                        Nombre <br>
+                        Nombre <span class="msg_error">*</span><br>
                         <input type="text" name="nombre" value="{{old('nombre',$bien->nombre)}}"
                         class="border border-gray-200 rounded-md bg-gray-200 w-full text-sm placeholder-gray-900 p-2 focus:bg-white">
                     </label> <br>
                     {!! $errors->first('nombre','<small class="msg_error">:message</small><br>') !!}
                     <br>
                     <label>
-                        Cantidad <br>
+                        Cantidad <span class="msg_error">*</span><br>
                         <input type="number" name="cantidad" value="{{old('cantidad',$bien->cantidad)}}"
                         class="border border-gray-200 rounded-md bg-gray-200 w-full text-sm placeholder-gray-900 p-2 focus:bg-white">
                     </label> <br>
                     {!! $errors->first('cantidad','<small class="msg_error">:message</small><br>') !!}
                     <br>
                     <label>
-                        Marca <br>
+                        Marca <span class="msg_error">*</span><br>
                         <input type="text" name="marca" value="{{old('marca',$bien->marca)}}"
                         class="border border-gray-200 rounded-md bg-gray-200 w-full text-sm placeholder-gray-900 p-2 focus:bg-white">
                     </label> <br>
                     {!! $errors->first('marca','<small class="msg_error">:message</small><br>') !!}
                     <br>
                     <label>
-                        Modelo <br>
+                        Modelo <span class="msg_error">*</span><br>
                         <input type="text" name="modelo" value="{{old('modelo',$bien->modelo)}}"
                         class="border border-gray-200 rounded-md bg-gray-200 w-full text-sm placeholder-gray-900 p-2 focus:bg-white">
                     </label> <br>
                     {!! $errors->first('modelo','<small class="msg_error">:message</small><br>') !!}
                     <br>
                     <label>
-                        Número de serie <br>
+                        Número de serie <span class="msg_error">*</span><br>
                         <input type="text" name="num_serie" value="{{old('num_serie',$bien->num_serie)}}"
                         class="border border-gray-200 rounded-md bg-gray-200 w-full text-sm placeholder-gray-900 p-2 focus:bg-white">
                     </label> <br>
@@ -80,28 +83,28 @@
                 </div>
                 <div class="form-right"> 
                     <label>
-                        Color <br>
+                        Color <span class="msg_error">*</span><br>
                         <input type="text" name="color" value="{{old('color',$bien->color)}}"
                         class="border border-gray-200 rounded-md bg-gray-200 w-full text-sm placeholder-gray-900 p-2 focus:bg-white">
                     </label> <br>
                     {!! $errors->first('color','<small class="msg_error">:message</small><br>') !!}
                     <br>
                     <label>
-                        Medidas <br>
+                        Medidas <span class="msg_error">*</span><br>
                         <input type="text" name="medidas" value="{{old('medidas',$bien->medidas)}}"
                         class="border border-gray-200 rounded-md bg-gray-200 w-full text-sm placeholder-gray-900 p-2 focus:bg-white">
                     </label> <br>
                     {!! $errors->first('medidas','<small class="msg_error">:message</small><br>') !!}
                     <br>
                     <label>
-                        Estado de conservación <br>
+                        Estado de conservación <span class="msg_error">*</span><br>
                         <input type="text" name="estado_conservacion" value="{{old('estado_conservacion',$bien->estado_conservacion)}}"
                         class="border border-gray-200 rounded-md bg-gray-200 w-full text-sm placeholder-gray-900 p-2 focus:bg-white">
                     </label> <br>
                     {!! $errors->first('estado_conservacion','<small class="msg_error">:message</small><br>') !!}
                     <br>
                     <label>
-                        Estado<br>
+                        Estado <span class="msg_error">*</span><br>
                         <select name="estado" class="border border-gray-200 rounded-md bg-gray-200 w-full text-sm 
                         placeholder-gray-900 p-2 focus:bg-white">
                             <option value="FUNCIONAL" @if($bien->estado=="FUNCIONAL") {{'selected'}} @endif>FUNCIONAL</option>
@@ -111,21 +114,21 @@
                     {!! $errors->first('estado','<small class="msg_error">:message</small><br>') !!}
                     <br>
                     <label>
-                        Observación <br>
+                        Observación <span class="msg_error">*</span><br>
                         <textarea name="observacion" cols="25" rows="3" class="border border-gray-200 rounded-md bg-gray-200 w-full text-sm 
                         placeholder-gray-900 p-2  focus:bg-white">{{old('observacion',$bien->observacion)}}</textarea>
                     </label> <br>
                     {!! $errors->first('observacion','<small class="msg_error">:message</small><br>') !!}
                     <br>
                     <label>
-                        Fecha de adquisición <br>
+                        Fecha de adquisición <span class="msg_error">*</span><br>
                         <input type="date" name="fecha_adquisicion" value="{{old('fecha_adquisicion',$bien->fecha_adquisicion)}}"
                         class="border border-gray-200 rounded-md bg-gray-200 w-full text-sm placeholder-gray-900 p-2 focus:bg-white">
                     </label> <br>
                     {!! $errors->first('fecha_adquisicion','<small class="msg_error">:message</small><br>') !!}
                     <br>
                     <label>
-                        Fecha de último inventariado <br>
+                        Fecha de último inventariado <span class="msg_error">*</span><br>
                         <input type="date" name="fecha_ult_inventario" value="{{old('fecha_ult_inventario', $bien->fecha_ult_inventario)}}"
                         class="border border-gray-200 rounded-md bg-gray-200 w-full text-sm 
                         placeholder-gray-900 p-2  focus:bg-white">

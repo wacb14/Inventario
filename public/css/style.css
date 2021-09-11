@@ -177,9 +177,9 @@ body{
   }
 }
 
-/* Mensajes de error*/
+/* Mensajes de informacion*/
 .msg_error{
-    color: red;
+  color: red;
 }
 /* Informacion de usuario */
 .user-info{

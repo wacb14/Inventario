@@ -16,8 +16,10 @@
     @include('partials/user-info')
     <div class="block mx-auto my-12 p-8 bg-white w-1/3 border border-gray-200 rounded-lg" id="form_registro">
         <h1 class="text-2xl text-center font-bold">REGISTRO DE USUARIO</h1>
+
         <form action="{{route('register.store')}}" class="mt-4" method="POST">
           @csrf
+          
           <input type="text" class="border border-gray-200 rounded-md bg-gray-200 w-full text-lg 
           placeholder-gray-900 p-2 my-2 focus:bg-white" placeholder="Nombres" name="nombres" value="{{old('nombres')}}">
           {!! $errors->first('nombres','<small class="msg_error">:message</small><br>') !!}
